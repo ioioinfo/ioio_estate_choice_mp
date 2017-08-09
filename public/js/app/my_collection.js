@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 186);
+/******/ 	return __webpack_require__(__webpack_require__.s = 187);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22385,7 +22385,8 @@ module.exports = traverseAllChildren;
 /* 183 */,
 /* 184 */,
 /* 185 */,
-/* 186 */
+/* 186 */,
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22403,92 +22404,149 @@ var React = __webpack_require__(82);
 var ReactDOM = __webpack_require__(81);
 
 var Wrap = function (_React$Component) {
-    _inherits(Wrap, _React$Component);
+  _inherits(Wrap, _React$Component);
 
-    function Wrap() {
-        _classCallCheck(this, Wrap);
+  function Wrap(props) {
+    _classCallCheck(this, Wrap);
 
-        return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+    // 初始化一个空对象
+  }
+
+  _createClass(Wrap, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      $("[name='checkbox']").attr("checked", 'true');
     }
-
-    _createClass(Wrap, [{
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                { className: 'container' },
-                React.createElement(Login, null)
-            );
-        }
-    }]);
-
-    return Wrap;
-}(React.Component);
-
-;
-
-var Login = function (_React$Component2) {
-    _inherits(Login, _React$Component2);
-
-    function Login(props) {
-        _classCallCheck(this, Login);
-
-        var _this2 = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
-
-        _this2.handleClick = _this2.handleClick.bind(_this2);
-        _this2.onKeyPress = _this2.onKeyPress.bind(_this2);
-        return _this2;
-    }
-
-    _createClass(Login, [{
-        key: 'handleClick',
-        value: function handleClick(e) {}
-
-        // enter键
-
-    }, {
-        key: 'onKeyPress',
-        value: function onKeyPress(e) {
-            var key = e.which;
-            if (key == 13) {}
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                { className: 'form-signin' },
-                React.createElement('input', { type: 'text', id: 'password', className: 'form-control', placeholder: '\u8BF7\u8F93\u5165\u8BA4\u8BC1\u53F7', required: true, onKeyPress: this.onKeyPress }),
-                React.createElement('div', { className: 'checkbox' }),
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: 'wrap' },
+        React.createElement(
+          'div',
+          { className: 'estate_index_head' },
+          React.createElement(
+            'div',
+            { className: 'estate_index_title' },
+            '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
+          ),
+          React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' })
+        ),
+        React.createElement(
+          'div',
+          { className: 'estate_index_time' },
+          '\u8DDD\u79BB\u9009\u623F\u5F00\u59CB: 01 \u592902\u5C0F\u65F630\u52069\u79D2'
+        ),
+        React.createElement('div', { className: 'estate_index_background' }),
+        React.createElement(
+          'div',
+          { className: 'weui-flex' },
+          React.createElement(
+            'div',
+            { className: 'weui-flex__item my_collection_wrap_line' },
+            React.createElement(
+              'div',
+              { className: 'my_collection_wrap' },
+              React.createElement(
+                'p',
+                { className: 'my_collection_title my_collection_title1' },
+                '\u623F\u53F7:'
+              ),
+              React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                '1-0101'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'my_collection_wrap' },
+              React.createElement(
+                'p',
+                { className: 'my_collection_title my_collection_title1' },
+                '\u72B6\u6001:'
+              ),
+              React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                React.createElement('span', { className: 'estate_house_state' }),
+                '\u672A\u552E'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'my_collection_wrap' },
+              React.createElement(
+                'p',
+                { className: 'my_collection_title my_collection_title1' },
+                '\u9762\u79EF:'
+              ),
+              React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                '999',
                 React.createElement(
-                    'div',
-                    { className: 'weui-cell weui-cell_vcode login_next_background' },
-                    React.createElement(
-                        'div',
-                        { className: 'weui-cell__bd ' },
-                        React.createElement('input', { className: 'weui-input', type: 'tel', placeholder: '\u8BF7\u8F93\u5165\u9A8C\u8BC1\u7801' })
-                    ),
-                    React.createElement(
-                        'div',
-                        { className: 'weui-cell__ft' },
-                        React.createElement(
-                            'button',
-                            { className: 'weui-vcode-btn' },
-                            '\u83B7\u53D6\u9A8C\u8BC1\u7801'
-                        )
-                    )
-                ),
-                React.createElement('div', { className: 'checkbox' }),
-                React.createElement(
-                    'button',
-                    { className: 'btn btn-lg btn-primary btn-block', type: 'submit', onClick: this.handleClick },
-                    '\u767B \u5F55'
+                  'sup',
+                  null,
+                  '2'
                 )
-            );
-        }
-    }]);
+              )
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'weui-flex__item' },
+            React.createElement(
+              'div',
+              { className: 'my_collection_wrap' },
+              React.createElement(
+                'p',
+                { className: 'my_collection_title my_collection_title1' },
+                '\u6237\u578B:'
+              ),
+              React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                '\u4E24\u5BA4\u4E00\u5385'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'my_collection_wrap' },
+              React.createElement(
+                'p',
+                { className: 'my_collection_title my_collection_title1' },
+                '\u603B\u4EF7:'
+              ),
+              React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                '1234567'
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'my_collection_wrap' },
+              React.createElement(
+                'p',
+                { className: 'my_collection_title my_collection_title1' },
+                '\u5355\u4EF7:'
+              ),
+              React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                '123456.7'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
 
-    return Login;
+  return Wrap;
 }(React.Component);
 
 ;

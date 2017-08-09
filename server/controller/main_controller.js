@@ -54,6 +54,24 @@ exports.register = function(server, options, next) {
             },
         },
 
+        //房屋详情
+        {
+            method: 'GET',
+            path: '/house',
+            handler: function(request, reply) {
+                return reply.view("house");
+            },
+        },
+
+        //我的收藏
+        {
+            method: 'GET',
+            path: '/my_collection',
+            handler: function(request, reply) {
+                return reply.view("my_collection");
+            },
+        },
+
 
     ]);
 

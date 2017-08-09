@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>房屋详情</title>
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/public.css">
+</head>
+<body>
+    <div id="login"></div>
+    <script type="text/javascript">
+
+    </script>
+
+    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/app/house.js"></script>
+
+    <script type="text/javascript">
+    $(function(){
+
+        $("#buy").on('click', function(){
+          $("#androidActionsheet").fadeIn(10);
+          $(".weui-mask").on('click', function(){
+            $("#androidActionsheet").fadeOut(10);
+          })
+
+          $(".weui-form-preview__btn_default").on('click', function(){
+            $("#androidActionsheet").fadeOut(10);
+          })
+        });
+    });
+    </script>
+
+</body>
+</html>

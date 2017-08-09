@@ -18,6 +18,8 @@ module.exports = {
         login: './app/login.jsx',
         login_next: './app/login_next.jsx',
         index: './app/index.jsx',
+        house: './app/house.jsx',
+        my_collection: './app/my_collection.jsx',
     },
     output: {
         path: __dirname,

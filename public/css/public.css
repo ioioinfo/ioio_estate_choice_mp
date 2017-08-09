@@ -10,6 +10,13 @@ ul{
 p{
   margin: 0;
 }
+a{
+  text-decoration: none;
+  color: #606060;
+}
+label{
+  margin: 0;
+}
 .estate_index_head{
   height: 44px;
   line-height: 44px;
@@ -42,7 +49,7 @@ p{
   width: 15px;
   height: 15px;
 
-  vertical-align: text-bottom;
+  vertical-align: middle;
   margin-right: 3px;
 }
 .weui-navbar__item_span-back1{
@@ -113,6 +120,7 @@ p{
 }
 .estate_index_table_ul li:first-child{
   border-left: none;
+
 }
 .estate_index_table_ul li:last-child{
   border-left: none;
@@ -126,4 +134,94 @@ p{
 .estate_index_background1{
   height: 53px;
   background: #fff;
+}
+.estate_index_table_ul li span{
+  display: inline-block;
+  width: 40px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/*房屋详情*/
+.house_background_color{
+  background: #E7E4E7;
+  margin-top: 0;
+}
+.estate_house_infor{
+  width: 100%;
+  border: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  background-color: transparent;
+  font-size: inherit;
+  color: inherit;
+  height: 1.47058824em;
+  line-height: 1.47058824;
+}
+.estate_house_name{
+  width: 125px;
+}
+.estate_house_state{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border: 1px solid #999;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+.house_background_color1{
+  background: #fff;
+}
+.estate_index_head_icon1{
+  position: absolute;
+    top: 13px;
+    right: 13px;
+    font-size: 18px;
+}
+.weui-tabbar{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  position: fixed;
+  z-index: 500;
+  bottom: 0;
+  width: 100%;
+  background-color: #F7F7FA;
+}
+.house_alert_title{
+  padding: 13px 24px;
+  line-height: 1.2;
+  text-align: left;
+  background: #00A854;
+  color: #fff;
+}
+.house_alert_infor_padding{
+  padding: 13px 24px;
+}
+.estate_house_alert_name{
+  color: #BE0000;
+}
+.weui-skin_android .weui-actionsheet{
+  width: 90%;
+}
+.my_collection_wrap{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 40px;
+  line-height: 40px;
+}
+.my_collection_title{
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+.my_collection_title1{
+  text-indent: 10px;
+}
+.my_collection_wrap_line{
+  border-right: 1px solid #CCCCCC;
 }

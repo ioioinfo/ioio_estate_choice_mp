@@ -46,32 +46,43 @@ class Wrap extends React.Component {
                 <div className="estate_index_table-wrap">
                   <ul className="estate_index_table_ul">
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <span>1</span>
                     </li>
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <a href="#">
+                        <p>房号： 1-0101</p>
+                        <p>价格： 99 万</p>
+                      </a>
                     </li>
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <a href="#">
+                        <p>房号： 1-0101</p>
+                        <p>价格： 99 万</p>
+                      </a>
                     </li>
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <a href="#">
+                        <p>房号： 1-0101</p>
+                        <p>价格： 99 万</p>
+                      </a>
                     </li>
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <a href="#">
+                        <p>房号： 1-0101</p>
+                        <p>价格： 99 万</p>
+                      </a>
                     </li>
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <a href="#">
+                        <p>房号： 1-0101</p>
+                        <p>价格： 99 万</p>
+                      </a>
                     </li>
                     <li>
-                      <p>房号： 1-0101</p>
-                      <p>价格： 99 万</p>
+                      <a href="#">
+                        <p>房号： 1-0101</p>
+                        <p>价格： 99 万</p>
+                      </a>
                     </li>
                   </ul>
                 </div>
