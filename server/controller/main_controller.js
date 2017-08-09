@@ -45,6 +45,15 @@ exports.register = function(server, options, next) {
             },
         },
 
+        //首页
+        {
+            method: 'GET',
+            path: '/index',
+            handler: function(request, reply) {
+                return reply.view("index");
+            },
+        },
+
 
     ]);
 

@@ -1,0 +1,129 @@
+body,html{
+  height: 100%;
+}
+li{
+  list-style: none;
+}
+ul{
+  margin: 0;
+}
+p{
+  margin: 0;
+}
+.estate_index_head{
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  background: #00A854;
+  color: #fff;
+  position: relative;
+}
+.estate_index_head_icon{
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  font-size: 18px;
+}
+.estate_index_time{
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: #ffe9a7;
+}
+.estate_index_weui{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  background-color: #FAFAFA;
+}
+.weui-navbar__item_span{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+
+  vertical-align: text-bottom;
+  margin-right: 3px;
+}
+.weui-navbar__item_span-back1{
+  background: #fff;
+  border: 1px solid #999;
+}
+.weui-navbar__item_span-back2{
+  background: #00A854;
+}
+.weui-navbar__item_span-back3{
+  background: #e4e2fa;
+}
+.weui-navbar__item:after { border: none;}
+.weui-navbar__item-nav{
+  position: relative;
+  display: block;
+  padding: 7px 3px;
+  text-align: center;
+  font-size: 14px;
+  white-space:nowrap;
+
+}
+.estate_index_weui-nav{
+  background: #fff;
+  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
+  overflow-x: auto;
+}
+.weui-navbar__item-nav:after{
+  content: " ";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1px;
+  bottom: 0;
+  border-right: 1px solid #CCCCCC;
+  color: #CCCCCC;
+  -webkit-transform-origin: 100% 0;
+  transform-origin: 100% 0;
+  -webkit-transform: scaleX(0.5);
+  transform: scaleX(0.5);
+}
+.estate_index_background{
+  height: 7px;
+  background: #999;
+  opacity: 0.3;
+}
+.estate_index_table-wrap{
+  overflow: auto;
+  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
+  margin-top: 7px;
+}
+.estate_index_table_ul{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #CCCCCC;
+}
+.estate_index_table_ul:last-child{
+  border-bottom:none;
+}
+.estate_index_table_ul li{
+  border-right: 1px solid #CCCCCC;
+  width: 81px;
+  height: 50px;
+}
+.estate_index_table_ul li:first-child{
+  border-left: none;
+}
+.estate_index_table_ul li:last-child{
+  border-left: none;
+}
+.estate_index_table_ul li p{
+  padding: 4px 1px;
+  margin: 0;
+  font-size: 12px;
+  white-space:nowrap;
+}
+.estate_index_background1{
+  height: 53px;
+  background: #fff;
+}

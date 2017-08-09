@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 184);
+/******/ 	return __webpack_require__(__webpack_require__.s = 185);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22383,7 +22383,8 @@ module.exports = traverseAllChildren;
 
 /***/ }),
 /* 183 */,
-/* 184 */
+/* 184 */,
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22456,7 +22457,26 @@ var Login = function (_React$Component2) {
             return React.createElement(
                 'div',
                 { className: 'form-signin' },
-                React.createElement('input', { type: 'text', id: 'password', className: 'form-control', required: true, onKeyPress: this.onKeyPress }),
+                React.createElement('input', { type: 'text', id: 'password', className: 'form-control', placeholder: '\u8BF7\u8F93\u5165\u8BA4\u8BC1\u53F7', required: true, onKeyPress: this.onKeyPress }),
+                React.createElement('div', { className: 'checkbox' }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-cell weui-cell_vcode login_next_background' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell__bd ' },
+                        React.createElement('input', { className: 'weui-input', type: 'tel', placeholder: '\u8BF7\u8F93\u5165\u9A8C\u8BC1\u7801' })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell__ft' },
+                        React.createElement(
+                            'button',
+                            { className: 'weui-vcode-btn' },
+                            '\u83B7\u53D6\u9A8C\u8BC1\u7801'
+                        )
+                    )
+                ),
                 React.createElement('div', { className: 'checkbox' }),
                 React.createElement(
                     'button',

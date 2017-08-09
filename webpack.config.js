@@ -17,6 +17,7 @@ module.exports = {
     entry: {
         login: './app/login.jsx',
         login_next: './app/login_next.jsx',
+        index: './app/index.jsx',
     },
     output: {
         path: __dirname,

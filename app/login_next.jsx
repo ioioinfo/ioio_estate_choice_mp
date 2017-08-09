@@ -30,9 +30,18 @@ class Login extends React.Component {
     render() {
         return (
             <div className="form-signin">
-                <input type="text" id="password" className="form-control" required onKeyPress={this.onKeyPress} />
-                <div className="checkbox">
+                <input type="text" id="password" className="form-control" placeholder="请输入认证号" required onKeyPress={this.onKeyPress} />
+                <div className="checkbox"></div>
+                <div className="weui-cell weui-cell_vcode login_next_background">
+                    <div className="weui-cell__bd ">
+                        <input className="weui-input" type="tel" placeholder="请输入验证码" />
+                    </div>
+
+                    <div className="weui-cell__ft">
+                        <button className="weui-vcode-btn">获取验证码</button>
+                    </div>
                 </div>
+                <div className="checkbox"></div>
                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.handleClick}>登 录</button>
             </div>
 
