@@ -22,6 +22,41 @@ var host = "http://211.149.248.241:18031/";
 
 var nav = function(server) {
     return {
+        save_login: function(data,cb) {
+            var url = host + "save_login";
+            uu_request.request(url, data, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    cb(err,body);
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
+        search_user_byNum2: function(number,cb) {
+            var url = host + "search_user_byNum?number=" + number;
+            uu_request.get(url, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    var body = JSON.parse(body);
+                    if (body.success) {
+                        cb(err,body.rows[0]);
+                    }else {
+                        cb(true,{message:body.message});
+                    }
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
+        get_all_infos: function(area_id,cb) {
+            var url = host + "get_all_infos?area_id=" + area_id;
+            uu_request.get(url, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    cb(err,JSON.parse(body));
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
         cancel_collection: function(data,cb) {
             var url = host + "cancel_collection";
             uu_request.request(url, data, function(err, response, body) {
@@ -52,8 +87,8 @@ var nav = function(server) {
                 }
             });
         },
-        search_house_byId: function(id,state,cb) {
-            var url = host + "search_house_byId?id=" + id+"&state="+state;
+        search_house_byId: function(id,cb) {
+            var url = host + "search_house_byId?id=" + id;
             uu_request.get(url, function(err, response, body) {
                 if (!err && response.statusCode === 200) {
                     cb(err,JSON.parse(body));

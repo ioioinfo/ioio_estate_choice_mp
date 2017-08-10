@@ -27,13 +27,33 @@ exports.register = function(server, options, next) {
     var cookie_options = {ttl:10*365*24*60*60*1000};
     var cookie_key = "ioio_borrow_cookie";
 
-    server.route([
+    //获取当前cookie cookie_id
+    var get_cookie_id = function(request){
+        var cookie_id;
+        if (request.state && request.state.cookie) {
+            var cookie = request.state.cookie;
+            if (cookie.cookie_id) {
+                cookie_id = cookie.cookie_id;
+            }
+        }
+        return cookie_id;
+    };
+    server.route([        
         //认证号
         {
             method: 'GET',
             path: '/login',
             handler: function(request, reply) {
-                return reply.view("login");
+                var cookie_id = get_cookie_id(request);
+				if (!cookie_id) {
+					cookie_id = uuidV1();
+				}
+                var cookie = request.state.cookie;
+				if (!cookie) {
+					cookie = {};
+				}
+				cookie.cookie_id = cookie_id;
+                return reply.view("login").state('cookie', cookie, {ttl:10*365*24*60*60*1000});
             },
         },
         //手机验证
