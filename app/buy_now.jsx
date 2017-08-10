@@ -5,66 +5,21 @@ var ReactDOM = require('react-dom');
 class Wrap extends React.Component {
     constructor(props) {
         super(props);
-        this.handleClick=this.handleClick.bind(this);
         // 初始化一个空对象
-        this.state={item:{}};
     }
     componentDidMount() {
-      if(from=='1'){
-        $('#house_img_wrap').show();
-      }else {
-        $('#house_img_wrap').hide();
-      }
       $("[name='checkbox']").attr("checked",'true');
-      $.ajax({
-         url: "/search_house_byId",
-         dataType: 'json',
-         type: 'GET',
-         data:{'id':id},
-         success: function(data) {
-          if(data.success){
-            this.setState({item:data.rows[0]});
-          }
-         }.bind(this),
-         error: function(xhr, status, err) {
-         }.bind(this)
-       });
-    }
-    handleClick(e){
-      var house_id = this.state.item.
-      $.ajax({
-          url: "/save_collection",
-          dataType: 'json',
-          type: 'POST',
-          data: {'change_info':JSON.stringify(change_info)},
-          success: function(data) {
-              if (data.success) {
-                  alert("修改成功！");
-              }else {
-                  alert("修改失败！");
-              }
-          }.bind(this),
-          error: function(xhr, status, err) {
-          }.bind(this)
-      });
-
     }
     render() {
         var style = {display:"none"};
-        var img = "";
-        if (this.state.item.type_picture) {
-          img = 'images/'+this.state.item.type_picture;
-        }
-
         return (
             <div className="wrap">
               <div className="estate_index_head">
                 <div className="estate_index_title">中建溪岸澜庭</div>
                 <i className="fa fa-chevron-circle-left estate_index_head_icon"></i>
-                <i className="fa fa-heart-o estate_index_head_icon1" onClick={this.handleClick}></i>
               </div>
 
-              <div className="estate_index_time">距离选房开始: 01 天02小时30分9秒</div>
+              <div className="estate_index_time" id="estate_index_time"></div>
 
               <div className="weui-cells house_background_color">
                   <div className="weui-cell weui-cell_access">
@@ -75,50 +30,50 @@ class Wrap extends React.Component {
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">合同路址</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.address}</span>
+                        <span className="estate_house_infor">南翔嘉祥路198号</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">状态</label></div>
                     <div className="weui-cell__bd">
                         <span className="estate_house_state"></span>
-                        <span className="estate_house_infor">{this.state.item.is_push}</span>
+                        <span className="estate_house_infor">未售</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">建筑面积</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.structure_area} m<sup>2</sup></span>
+                        <span className="estate_house_infor">999 <sup>2</sup></span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">总价</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.total_price}元 </span>
+                        <span className="estate_house_infor">999 万</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">单价</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.per_price}元</span>
+                        <span className="estate_house_infor">1 万</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">产品类型</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.product_type}</span>
+                        <span className="estate_house_infor">别墅</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">户型</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.type_name}</span>
+                        <span className="estate_house_infor">5 室5厅</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">花园面积</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.garden_area}m <sup>2</sup></span>
+                        <span className="estate_house_infor">100 <sup>2</sup></span>
                     </div>
                 </div>
               </div>
@@ -197,15 +152,7 @@ class Wrap extends React.Component {
                 </div>
               </div>
 
-              <div className="weui-skin_android" id="house_img_wrap">
-                <div className="weui-mask"></div>
-                <div className="weui-actionsheet">
-                    <div className="weui-actionsheet__menu">
-                      <img src={img} className="house_img" />
-                      <p className="weui-tabbar__label house_img_sure">关 闭</p>
-                    </div>
-                </div>
-              </div>
+
           </div>
         );
     }

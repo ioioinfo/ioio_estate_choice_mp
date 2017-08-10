@@ -115,12 +115,13 @@ label{
 }
 .estate_index_table_ul li{
   border-right: 1px solid #CCCCCC;
-  width: 81px;
+  width: 107px;
   height: 50px;
 }
 .estate_index_table_ul li:first-child{
   border-left: none;
-
+  width: 30px;
+  text-align: center;
 }
 .estate_index_table_ul li:last-child{
   border-left: none;
@@ -137,7 +138,6 @@ label{
 }
 .estate_index_table_ul li span{
   display: inline-block;
-  width: 40px;
   height: 50px;
   line-height: 50px;
   text-align: center;
@@ -215,20 +215,38 @@ label{
   line-height: 40px;
 }
 .my_collection_title{
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .my_collection_title1{
   text-indent: 10px;
+  width: 60px;
 }
 .my_collection_wrap_line{
   border-right: 1px solid #CCCCCC;
+}
+.house_img{
+  width: 100%;
+}
+.house_img_sure{
+  height: 32px;
+  line-height: 32px;
+  background:#ffe9a7;
+  color: #000;
+  font-size: 16px;
 }
 /*我的收藏*/
 .my_collection_weui-flex{
   margin-bottom: 7px;
   position: relative;
+  overflow: hidden;
+}
+.my_collection_a{
+  display: block;
+}
+.my_collection__item{
+  width: 50%;
 }
 .my_collection_weui-flex-shadow{
 
@@ -253,4 +271,8 @@ label{
 }
 .my_collection_address p:last-child{
   margin-top: 28px;
+}
+.index_buile_style{
+  background:#55ABDE;
+  color:#fff;
 }

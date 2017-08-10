@@ -3,6 +3,73 @@ var ReactDOM = require('react-dom');
 
 
 class Wrap extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+        this.get_house = this.get_house.bind(this);
+        // 初始化一个空对象
+        this.state={areaItems:[],floors:[],m_house:{}};
+    }
+    get_house(building_id,cb){
+      $.ajax({
+         url: "/get_houses_byBuilding",
+         dataType: 'json',
+         type: 'GET',
+         data:{'building_id':building_id},
+         success: function(data) {
+          if(data.success){
+            var houseItems = data.rows;
+            var floors = [];
+            var m_house = {};
+
+            for (var i = 0; i < houseItems.length; i++) {
+              var houseItem = houseItems[i];
+              var floor_num = houseItem.floor_num;
+              if (!m_house[floor_num]) {
+                floors.push(floor_num);
+                m_house[floor_num] = [];
+              }
+              m_house[floor_num].push(houseItem);
+            }
+            cb({floors:floors,m_house:m_house});
+          }
+         }.bind(this),
+         error: function(xhr, status, err) {
+         }.bind(this)
+       });
+    }
+    componentDidMount() {
+
+      // 幢
+      $.ajax({
+         url: "/get_buildings_byArea",
+         dataType: 'json',
+         type: 'GET',
+         data:{'area_id':'1'},
+         success: function(data) {
+          if(data.success){
+            var areaItems = data.rows;
+            var first = areaItems[0];
+            var firstId = first.id;
+
+            this.get_house(first.id,function(data) {
+              this.setState({areaItems:areaItems,floors:data.floors,m_house:data.m_house});
+              $('#weui-navbar__item-nav'+firstId).addClass('index_buile_style');
+            }.bind(this));
+          }
+         }.bind(this),
+         error: function(xhr, status, err) {
+         }.bind(this)
+       });
+    }
+
+    handleClick(building_id){
+      this.get_house(building_id,function(data) {
+        this.setState({floors:data.floors,m_house:data.m_house});
+        $('#weui-navbar__item-nav'+building_id).removeClass('index_buile_style');
+        $('#weui-navbar__item-nav'+building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');
+      }.bind(this));
+    }
     render() {
         return (
             <div className="wrap">
@@ -26,65 +93,27 @@ class Wrap extends React.Component {
                 </div>
                 <div className="estate_index_background"></div>
                 <div className="estate_index_weui estate_index_weui-nav">
-                    <div className="weui-navbar__item-nav">
-                        溪岸澜庭001幢
-                    </div>
-                    <div className="weui-navbar__item-nav">
-                        溪岸澜庭002幢
-                    </div>
-                    <div className="weui-navbar__item-nav">
-                        溪岸澜庭003幢
-                    </div>
-                    <div className="weui-navbar__item-nav">
-                        溪岸澜庭003幢
-                    </div>
-                    <div className="weui-navbar__item-nav">
-                        溪岸澜庭003幢
-                    </div>
+                    {this.state.areaItems.map((item,index)  => (
+                        <div className="weui-navbar__item-nav" id={'weui-navbar__item-nav'+item.id} key={index} onClick={this.handleClick.bind(this,item.id)}>{item.name}</div>))
+                    }
                 </div>
 
                 <div className="estate_index_table-wrap">
-                  <ul className="estate_index_table_ul">
-                    <li>
-                      <span>1</span>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <p>房号： 1-0101</p>
-                        <p>价格： 99 万</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <p>房号： 1-0101</p>
-                        <p>价格： 99 万</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <p>房号： 1-0101</p>
-                        <p>价格： 99 万</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <p>房号： 1-0101</p>
-                        <p>价格： 99 万</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <p>房号： 1-0101</p>
-                        <p>价格： 99 万</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <p>房号： 1-0101</p>
-                        <p>价格： 99 万</p>
-                      </a>
-                    </li>
-                  </ul>
+                  {this.state.floors.map((floor,index)  => (
+                    <ul className="estate_index_table_ul" key={index}>
+                      <li>
+                        <span>{floor}</span>
+                      </li>
+                      {this.state.m_house[floor].map((item,index)  => (
+                        <li key={item.id}>
+                          <a href={"house?from=1&id="+item.id}>
+                            <p>房号： {item.door_num}</p>
+                            <p>价格： {item.total_price}</p>
+                          </a>
+                        </li>))
+                      }
+                    </ul>))
+                  }
                 </div>
 
                 <div className="estate_index_background1"></div>
@@ -94,7 +123,7 @@ class Wrap extends React.Component {
                       <i className="fa fa-home weui-tabbar__icon"></i>
                       <p className="weui-tabbar__label">全部房源</p>
                   </a>
-                  <a href="javascript:;" className="weui-tabbar__item">
+                  <a href="my_collection" className="weui-tabbar__item">
                       <i className="fa fa-heart-o weui-tabbar__icon"></i>
                       <p className="weui-tabbar__label">我的收藏</p>
                   </a>

@@ -59,7 +59,9 @@ exports.register = function(server, options, next) {
             method: 'GET',
             path: '/house',
             handler: function(request, reply) {
-                return reply.view("house");
+              var id = request.query.id;
+              var from = request.query.from;
+              return reply.view("house",{"id":id,"from":from});
             },
         },
 
@@ -78,6 +80,15 @@ exports.register = function(server, options, next) {
             path: '/my_home',
             handler: function(request, reply) {
                 return reply.view("my_home");
+            },
+        },
+
+        //立即购买
+        {
+            method: 'GET',
+            path: '/buy_now',
+            handler: function(request, reply) {
+                return reply.view("buy_now");
             },
         },
 
