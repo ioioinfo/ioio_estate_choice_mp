@@ -8,30 +8,54 @@ class Wrap extends React.Component {
         this.handleClick=this.handleClick.bind(this);
         this.handlePurchase=this.handlePurchase.bind(this);
         
-        this.state={item:{},"purchases":[]};
+        this.state={item:{},"types":{},"purchases":[]};
     }
     
     componentDidMount() {
-      if(from=='1'){
-        $('#house_img_wrap').show();
-      }else {
-        $('#house_img_wrap').hide();
-      }
-      $("[name='checkbox']").attr("checked",'true');
-      
-      $.ajax({
-         url: "/search_house_byId",
-         dataType: 'json',
-         type: 'GET',
-         data:{'id':id},
-         success: function(data) {
-          if(data.success){
-            this.setState({item:data.rows[0]});
-          }
-         }.bind(this),
-         error: function(xhr, status, err) {
-         }.bind(this)
-       });
+        if(from=='1'){
+            $('#house_img_wrap').show();
+        }else {
+            $('#house_img_wrap').hide();
+        }
+        $("[name='checkbox']").attr("checked",'true');
+
+        //本地缓存
+        if (window.localStorage && localStorage.getItem("data")) {
+            var data = JSON.parse(localStorage.getItem("data"));
+            var rows = data.rows;
+            var types = data.types;
+            
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].id == id) {
+                    this.setState({"item":rows[i],"types":types});
+                }
+            }
+        } else {
+            //查询所有房屋信息
+            $.ajax({
+                url: "/get_all_infos",
+                dataType: 'json',
+                type: 'GET',
+                data:{'area_id':'1'},
+                success: function(data) {
+                    if(data.success){
+                        if (window.localStorage) {
+                            localStorage.setItem("data",JSON.stringify(data));
+                        }
+                        var rows = data.rows;
+                        var types = data.types;
+                        
+                        for (var i = 0; i < rows.length; i++) {
+                            if (rows[i].id == id) {
+                                this.setState({"item":rows[i],"types":types});
+                            }
+                        }
+                    }
+                }.bind(this),
+                error: function(xhr, status, err) {
+                }.bind(this)
+            });
+        }
        
        //查询成交信息
        $.ajax({
@@ -95,8 +119,12 @@ class Wrap extends React.Component {
     render() {
         var style = {display:"none"};
         var img = "";
-        if (this.state.item.type_picture) {
-          img = 'images/'+this.state.item.type_picture;
+        var house_type_id = this.state.item.house_type_id;
+        var house_type_name = "";
+        
+        if (house_type_id && this.state.types[house_type_id]) {
+            img = 'images/'+this.state.types[house_type_id].picture;
+            house_type_name = this.state.types[house_type_id].name;
         }
         
         var house_id = this.state.item.id;
@@ -200,7 +228,7 @@ class Wrap extends React.Component {
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">户型</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.type_name}</span>
+                        <span className="estate_house_infor">{house_type_name}</span>
                     </div>
                 </div>
                 <div className="weui-cell">

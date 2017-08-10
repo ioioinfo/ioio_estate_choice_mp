@@ -7,7 +7,7 @@ class Wrap extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.get_house = this.get_house.bind(this);
 
-        this.state={rows:[],areaItems:[],floors:[],m_house:{},"m_purchase":{}};
+        this.state={building_id:0,rows:[],areaItems:[],floors:[],m_house:{},"m_purchase":{}};
     }
     
     //根据幢查询房子信息
@@ -27,11 +27,36 @@ class Wrap extends React.Component {
             }
         }
         
-        console.log({building_id:building_id,floors:floors,m_house:m_house});
         cb({floors:floors,m_house:m_house});
     }
     
     componentDidMount() {
+        //检查数据版本
+        if (window.localStorage) {
+            $.ajax({
+                url: "/data_version",
+                dataType: 'json',
+                type: 'GET',
+                data:{},
+                success: function(data) {
+                    if(data.success){
+                        var data_version = data.data_version;
+                        var old_data_version = localStorage.getItem("data_version");
+                        
+                        if (old_data_version && old_data_version < data_version) {
+                            //清除缓存
+                            localStorage.removeItem("data");
+                            location.reload();
+                        }
+                        
+                        localStorage.setItem("data_version",data_version);
+                    }
+                }.bind(this),
+                error: function(xhr, status, err) {
+                }.bind(this)
+            });
+        }
+        
         //查询成交信息
         $.ajax({
             url: "/get_purchases",
@@ -59,11 +84,13 @@ class Wrap extends React.Component {
             var rows = data.rows;
             
             var buildings = data.buildings;
-            var building_id = buildings[0].id;
+            var building_id = localStorage.getItem("building_id");
+            if (!building_id) {
+                building_id = buildings[0].id;
+            }
 
             this.get_house(building_id,rows,function(data) {
-                this.setState({rows:rows,areaItems:buildings,floors:data.floors,m_house:data.m_house});
-                $('#weui-navbar__item-nav'+building_id).addClass('index_buile_style');
+                this.setState({building_id:building_id,rows:rows,areaItems:buildings,floors:data.floors,m_house:data.m_house});
             }.bind(this));
         } else {
             //查询所有房屋信息
@@ -83,8 +110,7 @@ class Wrap extends React.Component {
                         var building_id = buildings[0].id;
                         
                         this.get_house(building_id,rows,function(data) {
-                            this.setState({rows:rows,areaItems:buildings,floors:data.floors,m_house:data.m_house});
-                            $('#weui-navbar__item-nav'+building_id).addClass('index_buile_style');
+                            this.setState({building_id:building_id,rows:rows,areaItems:buildings,floors:data.floors,m_house:data.m_house});
                         }.bind(this));
                     }
                 }.bind(this),
@@ -97,15 +123,15 @@ class Wrap extends React.Component {
     handleClick(building_id){
         var rows = this.state.rows;
         
-      this.get_house(building_id,rows,function(data) {
-        this.setState({floors:data.floors,m_house:data.m_house});
-        $('#weui-navbar__item-nav'+building_id).removeClass('index_buile_style');
-        $('#weui-navbar__item-nav'+building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');
-      }.bind(this));
+        this.get_house(building_id,rows,function(data) {
+            localStorage.setItem("building_id",building_id);
+            this.setState({building_id:building_id,floors:data.floors,m_house:data.m_house});
+        }.bind(this));
     }
     
     render() {
         var all_floor = [];
+        var areas = [];
         var state = this.state;
         
         state.floors.map(function(floor,index) {
@@ -138,6 +164,15 @@ class Wrap extends React.Component {
             all_floor.push(one_floor);
         });
         
+        state.areaItems.map(function(item,index) {
+            var cls = "weui-navbar__item-nav";
+            
+            if (this.state.building_id == item.id) {
+                cls = "weui-navbar__item-nav index_buile_style";
+            }
+            areas.push(<div className={cls} id={'weui-navbar__item-nav'+item.id} key={index} onClick={this.handleClick.bind(this,item.id)}>{item.name}</div>);
+        }.bind(this));
+        
         return (
             <div className="wrap">
                 <div className="estate_index_head">
@@ -160,9 +195,7 @@ class Wrap extends React.Component {
                 </div>
                 <div className="estate_index_background"></div>
                 <div className="estate_index_weui estate_index_weui-nav">
-                    {this.state.areaItems.map((item,index)  => (
-                        <div className="weui-navbar__item-nav" id={'weui-navbar__item-nav'+item.id} key={index} onClick={this.handleClick.bind(this,item.id)}>{item.name}</div>))
-                    }
+                    {areas}
                 </div>
 
                 <div className="estate_index_table-wrap">
