@@ -31,17 +31,39 @@ class Wrap extends React.Component {
        });
     }
     handleClick(e){
-      var house_id = this.state.item.
+      var house_id = this.state.item.id;
+
+      $.ajax({
+          url: "/search_collection",
+          dataType: 'json',
+          type: 'GET',
+          data: {},
+          success: function(data) {
+              if (data.success) {
+                  alert("收藏成功！");
+                  $('.estate_index_head_icon1').removeClass('fa-heart-o');
+                  $('.estate_index_head_icon1').addClass('fa-heart');
+                  $('.estate_index_head_icon1').css('color','red');
+              }else {
+                  alert("收藏失败！");
+              }
+          }.bind(this),
+          error: function(xhr, status, err) {
+          }.bind(this)
+      });
       $.ajax({
           url: "/save_collection",
           dataType: 'json',
           type: 'POST',
-          data: {'change_info':JSON.stringify(change_info)},
+          data: {'house_id':house_id,'user_id':'1'},
           success: function(data) {
               if (data.success) {
-                  alert("修改成功！");
+                  alert("收藏成功！");
+                  $('.estate_index_head_icon1').removeClass('fa-heart-o');
+                  $('.estate_index_head_icon1').addClass('fa-heart');
+                  $('.estate_index_head_icon1').css('color','red');
               }else {
-                  alert("修改失败！");
+                  alert("收藏失败！");
               }
           }.bind(this),
           error: function(xhr, status, err) {

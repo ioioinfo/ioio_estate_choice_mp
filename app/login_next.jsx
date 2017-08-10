@@ -6,12 +6,12 @@ class Wrap extends React.Component {
     render() {
         return (
             <div className="container">
-                <Login/>
+                <Login1/>
             </div>
         );
     }
 };
-class Login extends React.Component {
+class Login1 extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);

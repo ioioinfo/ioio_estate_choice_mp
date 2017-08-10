@@ -22418,7 +22418,7 @@ var Wrap = function (_React$Component) {
             return React.createElement(
                 'div',
                 { className: 'container' },
-                React.createElement(Login, null)
+                React.createElement(Login1, null)
             );
         }
     }]);
@@ -22428,20 +22428,20 @@ var Wrap = function (_React$Component) {
 
 ;
 
-var Login = function (_React$Component2) {
-    _inherits(Login, _React$Component2);
+var Login1 = function (_React$Component2) {
+    _inherits(Login1, _React$Component2);
 
-    function Login(props) {
-        _classCallCheck(this, Login);
+    function Login1(props) {
+        _classCallCheck(this, Login1);
 
-        var _this2 = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (Login1.__proto__ || Object.getPrototypeOf(Login1)).call(this, props));
 
         _this2.handleClick = _this2.handleClick.bind(_this2);
         _this2.onKeyPress = _this2.onKeyPress.bind(_this2);
         return _this2;
     }
 
-    _createClass(Login, [{
+    _createClass(Login1, [{
         key: 'handleClick',
         value: function handleClick(e) {}
 
@@ -22489,7 +22489,7 @@ var Login = function (_React$Component2) {
         }
     }]);
 
-    return Login;
+    return Login1;
 }(React.Component);
 
 ;
