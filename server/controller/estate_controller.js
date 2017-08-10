@@ -89,15 +89,26 @@ exports.register = function(server, options, next) {
 		return cookie_id;
 	};
 	//获取当前cookie user_id
-	var get_cookie_user_id = function(request){
-		var user_id;
+	var get_cookie_user_id = function(request,cb){
+		var token_id;
 		if (request.state && request.state.cookie) {
 			var cookie = request.state.cookie;
-			if (cookie.user_id) {
-				user_id = cookie.user_id;
+			if (cookie.token_id) {
+				token_id = cookie.token_id;
+				education_api.get_user_id(token_id,function(err,rows){
+                    if (!err) {
+						var user_id = rows.rows[0].user_id;
+						cb(user_id);
+                    }else {
+                    	cb(null);
+                    }
+                });
+			} else {
+				cb(null);
 			}
+		} else {
+			cb(null);
 		}
-		return user_id;
 	};
     //获取验证图片
     var get_captcha = function(cookie_id,cb){
@@ -164,21 +175,12 @@ exports.register = function(server, options, next) {
                 });
             }
         },
-        //添加收藏
+		//所有订购
         {
-            method: "POST",
-            path: '/save_collection',
+            method: "GET",
+            path: '/get_purchases',
             handler: function(request, reply) {
-                var house_id = request.payload.house_id;
-                var user_id = get_cookie_user_id(request);
-                if (!house_id || !user_id) {
-                    return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
-                }
-                var data = {
-                    "house_id":house_id,
-                    "user_id":user_id
-                }
-                education_api.save_collection(data,function(err,rows){
+                education_api.get_purchases(function(err,rows){
                     if (!err) {
                         return reply(rows);
                     }else {
@@ -187,22 +189,47 @@ exports.register = function(server, options, next) {
                 });
             }
         },
+        //添加收藏
+        {
+            method: "POST",
+            path: '/save_collection',
+            handler: function(request, reply) {
+                var house_id = request.payload.house_id;
+				get_cookie_user_id(request,function(user_id){
+					if (!house_id || !user_id) {
+	                    return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
+	                }
+	                var data = {
+	                    "house_id":house_id,
+	                    "user_id":user_id
+	                }
+	                education_api.save_collection(data,function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
+            }
+        },
         //获取个人收藏信息
         {
             method: "GET",
             path: '/get_collections_byUser',
             handler: function(request, reply) {
-                var user_id = get_cookie_user_id(request);
-                if (!user_id) {
-                    return reply({"success":false,"message":"user_id null","service_info":service_info});
-                }
-                education_api.get_collections_byUser(user_id,function(err,rows){
-                    if (!err) {
-                        return reply(rows);
-                    }else {
-                        return reply({"success":false,"message":rows.message});
-                    }
-                });
+				get_cookie_user_id(request,function(user_id){
+					if (!user_id) {
+	                    return reply({"success":false,"message":"user_id null","service_info":service_info});
+	                }
+	                education_api.get_collections_byUser(user_id,function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
             }
         },
         //删除收藏
@@ -232,22 +259,23 @@ exports.register = function(server, options, next) {
             path: '/save_purchase',
             handler: function(request, reply) {
                 var house_id = request.payload.house_id;
-                var user_id = get_cookie_user_id(request);
-                if (!house_id || !user_id) {
-                    return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
-                }
+				get_cookie_user_id(request,function(user_id){
+					if (!house_id || !user_id) {
+	                    return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
+	                }
 
-                var data = {
-                    "house_id":house_id,
-                    "user_id":user_id
-                }
-                education_api.save_purchase(data,function(err,rows){
-                    if (!err) {
-                        return reply(rows);
-                    }else {
-                        return reply({"success":false,"message":rows.message});
-                    }
-                });
+	                var data = {
+	                    "house_id":house_id,
+	                    "user_id":user_id
+	                }
+	                education_api.save_purchase(data,function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
             }
         },
         //获取个人订购信息
@@ -255,17 +283,18 @@ exports.register = function(server, options, next) {
             method: "GET",
             path: '/get_purchase_byUser',
             handler: function(request, reply) {
-                var user_id = get_cookie_user_id(request);
-                if (!user_id) {
-                    return reply({"success":false,"message":"user_id null","service_info":service_info});
-                }
-                education_api.get_purchase_byUser(user_id,function(err,rows){
-                    if (!err) {
-                        return reply(rows);
-                    }else {
-                        return reply({"success":false,"message":rows.message});
-                    }
-                });
+                get_cookie_user_id(request,function(user_id){
+					if (!user_id) {
+	                    return reply({"success":false,"message":"user_id null","service_info":service_info});
+	                }
+	                education_api.get_purchase_byUser(user_id,function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
             }
         },
         //获取个人订购信息
@@ -310,18 +339,19 @@ exports.register = function(server, options, next) {
             path: '/search_collection',
             handler: function(request, reply) {
                 var house_id = request.query.house_id;
-				var user_id = get_cookie_user_id(request);
-				if (!house_id || !user_id) {
-					return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
-				}
+				get_cookie_user_id(request,function(user_id){
+					if (!house_id || !user_id) {
+						return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
+					}
 
-                education_api.search_collection(house_id,user_id,function(err,rows){
-                    if (!err) {
-                        return reply(rows);
-                    }else {
-                        return reply({"success":false,"message":rows.message});
-                    }
-                });
+	                education_api.search_collection(house_id,user_id,function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
             }
         },
         //取消收藏
@@ -330,22 +360,23 @@ exports.register = function(server, options, next) {
             path: '/cancel_collection',
             handler: function(request, reply) {
                 var house_id = request.payload.house_id;
-                var user_id = get_cookie_user_id(request);
-                if (!house_id || !user_id) {
-                    return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
-                }
+				get_cookie_user_id(request,function(user_id){
+					if (!house_id || !user_id) {
+	                    return reply({"success":false,"message":"house_id or user_id null","service_info":service_info});
+	                }
 
-                var data = {
-                    "house_id":house_id,
-                    "user_id":user_id
-                }
-                education_api.cancel_collection(data,function(err,rows){
-                    if (!err) {
-                        return reply(rows);
-                    }else {
-                        return reply({"success":false,"message":rows.message});
-                    }
-                });
+	                var data = {
+	                    "house_id":house_id,
+	                    "user_id":user_id
+	                }
+	                education_api.cancel_collection(data,function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
             }
         },
         //验证码获取

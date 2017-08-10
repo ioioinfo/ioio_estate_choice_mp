@@ -22,6 +22,26 @@ var host = "http://211.149.248.241:18031/";
 
 var nav = function(server) {
     return {
+        get_purchases: function(cb) {
+            var url = host + "get_purchases";
+            uu_request.get(url, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    cb(err,JSON.parse(body));
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
+        get_user_id: function(token_id,cb) {
+            var url = host + "get_user_id?token_id=" + token_id;
+            uu_request.get(url, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    cb(err,JSON.parse(body));
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
         save_login: function(data,cb) {
             var url = host + "save_login";
             uu_request.request(url, data, function(err, response, body) {
