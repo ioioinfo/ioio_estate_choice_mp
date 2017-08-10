@@ -8,7 +8,7 @@ class Wrap extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.get_house = this.get_house.bind(this);
         // 初始化一个空对象
-        this.state={areaItems:[],floors:[],m_house:{}};
+        this.state={areaItems:[],floors:[],m_house:{},"m_purchase":{}};
     }
     get_house(building_id,cb){
       $.ajax({
@@ -39,7 +39,6 @@ class Wrap extends React.Component {
        });
     }
     componentDidMount() {
-
       // 幢
       $.ajax({
          url: "/get_buildings_byArea",
@@ -61,6 +60,27 @@ class Wrap extends React.Component {
          error: function(xhr, status, err) {
          }.bind(this)
        });
+       
+        //查询成交信息
+        $.ajax({
+            url: "/get_purchases",
+            dataType: 'json',
+            type: 'GET',
+            data:{},
+            success: function(data) {
+                if(data.success){
+                var rows = data.rows;
+                var m_purchase = {};
+                
+                for (var i = 0; i < rows.length; i++) {
+                    m_purchase[rows[i].house_id] = "1";
+                }
+                this.setState({m_purchase:m_purchase});
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
     }
 
     handleClick(building_id){
@@ -70,7 +90,41 @@ class Wrap extends React.Component {
         $('#weui-navbar__item-nav'+building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');
       }.bind(this));
     }
+    
     render() {
+        var all_floor = [];
+        var state = this.state;
+        
+        state.floors.map(function(floor,index) {
+            var houses = [];
+            state.m_house[floor].map(function(item,index) {
+                var cls = "weui-navbar__item_span-back1";
+                if ("未推" == item.is_push) {
+                    cls = "weui-navbar__item_span-back3";
+                } else if (state.m_purchase[item.id]) {
+                    cls = "weui-navbar__item_span-back2";
+                }
+                
+                var house = (<li key={item.id} className={cls}>
+                  <a href={"house?from=1&id="+item.id}>
+                    <p>房号： {item.door_num}</p>
+                    <p>价格： {item.total_price}</p>
+                  </a>
+                  </li>);
+                
+                houses.push(house);
+            });
+            
+            var one_floor = (<ul className="estate_index_table_ul" key={index}>
+              <li>
+                <span>{floor}</span>
+              </li>
+              {houses}
+              </ul>);
+            
+            all_floor.push(one_floor);
+        });
+        
         return (
             <div className="wrap">
                 <div className="estate_index_head">
@@ -99,21 +153,7 @@ class Wrap extends React.Component {
                 </div>
 
                 <div className="estate_index_table-wrap">
-                  {this.state.floors.map((floor,index)  => (
-                    <ul className="estate_index_table_ul" key={index}>
-                      <li>
-                        <span>{floor}</span>
-                      </li>
-                      {this.state.m_house[floor].map((item,index)  => (
-                        <li key={item.id}>
-                          <a href={"house?from=1&id="+item.id}>
-                            <p>房号： {item.door_num}</p>
-                            <p>价格： {item.total_price}</p>
-                          </a>
-                        </li>))
-                      }
-                    </ul>))
-                  }
+                    {all_floor}
                 </div>
 
                 <div className="estate_index_background1"></div>

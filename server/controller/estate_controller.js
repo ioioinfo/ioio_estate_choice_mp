@@ -66,6 +66,7 @@ exports.register = function(server, options, next) {
 
     var cookie_options = {ttl:10*365*24*60*60*1000};
     var cookie_key = "ioio_borrow_cookie";
+    
 	//登入，合并设置cookie
 	var login_set_cookie = function(request,token_id){
 		var state;

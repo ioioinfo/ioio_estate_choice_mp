@@ -6,9 +6,11 @@ class Wrap extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick=this.handleClick.bind(this);
-        // 初始化一个空对象
-        this.state={item:{}};
+        this.handlePurchase=this.handlePurchase.bind(this);
+        
+        this.state={item:{},"purchases":[]};
     }
+    
     componentDidMount() {
       if(from=='1'){
         $('#house_img_wrap').show();
@@ -16,6 +18,7 @@ class Wrap extends React.Component {
         $('#house_img_wrap').hide();
       }
       $("[name='checkbox']").attr("checked",'true');
+      
       $.ajax({
          url: "/search_house_byId",
          dataType: 'json',
@@ -29,33 +32,31 @@ class Wrap extends React.Component {
          error: function(xhr, status, err) {
          }.bind(this)
        });
+       
+       //查询成交信息
+       $.ajax({
+         url: "/get_purchases",
+         dataType: 'json',
+         type: 'GET',
+         data:{},
+         success: function(data) {
+          if(data.success){
+            this.setState({purchases:data.rows});
+          }
+         }.bind(this),
+         error: function(xhr, status, err) {
+         }.bind(this)
+        });
     }
+    
     handleClick(e){
       var house_id = this.state.item.id;
-
-      $.ajax({
-          url: "/search_collection",
-          dataType: 'json',
-          type: 'GET',
-          data: {},
-          success: function(data) {
-              if (data.success) {
-                  alert("收藏成功！");
-                  $('.estate_index_head_icon1').removeClass('fa-heart-o');
-                  $('.estate_index_head_icon1').addClass('fa-heart');
-                  $('.estate_index_head_icon1').css('color','red');
-              }else {
-                  alert("收藏失败！");
-              }
-          }.bind(this),
-          error: function(xhr, status, err) {
-          }.bind(this)
-      });
+    
       $.ajax({
           url: "/save_collection",
           dataType: 'json',
           type: 'POST',
-          data: {'house_id':house_id,'user_id':'1'},
+          data: {'house_id':house_id},
           success: function(data) {
               if (data.success) {
                   alert("收藏成功！");
@@ -69,13 +70,82 @@ class Wrap extends React.Component {
           error: function(xhr, status, err) {
           }.bind(this)
       });
-
     }
+    
+    //订购
+    handlePurchase(e) {
+        var house_id = this.state.item.id;
+    
+        $.ajax({
+            url: "/save_purchase",
+            dataType: 'json',
+            type: 'POST',
+            data: {'house_id':house_id},
+            success: function(data) {
+                if (data.success) {
+                    alert("订购成功！");
+                }else {
+                    alert("订购失败！");
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
+    }
+    
     render() {
         var style = {display:"none"};
         var img = "";
         if (this.state.item.type_picture) {
           img = 'images/'+this.state.item.type_picture;
+        }
+        
+        var house_id = this.state.item.id;
+        
+        //房子成交信息
+        var house_state = (<div className="weui-cell__bd">
+            <span className="weui-navbar__item_span weui-navbar__item_span-back1"></span>
+            <span className="estate_house_infor">未售</span>
+        </div>);
+        
+        if ("未推" == this.state.item.is_push) {
+            house_state = (<div className="weui-cell__bd">
+            <span className="weui-navbar__item_span weui-navbar__item_span-back3"></span>
+            <span className="estate_house_infor">未推</span>
+            </div>);
+        }
+        
+        var purchase = (<div className="weui-cell house_background_color1">
+                    <div className="weui-cell__bd">
+                        <textarea className="weui-textarea" placeholder="暂无售房记录" rows="3" readOnly="readOnly"></textarea>
+                    </div>
+                    </div>);
+        
+        var purchases = this.state.purchases;
+        for (var i = 0; i < purchases.length; i++) {
+            if (purchases[i].house_id == house_id) {
+                house_state = (<div className="weui-cell__bd">
+                    <span className="weui-navbar__item_span weui-navbar__item_span-back2"></span>
+                    <span className="estate_house_infor">已售</span>
+                </div>);
+                    
+                purchase = (<div className="weui-cell house_background_color1">
+                    <div className="weui-cell__bd">
+                      <div className="weui-cell">
+                          <div className="weui-cell__hd"><label className="weui-label estate_house_name">姓名</label></div>
+                          <div className="weui-cell__bd">
+                              <span className="estate_house_infor">{purchases[i].name}</span>
+                          </div>
+                      </div>
+                      <div className="weui-cell">
+                          <div className="weui-cell__hd"><label className="weui-label estate_house_name">筹号</label></div>
+                          <div className="weui-cell__bd">
+                              <span className="estate_house_infor">{purchases[i].number}</span>
+                          </div>
+                      </div>
+                    </div>
+                    </div>);
+            }
         }
 
         return (
@@ -102,10 +172,7 @@ class Wrap extends React.Component {
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">状态</label></div>
-                    <div className="weui-cell__bd">
-                        <span className="estate_house_state"></span>
-                        <span className="estate_house_infor">{this.state.item.is_push}</span>
-                    </div>
+                    {house_state}
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">建筑面积</label></div>
@@ -148,11 +215,7 @@ class Wrap extends React.Component {
                   <div className="weui-cell weui-cell_access">
                       <div className="weui-cell__bd">成交信息</div>
                   </div>
-                  <div className="weui-cell house_background_color1">
-                    <div className="weui-cell__bd">
-                        <textarea className="weui-textarea" placeholder="暂无售房记录" rows="3" readOnly="readOnly"></textarea>
-                    </div>
-                  </div>
+                  {purchase}
               </div>
               <div className="estate_index_background1"></div>
 
@@ -187,9 +250,9 @@ class Wrap extends React.Component {
                             </div>
                         </div>
                         <div className="weui-cell house_alert_infor_padding">
-                            <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">合同地址</label></div>
+                            <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">合同路址</label></div>
                             <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">宝山区呼兰路911弄11号博济智慧园3号楼101A</span>
+                                <span className="estate_house_infor">{this.state.item.address}</span>
                             </div>
                         </div>
 
@@ -212,7 +275,7 @@ class Wrap extends React.Component {
 
                       <div className="weui-form-preview__ft">
                           <span className="weui-form-preview__btn weui-form-preview__btn_default">否</span>
-                          <button type="submit" className="weui-form-preview__btn weui-form-preview__btn_primary" href="#">是</button>
+                          <button type="submit" className="weui-form-preview__btn weui-form-preview__btn_primary" onClick={this.handlePurchase}>是</button>
                       </div>
 
                     </div>

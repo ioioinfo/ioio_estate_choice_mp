@@ -22532,211 +22532,249 @@ var React = __webpack_require__(83);
 var ReactDOM = __webpack_require__(82);
 
 var Wrap = function (_React$Component) {
-  _inherits(Wrap, _React$Component);
+    _inherits(Wrap, _React$Component);
 
-  function Wrap(props) {
-    _classCallCheck(this, Wrap);
+    function Wrap(props) {
+        _classCallCheck(this, Wrap);
 
-    var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
 
-    _this.handleClick = _this.handleClick.bind(_this);
-    _this.get_house = _this.get_house.bind(_this);
-    // 初始化一个空对象
-    _this.state = { areaItems: [], floors: [], m_house: {} };
-    return _this;
-  }
-
-  _createClass(Wrap, [{
-    key: 'get_house',
-    value: function get_house(building_id, cb) {
-      $.ajax({
-        url: "/get_houses_byBuilding",
-        dataType: 'json',
-        type: 'GET',
-        data: { 'building_id': building_id },
-        success: function (data) {
-          if (data.success) {
-            var houseItems = data.rows;
-            var floors = [];
-            var m_house = {};
-
-            for (var i = 0; i < houseItems.length; i++) {
-              var houseItem = houseItems[i];
-              var floor_num = houseItem.floor_num;
-              if (!m_house[floor_num]) {
-                floors.push(floor_num);
-                m_house[floor_num] = [];
-              }
-              m_house[floor_num].push(houseItem);
-            }
-            cb({ floors: floors, m_house: m_house });
-          }
-        }.bind(this),
-        error: function (xhr, status, err) {}.bind(this)
-      });
+        _this.handleClick = _this.handleClick.bind(_this);
+        _this.get_house = _this.get_house.bind(_this);
+        // 初始化一个空对象
+        _this.state = { areaItems: [], floors: [], m_house: {}, "m_purchase": {} };
+        return _this;
     }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
 
-      // 幢
-      $.ajax({
-        url: "/get_buildings_byArea",
-        dataType: 'json',
-        type: 'GET',
-        data: { 'area_id': '1' },
-        success: function (data) {
-          if (data.success) {
-            var areaItems = data.rows;
-            var first = areaItems[0];
-            var firstId = first.id;
+    _createClass(Wrap, [{
+        key: 'get_house',
+        value: function get_house(building_id, cb) {
+            $.ajax({
+                url: "/get_houses_byBuilding",
+                dataType: 'json',
+                type: 'GET',
+                data: { 'building_id': building_id },
+                success: function (data) {
+                    if (data.success) {
+                        var houseItems = data.rows;
+                        var floors = [];
+                        var m_house = {};
 
-            this.get_house(first.id, function (data) {
-              this.setState({ areaItems: areaItems, floors: data.floors, m_house: data.m_house });
-              $('#weui-navbar__item-nav' + firstId).addClass('index_buile_style');
+                        for (var i = 0; i < houseItems.length; i++) {
+                            var houseItem = houseItems[i];
+                            var floor_num = houseItem.floor_num;
+                            if (!m_house[floor_num]) {
+                                floors.push(floor_num);
+                                m_house[floor_num] = [];
+                            }
+                            m_house[floor_num].push(houseItem);
+                        }
+                        cb({ floors: floors, m_house: m_house });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            // 幢
+            $.ajax({
+                url: "/get_buildings_byArea",
+                dataType: 'json',
+                type: 'GET',
+                data: { 'area_id': '1' },
+                success: function (data) {
+                    if (data.success) {
+                        var areaItems = data.rows;
+                        var first = areaItems[0];
+                        var firstId = first.id;
+
+                        this.get_house(first.id, function (data) {
+                            this.setState({ areaItems: areaItems, floors: data.floors, m_house: data.m_house });
+                            $('#weui-navbar__item-nav' + firstId).addClass('index_buile_style');
+                        }.bind(this));
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+
+            //查询成交信息
+            $.ajax({
+                url: "/get_purchases",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        var rows = data.rows;
+                        var m_purchase = {};
+
+                        for (var i = 0; i < rows.length; i++) {
+                            m_purchase[rows[i].house_id] = "1";
+                        }
+                        this.setState({ m_purchase: m_purchase });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick(building_id) {
+            this.get_house(building_id, function (data) {
+                this.setState({ floors: data.floors, m_house: data.m_house });
+                $('#weui-navbar__item-nav' + building_id).removeClass('index_buile_style');
+                $('#weui-navbar__item-nav' + building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');
             }.bind(this));
-          }
-        }.bind(this),
-        error: function (xhr, status, err) {}.bind(this)
-      });
-    }
-  }, {
-    key: 'handleClick',
-    value: function handleClick(building_id) {
-      this.get_house(building_id, function (data) {
-        this.setState({ floors: data.floors, m_house: data.m_house });
-        $('#weui-navbar__item-nav' + building_id).removeClass('index_buile_style');
-        $('#weui-navbar__item-nav' + building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');
-      }.bind(this));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
 
-      return React.createElement(
-        'div',
-        { className: 'wrap' },
-        React.createElement(
-          'div',
-          { className: 'estate_index_head' },
-          React.createElement(
-            'div',
-            { className: 'estate_index_title' },
-            '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
-          ),
-          React.createElement('i', { className: 'fa fa-user-o estate_index_head_icon' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'estate_index_time' },
-          '\u8DDD\u79BB\u9009\u623F\u5F00\u59CB: 01 \u592902\u5C0F\u65F630\u52069\u79D2'
-        ),
-        React.createElement(
-          'div',
-          { className: 'estate_index_weui' },
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item' },
-            React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back1' }),
-            '\u672A\u552E'
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item' },
-            React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back2' }),
-            '\u5DF2\u552E'
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item' },
-            React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back3' }),
-            '\u672A\u63A8'
-          )
-        ),
-        React.createElement('div', { className: 'estate_index_background' }),
-        React.createElement(
-          'div',
-          { className: 'estate_index_weui estate_index_weui-nav' },
-          this.state.areaItems.map(function (item, index) {
-            return React.createElement(
-              'div',
-              { className: 'weui-navbar__item-nav', id: 'weui-navbar__item-nav' + item.id, key: index, onClick: _this2.handleClick.bind(_this2, item.id) },
-              item.name
-            );
-          })
-        ),
-        React.createElement(
-          'div',
-          { className: 'estate_index_table-wrap' },
-          this.state.floors.map(function (floor, index) {
-            return React.createElement(
-              'ul',
-              { className: 'estate_index_table_ul', key: index },
-              React.createElement(
-                'li',
-                null,
-                React.createElement(
-                  'span',
-                  null,
-                  floor
-                )
-              ),
-              _this2.state.m_house[floor].map(function (item, index) {
-                return React.createElement(
-                  'li',
-                  { key: item.id },
-                  React.createElement(
-                    'a',
-                    { href: "house?from=1&id=" + item.id },
+            var all_floor = [];
+            var state = this.state;
+
+            state.floors.map(function (floor, index) {
+                var houses = [];
+                state.m_house[floor].map(function (item, index) {
+                    var cls = "weui-navbar__item_span-back1";
+                    if ("未推" == item.is_push) {
+                        cls = "weui-navbar__item_span-back3";
+                    } else if (state.m_purchase[item.id]) {
+                        cls = "weui-navbar__item_span-back2";
+                    }
+
+                    var house = React.createElement(
+                        'li',
+                        { key: item.id, className: cls },
+                        React.createElement(
+                            'a',
+                            { href: "house?from=1&id=" + item.id },
+                            React.createElement(
+                                'p',
+                                null,
+                                '\u623F\u53F7\uFF1A ',
+                                item.door_num
+                            ),
+                            React.createElement(
+                                'p',
+                                null,
+                                '\u4EF7\u683C\uFF1A ',
+                                item.total_price
+                            )
+                        )
+                    );
+
+                    houses.push(house);
+                });
+
+                var one_floor = React.createElement(
+                    'ul',
+                    { className: 'estate_index_table_ul', key: index },
                     React.createElement(
-                      'p',
-                      null,
-                      '\u623F\u53F7\uFF1A ',
-                      item.door_num
+                        'li',
+                        null,
+                        React.createElement(
+                            'span',
+                            null,
+                            floor
+                        )
+                    ),
+                    houses
+                );
+
+                all_floor.push(one_floor);
+            });
+
+            return React.createElement(
+                'div',
+                { className: 'wrap' },
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_head' },
+                    React.createElement(
+                        'div',
+                        { className: 'estate_index_title' },
+                        '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
+                    ),
+                    React.createElement('i', { className: 'fa fa-user-o estate_index_head_icon' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_time' },
+                    '\u8DDD\u79BB\u9009\u623F\u5F00\u59CB: 01 \u592902\u5C0F\u65F630\u52069\u79D2'
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_weui' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-navbar__item' },
+                        React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back1' }),
+                        '\u672A\u552E'
                     ),
                     React.createElement(
-                      'p',
-                      null,
-                      '\u4EF7\u683C\uFF1A ',
-                      item.total_price
+                        'div',
+                        { className: 'weui-navbar__item' },
+                        React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back2' }),
+                        '\u5DF2\u552E'
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-navbar__item' },
+                        React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back3' }),
+                        '\u672A\u63A8'
                     )
-                  )
-                );
-              })
+                ),
+                React.createElement('div', { className: 'estate_index_background' }),
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_weui estate_index_weui-nav' },
+                    this.state.areaItems.map(function (item, index) {
+                        return React.createElement(
+                            'div',
+                            { className: 'weui-navbar__item-nav', id: 'weui-navbar__item-nav' + item.id, key: index, onClick: _this2.handleClick.bind(_this2, item.id) },
+                            item.name
+                        );
+                    })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_table-wrap' },
+                    all_floor
+                ),
+                React.createElement('div', { className: 'estate_index_background1' }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-tabbar' },
+                    React.createElement(
+                        'a',
+                        { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                        React.createElement('i', { className: 'fa fa-home weui-tabbar__icon' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label' },
+                            '\u5168\u90E8\u623F\u6E90'
+                        )
+                    ),
+                    React.createElement(
+                        'a',
+                        { href: 'my_collection', className: 'weui-tabbar__item' },
+                        React.createElement('i', { className: 'fa fa-heart-o weui-tabbar__icon' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label' },
+                            '\u6211\u7684\u6536\u85CF'
+                        )
+                    )
+                )
             );
-          })
-        ),
-        React.createElement('div', { className: 'estate_index_background1' }),
-        React.createElement(
-          'div',
-          { className: 'weui-tabbar' },
-          React.createElement(
-            'a',
-            { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
-            React.createElement('i', { className: 'fa fa-home weui-tabbar__icon' }),
-            React.createElement(
-              'p',
-              { className: 'weui-tabbar__label' },
-              '\u5168\u90E8\u623F\u6E90'
-            )
-          ),
-          React.createElement(
-            'a',
-            { href: 'my_collection', className: 'weui-tabbar__item' },
-            React.createElement('i', { className: 'fa fa-heart-o weui-tabbar__icon' }),
-            React.createElement(
-              'p',
-              { className: 'weui-tabbar__label' },
-              '\u6211\u7684\u6536\u85CF'
-            )
-          )
-        )
-      );
-    }
-  }]);
+        }
+    }]);
 
-  return Wrap;
+    return Wrap;
 }(React.Component);
 
 ;

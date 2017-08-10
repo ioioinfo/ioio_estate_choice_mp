@@ -22539,8 +22539,9 @@ var Wrap = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
 
         _this.handleClick = _this.handleClick.bind(_this);
-        // 初始化一个空对象
-        _this.state = { item: {} };
+        _this.handlePurchase = _this.handlePurchase.bind(_this);
+
+        _this.state = { item: {}, "purchases": [] };
         return _this;
     }
 
@@ -22553,6 +22554,7 @@ var Wrap = function (_React$Component) {
                 $('#house_img_wrap').hide();
             }
             $("[name='checkbox']").attr("checked", 'true');
+
             $.ajax({
                 url: "/search_house_byId",
                 dataType: 'json',
@@ -22565,6 +22567,20 @@ var Wrap = function (_React$Component) {
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
             });
+
+            //查询成交信息
+            $.ajax({
+                url: "/get_purchases",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        this.setState({ purchases: data.rows });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
         }
     }, {
         key: 'handleClick',
@@ -22572,10 +22588,10 @@ var Wrap = function (_React$Component) {
             var house_id = this.state.item.id;
 
             $.ajax({
-                url: "/search_collection",
+                url: "/save_collection",
                 dataType: 'json',
-                type: 'GET',
-                data: {},
+                type: 'POST',
+                data: { 'house_id': house_id },
                 success: function (data) {
                     if (data.success) {
                         alert("收藏成功！");
@@ -22588,19 +22604,25 @@ var Wrap = function (_React$Component) {
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
             });
+        }
+
+        //订购
+
+    }, {
+        key: 'handlePurchase',
+        value: function handlePurchase(e) {
+            var house_id = this.state.item.id;
+
             $.ajax({
-                url: "/save_collection",
+                url: "/save_purchase",
                 dataType: 'json',
                 type: 'POST',
-                data: { 'house_id': house_id, 'user_id': '1' },
+                data: { 'house_id': house_id },
                 success: function (data) {
                     if (data.success) {
-                        alert("收藏成功！");
-                        $('.estate_index_head_icon1').removeClass('fa-heart-o');
-                        $('.estate_index_head_icon1').addClass('fa-heart');
-                        $('.estate_index_head_icon1').css('color', 'red');
+                        alert("订购成功！");
                     } else {
-                        alert("收藏失败！");
+                        alert("订购失败！");
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
@@ -22613,6 +22635,112 @@ var Wrap = function (_React$Component) {
             var img = "";
             if (this.state.item.type_picture) {
                 img = 'images/' + this.state.item.type_picture;
+            }
+
+            var house_id = this.state.item.id;
+
+            //房子成交信息
+            var house_state = React.createElement(
+                'div',
+                { className: 'weui-cell__bd' },
+                React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back1' }),
+                React.createElement(
+                    'span',
+                    { className: 'estate_house_infor' },
+                    '\u672A\u552E'
+                )
+            );
+
+            if ("未推" == this.state.item.is_push) {
+                house_state = React.createElement(
+                    'div',
+                    { className: 'weui-cell__bd' },
+                    React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back3' }),
+                    React.createElement(
+                        'span',
+                        { className: 'estate_house_infor' },
+                        '\u672A\u63A8'
+                    )
+                );
+            }
+
+            var purchase = React.createElement(
+                'div',
+                { className: 'weui-cell house_background_color1' },
+                React.createElement(
+                    'div',
+                    { className: 'weui-cell__bd' },
+                    React.createElement('textarea', { className: 'weui-textarea', placeholder: '\u6682\u65E0\u552E\u623F\u8BB0\u5F55', rows: '3', readOnly: 'readOnly' })
+                )
+            );
+
+            var purchases = this.state.purchases;
+            for (var i = 0; i < purchases.length; i++) {
+                if (purchases[i].house_id == house_id) {
+                    house_state = React.createElement(
+                        'div',
+                        { className: 'weui-cell__bd' },
+                        React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back2' }),
+                        React.createElement(
+                            'span',
+                            { className: 'estate_house_infor' },
+                            '\u5DF2\u552E'
+                        )
+                    );
+
+                    purchase = React.createElement(
+                        'div',
+                        { className: 'weui-cell house_background_color1' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'div',
+                                { className: 'weui-cell' },
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__hd' },
+                                    React.createElement(
+                                        'label',
+                                        { className: 'weui-label estate_house_name' },
+                                        '\u59D3\u540D'
+                                    )
+                                ),
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__bd' },
+                                    React.createElement(
+                                        'span',
+                                        { className: 'estate_house_infor' },
+                                        purchases[i].name
+                                    )
+                                )
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'weui-cell' },
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__hd' },
+                                    React.createElement(
+                                        'label',
+                                        { className: 'weui-label estate_house_name' },
+                                        '\u7B79\u53F7'
+                                    )
+                                ),
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__bd' },
+                                    React.createElement(
+                                        'span',
+                                        { className: 'estate_house_infor' },
+                                        purchases[i].number
+                                    )
+                                )
+                            )
+                        )
+                    );
+                }
             }
 
             return React.createElement(
@@ -22684,16 +22812,7 @@ var Wrap = function (_React$Component) {
                                 '\u72B6\u6001'
                             )
                         ),
-                        React.createElement(
-                            'div',
-                            { className: 'weui-cell__bd' },
-                            React.createElement('span', { className: 'estate_house_state' }),
-                            React.createElement(
-                                'span',
-                                { className: 'estate_house_infor' },
-                                this.state.item.is_push
-                            )
-                        )
+                        house_state
                     ),
                     React.createElement(
                         'div',
@@ -22854,15 +22973,7 @@ var Wrap = function (_React$Component) {
                             '\u6210\u4EA4\u4FE1\u606F'
                         )
                     ),
-                    React.createElement(
-                        'div',
-                        { className: 'weui-cell house_background_color1' },
-                        React.createElement(
-                            'div',
-                            { className: 'weui-cell__bd' },
-                            React.createElement('textarea', { className: 'weui-textarea', placeholder: '\u6682\u65E0\u552E\u623F\u8BB0\u5F55', rows: '3', readOnly: 'readOnly' })
-                        )
-                    )
+                    purchase
                 ),
                 React.createElement('div', { className: 'estate_index_background1' }),
                 React.createElement(
@@ -22969,7 +23080,7 @@ var Wrap = function (_React$Component) {
                                     React.createElement(
                                         'label',
                                         { className: 'weui-label estate_house_alert_name' },
-                                        '\u5408\u540C\u5730\u5740'
+                                        '\u5408\u540C\u8DEF\u5740'
                                     )
                                 ),
                                 React.createElement(
@@ -22978,7 +23089,7 @@ var Wrap = function (_React$Component) {
                                     React.createElement(
                                         'span',
                                         { className: 'estate_house_infor' },
-                                        '\u5B9D\u5C71\u533A\u547C\u5170\u8DEF911\u5F0411\u53F7\u535A\u6D4E\u667A\u6167\u56ED3\u53F7\u697C101A'
+                                        this.state.item.address
                                     )
                                 )
                             ),
@@ -23025,7 +23136,7 @@ var Wrap = function (_React$Component) {
                                 ),
                                 React.createElement(
                                     'button',
-                                    { type: 'submit', className: 'weui-form-preview__btn weui-form-preview__btn_primary', href: '#' },
+                                    { type: 'submit', className: 'weui-form-preview__btn weui-form-preview__btn_primary', onClick: this.handlePurchase },
                                     '\u662F'
                                 )
                             )
