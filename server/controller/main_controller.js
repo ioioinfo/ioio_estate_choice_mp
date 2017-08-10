@@ -17,7 +17,6 @@ var _ = require('lodash');
 var r = require('request');
 var moment = require('moment');
 var eventproxy = require('eventproxy');
-
 var moduel_prefix = 'ioio_estate_choice_main';
 
 exports.register = function(server, options, next) {
@@ -61,16 +60,7 @@ exports.register = function(server, options, next) {
                     return reply.redirect("/index");
                 }
                 
-                var cookie_id = get_cookie_id(request);
-                if (!cookie_id) {
-                    cookie_id = uuidV1();
-                }
-                var cookie = request.state.cookie;
-                if (!cookie) {
-                    cookie = {};
-                }
-                cookie.cookie_id = cookie_id;
-                return reply.view("login").state('cookie', cookie, {ttl:10*365*24*60*60*1000});
+                return reply.view("login");
             },
         },
         //手机验证

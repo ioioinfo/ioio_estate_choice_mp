@@ -22541,64 +22541,38 @@ var Wrap = function (_React$Component) {
 
         _this.handleClick = _this.handleClick.bind(_this);
         _this.get_house = _this.get_house.bind(_this);
-        // 初始化一个空对象
-        _this.state = { areaItems: [], floors: [], m_house: {}, "m_purchase": {} };
+
+        _this.state = { rows: [], areaItems: [], floors: [], m_house: {}, "m_purchase": {} };
         return _this;
     }
 
+    //根据幢查询房子信息
+
+
     _createClass(Wrap, [{
         key: 'get_house',
-        value: function get_house(building_id, cb) {
-            $.ajax({
-                url: "/get_houses_byBuilding",
-                dataType: 'json',
-                type: 'GET',
-                data: { 'building_id': building_id },
-                success: function (data) {
-                    if (data.success) {
-                        var houseItems = data.rows;
-                        var floors = [];
-                        var m_house = {};
+        value: function get_house(building_id, rows, cb) {
+            var floors = [];
+            var m_house = {};
 
-                        for (var i = 0; i < houseItems.length; i++) {
-                            var houseItem = houseItems[i];
-                            var floor_num = houseItem.floor_num;
-                            if (!m_house[floor_num]) {
-                                floors.push(floor_num);
-                                m_house[floor_num] = [];
-                            }
-                            m_house[floor_num].push(houseItem);
-                        }
-                        cb({ floors: floors, m_house: m_house });
+            for (var i = 0; i < rows.length; i++) {
+                if (building_id == rows[i].building_id) {
+                    var houseItem = rows[i];
+                    var floor_num = houseItem.floor_num;
+                    if (!m_house[floor_num]) {
+                        floors.push(floor_num);
+                        m_house[floor_num] = [];
                     }
-                }.bind(this),
-                error: function (xhr, status, err) {}.bind(this)
-            });
+                    m_house[floor_num].push(houseItem);
+                }
+            }
+
+            console.log({ building_id: building_id, floors: floors, m_house: m_house });
+            cb({ floors: floors, m_house: m_house });
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            // 幢
-            $.ajax({
-                url: "/get_buildings_byArea",
-                dataType: 'json',
-                type: 'GET',
-                data: { 'area_id': '1' },
-                success: function (data) {
-                    if (data.success) {
-                        var areaItems = data.rows;
-                        var first = areaItems[0];
-                        var firstId = first.id;
-
-                        this.get_house(first.id, function (data) {
-                            this.setState({ areaItems: areaItems, floors: data.floors, m_house: data.m_house });
-                            $('#weui-navbar__item-nav' + firstId).addClass('index_buile_style');
-                        }.bind(this));
-                    }
-                }.bind(this),
-                error: function (xhr, status, err) {}.bind(this)
-            });
-
             //查询成交信息
             $.ajax({
                 url: "/get_purchases",
@@ -22618,11 +22592,52 @@ var Wrap = function (_React$Component) {
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
             });
+
+            //本地缓存
+            if (window.localStorage && localStorage.getItem("data")) {
+                var data = JSON.parse(localStorage.getItem("data"));
+                var rows = data.rows;
+
+                var buildings = data.buildings;
+                var building_id = buildings[0].id;
+
+                this.get_house(building_id, rows, function (data) {
+                    this.setState({ rows: rows, areaItems: buildings, floors: data.floors, m_house: data.m_house });
+                    $('#weui-navbar__item-nav' + building_id).addClass('index_buile_style');
+                }.bind(this));
+            } else {
+                //查询所有房屋信息
+                $.ajax({
+                    url: "/get_all_infos",
+                    dataType: 'json',
+                    type: 'GET',
+                    data: { 'area_id': '1' },
+                    success: function (data) {
+                        if (data.success) {
+                            if (window.localStorage) {
+                                localStorage.setItem("data", JSON.stringify(data));
+                            }
+                            var rows = data.rows;
+
+                            var buildings = data.buildings;
+                            var building_id = buildings[0].id;
+
+                            this.get_house(building_id, rows, function (data) {
+                                this.setState({ rows: rows, areaItems: buildings, floors: data.floors, m_house: data.m_house });
+                                $('#weui-navbar__item-nav' + building_id).addClass('index_buile_style');
+                            }.bind(this));
+                        }
+                    }.bind(this),
+                    error: function (xhr, status, err) {}.bind(this)
+                });
+            }
         }
     }, {
         key: 'handleClick',
         value: function handleClick(building_id) {
-            this.get_house(building_id, function (data) {
+            var rows = this.state.rows;
+
+            this.get_house(building_id, rows, function (data) {
                 this.setState({ floors: data.floors, m_house: data.m_house });
                 $('#weui-navbar__item-nav' + building_id).removeClass('index_buile_style');
                 $('#weui-navbar__item-nav' + building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');

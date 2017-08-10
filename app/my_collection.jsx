@@ -7,14 +7,15 @@ class Wrap extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         // 初始化一个空对象
-        this.state={houseItems:[]};
+        this.state={houseItems:[],m_purchase:{}};
     }
+    
     componentDidMount() {
-      $.ajax({
+        $.ajax({
          url: "/get_collections_byUser",
          dataType: 'json',
          type: 'GET',
-         data:{'user_id':'1'},
+         data:{},
          success: function(data) {
           if(data.success){
             this.setState({houseItems:data.rows});
@@ -22,7 +23,28 @@ class Wrap extends React.Component {
          }.bind(this),
          error: function(xhr, status, err) {
          }.bind(this)
-       });
+        });
+        
+        //查询成交信息
+        $.ajax({
+            url: "/get_purchases",
+            dataType: 'json',
+            type: 'GET',
+            data:{},
+            success: function(data) {
+                if(data.success){
+                    var rows = data.rows;
+                    var m_purchase = {};
+                    
+                    for (var i = 0; i < rows.length; i++) {
+                        m_purchase[rows[i].house_id] = "1";
+                    }
+                    this.setState({m_purchase:m_purchase});
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
     }
 
     handleClick(e){
@@ -39,7 +61,7 @@ class Wrap extends React.Component {
                 <div className="estate_index_time">距离选房开始: 01 天02小时30分9秒</div>
 
                 {this.state.houseItems.map((item,index)  => (
-                  <House key={index} item={item} index={index} onClick={this.handleClick.bind(this,item.id)}/>
+                  <House key={index} item={item} m_purchase={this.state.m_purchase} index={index} onClick={this.handleClick.bind(this,item.id)}/>
                   ))
                 }
                 <div className="weui-tabbar">
@@ -60,8 +82,23 @@ class Wrap extends React.Component {
 
 class House extends React.Component {
     render() {
+        //房子成交信息
+        var house_state = (<p className="my_collection_title">
+            <span className="weui-navbar__item_span weui-navbar__item_span-back1"></span>未售
+            </p>);
+        
+        if ("未推" == this.props.item.is_push) {
+            house_state = (<p className="my_collection_title">
+            <span className="weui-navbar__item_span weui-navbar__item_span-back3"></span>未推
+            </p>);
+        } else if (this.props.m_purchase[this.props.item.house_id]) {
+            house_state = (<p className="my_collection_title">
+            <span className="weui-navbar__item_span weui-navbar__item_span-back2"></span>已售
+            </p>);
+        }
+        
         return (
-          <a href={"house?id="+this.props.item.id} className="my_collection_a" >
+          <a href={"house?id="+this.props.item.house_id} className="my_collection_a" >
               <div className="weui-flex my_collection_weui-flex my_collection_weui-flex-shadow">
                     <div className="weui-flex__item my_collection_wrap_line">
                       <div className="my_collection_wrap">
@@ -70,7 +107,7 @@ class House extends React.Component {
                       </div>
                       <div className="my_collection_wrap">
                         <p className="my_collection_title my_collection_title1">状态:</p>
-                        <p className="my_collection_title"><span className="estate_house_state"></span>{this.props.item.house.is_push}</p>
+                        {house_state}
                       </div>
                       <div className="my_collection_wrap">
                         <p className="my_collection_title my_collection_title1">面积:</p>

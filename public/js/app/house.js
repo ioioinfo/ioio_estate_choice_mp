@@ -22594,7 +22594,6 @@ var Wrap = function (_React$Component) {
                 data: { 'house_id': house_id },
                 success: function (data) {
                     if (data.success) {
-                        alert("收藏成功！");
                         $('.estate_index_head_icon1').removeClass('fa-heart-o');
                         $('.estate_index_head_icon1').addClass('fa-heart');
                         $('.estate_index_head_icon1').css('color', 'red');

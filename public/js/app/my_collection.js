@@ -22535,234 +22535,273 @@ var React = __webpack_require__(83);
 var ReactDOM = __webpack_require__(82);
 
 var Wrap = function (_React$Component) {
-  _inherits(Wrap, _React$Component);
+    _inherits(Wrap, _React$Component);
 
-  function Wrap(props) {
-    _classCallCheck(this, Wrap);
+    function Wrap(props) {
+        _classCallCheck(this, Wrap);
 
-    var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
 
-    _this.handleClick = _this.handleClick.bind(_this);
-    // 初始化一个空对象
-    _this.state = { houseItems: [] };
-    return _this;
-  }
-
-  _createClass(Wrap, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      $.ajax({
-        url: "/get_collections_byUser",
-        dataType: 'json',
-        type: 'GET',
-        data: { 'user_id': '1' },
-        success: function (data) {
-          if (data.success) {
-            this.setState({ houseItems: data.rows });
-          }
-        }.bind(this),
-        error: function (xhr, status, err) {}.bind(this)
-      });
+        _this.handleClick = _this.handleClick.bind(_this);
+        // 初始化一个空对象
+        _this.state = { houseItems: [], m_purchase: {} };
+        return _this;
     }
-  }, {
-    key: 'handleClick',
-    value: function handleClick(e) {}
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
 
-      return React.createElement(
-        'div',
-        { className: 'wrap' },
-        React.createElement(
-          'div',
-          { className: 'estate_index_head' },
-          React.createElement(
-            'div',
-            { className: 'estate_index_title' },
-            '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
-          ),
-          React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'estate_index_time' },
-          '\u8DDD\u79BB\u9009\u623F\u5F00\u59CB: 01 \u592902\u5C0F\u65F630\u52069\u79D2'
-        ),
-        this.state.houseItems.map(function (item, index) {
-          return React.createElement(House, { key: index, item: item, index: index, onClick: _this2.handleClick.bind(_this2, item.id) });
-        }),
-        React.createElement(
-          'div',
-          { className: 'weui-tabbar' },
-          React.createElement(
-            'a',
-            { href: 'index', className: 'weui-tabbar__item ' },
-            React.createElement('i', { className: 'fa fa-home weui-tabbar__icon' }),
-            React.createElement(
-              'p',
-              { className: 'weui-tabbar__label' },
-              '\u5168\u90E8\u623F\u6E90'
-            )
-          ),
-          React.createElement(
-            'a',
-            { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
-            React.createElement('i', { className: 'fa fa-heart weui-tabbar__icon' }),
-            React.createElement(
-              'p',
-              { className: 'weui-tabbar__label' },
-              '\u6211\u7684\u6536\u85CF'
-            )
-          )
-        )
-      );
-    }
-  }]);
+    _createClass(Wrap, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            $.ajax({
+                url: "/get_collections_byUser",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        this.setState({ houseItems: data.rows });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
 
-  return Wrap;
+            //查询成交信息
+            $.ajax({
+                url: "/get_purchases",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        var rows = data.rows;
+                        var m_purchase = {};
+
+                        for (var i = 0; i < rows.length; i++) {
+                            m_purchase[rows[i].house_id] = "1";
+                        }
+                        this.setState({ m_purchase: m_purchase });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick(e) {}
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return React.createElement(
+                'div',
+                { className: 'wrap' },
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_head' },
+                    React.createElement(
+                        'div',
+                        { className: 'estate_index_title' },
+                        '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
+                    ),
+                    React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_time' },
+                    '\u8DDD\u79BB\u9009\u623F\u5F00\u59CB: 01 \u592902\u5C0F\u65F630\u52069\u79D2'
+                ),
+                this.state.houseItems.map(function (item, index) {
+                    return React.createElement(House, { key: index, item: item, m_purchase: _this2.state.m_purchase, index: index, onClick: _this2.handleClick.bind(_this2, item.id) });
+                }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-tabbar' },
+                    React.createElement(
+                        'a',
+                        { href: 'index', className: 'weui-tabbar__item ' },
+                        React.createElement('i', { className: 'fa fa-home weui-tabbar__icon' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label' },
+                            '\u5168\u90E8\u623F\u6E90'
+                        )
+                    ),
+                    React.createElement(
+                        'a',
+                        { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                        React.createElement('i', { className: 'fa fa-heart weui-tabbar__icon' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label' },
+                            '\u6211\u7684\u6536\u85CF'
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Wrap;
 }(React.Component);
 
 ;
 
 var House = function (_React$Component2) {
-  _inherits(House, _React$Component2);
+    _inherits(House, _React$Component2);
 
-  function House() {
-    _classCallCheck(this, House);
+    function House() {
+        _classCallCheck(this, House);
 
-    return _possibleConstructorReturn(this, (House.__proto__ || Object.getPrototypeOf(House)).apply(this, arguments));
-  }
-
-  _createClass(House, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'a',
-        { href: "house?id=" + this.props.item.id, className: 'my_collection_a' },
-        React.createElement(
-          'div',
-          { className: 'weui-flex my_collection_weui-flex my_collection_weui-flex-shadow' },
-          React.createElement(
-            'div',
-            { className: 'weui-flex__item my_collection_wrap_line' },
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u623F\u53F7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                this.props.item.house.door_num
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u72B6\u6001:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                React.createElement('span', { className: 'estate_house_state' }),
-                this.props.item.house.is_push
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u9762\u79EF:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                this.props.item.house.structure_area,
-                'm',
-                React.createElement(
-                  'sup',
-                  null,
-                  '2'
-                )
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-flex__item my_collection__item' },
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u6237\u578B:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                this.props.item.house.type_name
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u603B\u4EF7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                this.props.item.house.total_price
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u5355\u4EF7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                this.props.item.house.per_price
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'my_collection_address' },
-            React.createElement(
-              'p',
-              null,
-              React.createElement('i', { className: 'fa fa-arrow-circle-up my_collection_address_fontsize' })
-            ),
-            React.createElement(
-              'p',
-              null,
-              React.createElement('i', { className: 'fa fa-arrow-circle-down my_collection_address_fontsize' })
-            )
-          )
-        )
-      );
+        return _possibleConstructorReturn(this, (House.__proto__ || Object.getPrototypeOf(House)).apply(this, arguments));
     }
-  }]);
 
-  return House;
+    _createClass(House, [{
+        key: 'render',
+        value: function render() {
+            //房子成交信息
+            var house_state = React.createElement(
+                'p',
+                { className: 'my_collection_title' },
+                React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back1' }),
+                '\u672A\u552E'
+            );
+
+            if ("未推" == this.props.item.is_push) {
+                house_state = React.createElement(
+                    'p',
+                    { className: 'my_collection_title' },
+                    React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back3' }),
+                    '\u672A\u63A8'
+                );
+            } else if (this.props.m_purchase[this.props.item.house_id]) {
+                house_state = React.createElement(
+                    'p',
+                    { className: 'my_collection_title' },
+                    React.createElement('span', { className: 'weui-navbar__item_span weui-navbar__item_span-back2' }),
+                    '\u5DF2\u552E'
+                );
+            }
+
+            return React.createElement(
+                'a',
+                { href: "house?id=" + this.props.item.house_id, className: 'my_collection_a' },
+                React.createElement(
+                    'div',
+                    { className: 'weui-flex my_collection_weui-flex my_collection_weui-flex-shadow' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-flex__item my_collection_wrap_line' },
+                        React.createElement(
+                            'div',
+                            { className: 'my_collection_wrap' },
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title my_collection_title1' },
+                                '\u623F\u53F7:'
+                            ),
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title' },
+                                this.props.item.house.door_num
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'my_collection_wrap' },
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title my_collection_title1' },
+                                '\u72B6\u6001:'
+                            ),
+                            house_state
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'my_collection_wrap' },
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title my_collection_title1' },
+                                '\u9762\u79EF:'
+                            ),
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title' },
+                                this.props.item.house.structure_area,
+                                'm',
+                                React.createElement(
+                                    'sup',
+                                    null,
+                                    '2'
+                                )
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-flex__item my_collection__item' },
+                        React.createElement(
+                            'div',
+                            { className: 'my_collection_wrap' },
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title my_collection_title1' },
+                                '\u6237\u578B:'
+                            ),
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title' },
+                                this.props.item.house.type_name
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'my_collection_wrap' },
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title my_collection_title1' },
+                                '\u603B\u4EF7:'
+                            ),
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title' },
+                                this.props.item.house.total_price
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'my_collection_wrap' },
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title my_collection_title1' },
+                                '\u5355\u4EF7:'
+                            ),
+                            React.createElement(
+                                'p',
+                                { className: 'my_collection_title' },
+                                this.props.item.house.per_price
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'my_collection_address' },
+                        React.createElement(
+                            'p',
+                            null,
+                            React.createElement('i', { className: 'fa fa-arrow-circle-up my_collection_address_fontsize' })
+                        ),
+                        React.createElement(
+                            'p',
+                            null,
+                            React.createElement('i', { className: 'fa fa-arrow-circle-down my_collection_address_fontsize' })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return House;
 }(React.Component);
 
 ;
