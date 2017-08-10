@@ -61,7 +61,7 @@ class Login extends React.Component {
           data: {'number':number,},
           success: function(data) {
               if (data.success) {
-                phone = data.rows[0];
+                phone = data.row;
                 this.props.chang();
 
               }else {
@@ -104,8 +104,33 @@ class Login1 extends React.Component {
     }
     componentDidMount() {
     }
+    
     handleClick(e) {
-
+        var code = $("#code").val();
+        if (!code) {
+            alert("请输入验证码");
+            return;
+        }
+        
+        $.ajax({
+            url: "/do_login",
+            dataType: 'json',
+            type: 'POST',
+            data: {'number':number,"code":code},
+            success: function(data) {
+              if (data.success) {
+                  location.href = "/index";
+              }else {
+                if ($('#warn').css('display') != 'none') return;
+                    $('#warn').fadeIn(100);
+                    setTimeout(function () {
+                        $('#warn').fadeOut(100);
+                    }, 2000);
+              }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
     }
 
     render() {
@@ -115,7 +140,7 @@ class Login1 extends React.Component {
                 <div className="checkbox"></div>
                 <div className="weui-cell weui-cell_vcode login_next_background">
                     <div className="weui-cell__bd ">
-                        <input className="weui-input" type="tel" placeholder="请输入验证码" />
+                        <input className="weui-input" type="tel" id="code" placeholder="请输入验证码" />
                     </div>
 
                     <div className="weui-cell__ft">
