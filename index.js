@@ -73,6 +73,8 @@ server.register([
         register: require('./server/controller/wx_controller.js')
     }, {
         register: require('./server/controller/person_controller.js')
+    },{
+        register: require('./server/controller/estate_controller.js')
     },
 
 ], function () {

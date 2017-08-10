@@ -30,7 +30,8 @@ exports.register = function(server, options, next){
     load_module('task', './task.js');
     load_module('hr', './hr.js');
     load_module('notify', './notify.js');
-  
+    load_module('education_api', './education_api.js');
+
     next();
 }
 
