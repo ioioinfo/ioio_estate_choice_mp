@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 184);
+/******/ 	return __webpack_require__(__webpack_require__.s = 185);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22383,7 +22383,8 @@ module.exports = traverseAllChildren;
 
 /***/ }),
 /* 183 */,
-/* 184 */
+/* 184 */,
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22403,15 +22404,86 @@ var ReactDOM = __webpack_require__(81);
 var Wrap = function (_React$Component) {
   _inherits(Wrap, _React$Component);
 
-  function Wrap() {
+  function Wrap(props) {
     _classCallCheck(this, Wrap);
 
-    return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.get_house = _this.get_house.bind(_this);
+    // 初始化一个空对象
+    _this.state = { areaItems: [], floors: [], m_house: {} };
+    return _this;
   }
 
   _createClass(Wrap, [{
+    key: 'get_house',
+    value: function get_house(building_id, cb) {
+      $.ajax({
+        url: "/get_houses_byBuilding",
+        dataType: 'json',
+        type: 'GET',
+        data: { 'building_id': building_id },
+        success: function (data) {
+          if (data.success) {
+            var houseItems = data.rows;
+            var floors = [];
+            var m_house = {};
+
+            for (var i = 0; i < houseItems.length; i++) {
+              var houseItem = houseItems[i];
+              var floor_num = houseItem.floor_num;
+              if (!m_house[floor_num]) {
+                floors.push(floor_num);
+                m_house[floor_num] = [];
+              }
+              m_house[floor_num].push(houseItem);
+            }
+            cb({ floors: floors, m_house: m_house });
+          }
+        }.bind(this),
+        error: function (xhr, status, err) {}.bind(this)
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+
+      // 幢
+      $.ajax({
+        url: "/get_buildings_byArea",
+        dataType: 'json',
+        type: 'GET',
+        data: { 'area_id': '1' },
+        success: function (data) {
+          if (data.success) {
+            var areaItems = data.rows;
+            var first = areaItems[0];
+            var firstId = first.id;
+
+            this.get_house(first.id, function (data) {
+              this.setState({ areaItems: areaItems, floors: data.floors, m_house: data.m_house });
+              $('#weui-navbar__item-nav' + firstId).addClass('index_buile_style');
+            }.bind(this));
+          }
+        }.bind(this),
+        error: function (xhr, status, err) {}.bind(this)
+      });
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick(building_id) {
+      this.get_house(building_id, function (data) {
+        this.setState({ floors: data.floors, m_house: data.m_house });
+        $('#weui-navbar__item-nav' + building_id).removeClass('index_buile_style');
+        $('#weui-navbar__item-nav' + building_id).addClass('index_buile_style').siblings().removeClass('index_buile_style');
+      }.bind(this));
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return React.createElement(
         'div',
         { className: 'wrap' },
@@ -22456,156 +22528,54 @@ var Wrap = function (_React$Component) {
         React.createElement(
           'div',
           { className: 'estate_index_weui estate_index_weui-nav' },
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item-nav' },
-            '\u6EAA\u5CB8\u6F9C\u5EAD001\u5E62'
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item-nav' },
-            '\u6EAA\u5CB8\u6F9C\u5EAD002\u5E62'
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item-nav' },
-            '\u6EAA\u5CB8\u6F9C\u5EAD003\u5E62'
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item-nav' },
-            '\u6EAA\u5CB8\u6F9C\u5EAD003\u5E62'
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-navbar__item-nav' },
-            '\u6EAA\u5CB8\u6F9C\u5EAD003\u5E62'
-          )
+          this.state.areaItems.map(function (item, index) {
+            return React.createElement(
+              'div',
+              { className: 'weui-navbar__item-nav', id: 'weui-navbar__item-nav' + item.id, key: index, onClick: _this2.handleClick.bind(_this2, item.id) },
+              item.name
+            );
+          })
         ),
         React.createElement(
           'div',
           { className: 'estate_index_table-wrap' },
-          React.createElement(
-            'ul',
-            { className: 'estate_index_table_ul' },
-            React.createElement(
-              'li',
-              null,
+          this.state.floors.map(function (floor, index) {
+            return React.createElement(
+              'ul',
+              { className: 'estate_index_table_ul', key: index },
               React.createElement(
-                'span',
+                'li',
                 null,
-                '1'
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                'a',
-                { href: '#' },
                 React.createElement(
-                  'p',
+                  'span',
                   null,
-                  '\u623F\u53F7\uFF1A 1-0101'
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  '\u4EF7\u683C\uFF1A 99 \u4E07'
+                  floor
                 )
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                'a',
-                { href: '#' },
-                React.createElement(
-                  'p',
-                  null,
-                  '\u623F\u53F7\uFF1A 1-0101'
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  '\u4EF7\u683C\uFF1A 99 \u4E07'
-                )
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                'a',
-                { href: '#' },
-                React.createElement(
-                  'p',
-                  null,
-                  '\u623F\u53F7\uFF1A 1-0101'
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  '\u4EF7\u683C\uFF1A 99 \u4E07'
-                )
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                'a',
-                { href: '#' },
-                React.createElement(
-                  'p',
-                  null,
-                  '\u623F\u53F7\uFF1A 1-0101'
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  '\u4EF7\u683C\uFF1A 99 \u4E07'
-                )
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                'a',
-                { href: '#' },
-                React.createElement(
-                  'p',
-                  null,
-                  '\u623F\u53F7\uFF1A 1-0101'
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  '\u4EF7\u683C\uFF1A 99 \u4E07'
-                )
-              )
-            ),
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                'a',
-                { href: '#' },
-                React.createElement(
-                  'p',
-                  null,
-                  '\u623F\u53F7\uFF1A 1-0101'
-                ),
-                React.createElement(
-                  'p',
-                  null,
-                  '\u4EF7\u683C\uFF1A 99 \u4E07'
-                )
-              )
-            )
-          )
+              ),
+              _this2.state.m_house[floor].map(function (item, index) {
+                return React.createElement(
+                  'li',
+                  { key: item.id },
+                  React.createElement(
+                    'a',
+                    { href: "house?from=1&id=" + item.id },
+                    React.createElement(
+                      'p',
+                      null,
+                      '\u623F\u53F7\uFF1A ',
+                      item.door_num
+                    ),
+                    React.createElement(
+                      'p',
+                      null,
+                      '\u4EF7\u683C\uFF1A ',
+                      item.total_price
+                    )
+                  )
+                );
+              })
+            );
+          })
         ),
         React.createElement('div', { className: 'estate_index_background1' }),
         React.createElement(
@@ -22623,7 +22593,7 @@ var Wrap = function (_React$Component) {
           ),
           React.createElement(
             'a',
-            { href: 'javascript:;', className: 'weui-tabbar__item' },
+            { href: 'my_collection', className: 'weui-tabbar__item' },
             React.createElement('i', { className: 'fa fa-heart-o weui-tabbar__icon' }),
             React.createElement(
               'p',

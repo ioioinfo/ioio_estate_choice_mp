@@ -21,6 +21,7 @@ module.exports = {
         house: './app/house.jsx',
         my_collection: './app/my_collection.jsx',
         my_home: './app/my_home.jsx',
+        buy_now: './app/buy_now.jsx',
     },
     output: {
         path: __dirname,

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>房屋详情</title>
+    <title>立即购买</title>
     <link rel="stylesheet" href="css/weui.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -12,13 +12,12 @@
 <body>
     <div id="login"></div>
     <script type="text/javascript">
-      var id = "{{id}}";
-      var from = "{{from}}";
+
     </script>
 
     <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/app/house.js"></script>
+    <script src="js/app/buy_now.js"></script>
 
     <script type="text/javascript">
     $(function(){
@@ -34,13 +33,22 @@
           })
         });
 
-        $(".house_img_sure").on('click', function(){
-            $("#house_img_wrap").fadeOut(10);
-            $(".weui-mask").on('click', function(){
-              $("#house_img_wrap").fadeOut(10);
-            })
-        })
     });
+    </script>
+
+    <script>
+      $(function(){
+        function run(secs){
+          for (var i = 0; i < secs.length; i++) {
+            secs = secs--;
+          }
+          $("#estate_index_time").innerHTML = "距离选房开始还有："+secs;
+          if(secs==0){
+            $("#estate_index_time").innerHTML = "选房结束";
+          }
+        }
+        window.setInterval(function(){run(30);},1000);
+      })
     </script>
 
 </body>

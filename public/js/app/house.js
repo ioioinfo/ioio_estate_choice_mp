@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 183);
+/******/ 	return __webpack_require__(__webpack_require__.s = 184);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22382,7 +22382,8 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 183 */
+/* 183 */,
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22405,19 +22406,85 @@ var Wrap = function (_React$Component) {
     function Wrap(props) {
         _classCallCheck(this, Wrap);
 
-        return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+
+        _this.handleClick = _this.handleClick.bind(_this);
         // 初始化一个空对象
+        _this.state = { item: {} };
+        return _this;
     }
 
     _createClass(Wrap, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            if (from == '1') {
+                $('#house_img_wrap').show();
+            } else {
+                $('#house_img_wrap').hide();
+            }
             $("[name='checkbox']").attr("checked", 'true');
+            $.ajax({
+                url: "/search_house_byId",
+                dataType: 'json',
+                type: 'GET',
+                data: { 'id': id },
+                success: function (data) {
+                    if (data.success) {
+                        this.setState({ item: data.rows[0] });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+        }
+    }, {
+        key: 'handleClick',
+        value: function handleClick(e) {
+            var house_id = this.state.item.id;
+
+            $.ajax({
+                url: "/search_collection",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        alert("收藏成功！");
+                        $('.estate_index_head_icon1').removeClass('fa-heart-o');
+                        $('.estate_index_head_icon1').addClass('fa-heart');
+                        $('.estate_index_head_icon1').css('color', 'red');
+                    } else {
+                        alert("收藏失败！");
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+            $.ajax({
+                url: "/save_collection",
+                dataType: 'json',
+                type: 'POST',
+                data: { 'house_id': house_id, 'user_id': '1' },
+                success: function (data) {
+                    if (data.success) {
+                        alert("收藏成功！");
+                        $('.estate_index_head_icon1').removeClass('fa-heart-o');
+                        $('.estate_index_head_icon1').addClass('fa-heart');
+                        $('.estate_index_head_icon1').css('color', 'red');
+                    } else {
+                        alert("收藏失败！");
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
         }
     }, {
         key: 'render',
         value: function render() {
             var style = { display: "none" };
+            var img = "";
+            if (this.state.item.type_picture) {
+                img = 'images/' + this.state.item.type_picture;
+            }
+
             return React.createElement(
                 'div',
                 { className: 'wrap' },
@@ -22430,7 +22497,7 @@ var Wrap = function (_React$Component) {
                         '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
                     ),
                     React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' }),
-                    React.createElement('i', { className: 'fa fa-heart-o estate_index_head_icon1' })
+                    React.createElement('i', { className: 'fa fa-heart-o estate_index_head_icon1', onClick: this.handleClick })
                 ),
                 React.createElement(
                     'div',
@@ -22471,7 +22538,7 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '\u5357\u7FD4\u5609\u7965\u8DEF198\u53F7'
+                                this.state.item.address
                             )
                         )
                     ),
@@ -22494,7 +22561,7 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '\u672A\u552E'
+                                this.state.item.is_push
                             )
                         )
                     ),
@@ -22516,7 +22583,8 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '999 ',
+                                this.state.item.structure_area,
+                                ' m',
                                 React.createElement(
                                     'sup',
                                     null,
@@ -22543,7 +22611,8 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '999 \u4E07'
+                                this.state.item.total_price,
+                                '\u5143 '
                             )
                         )
                     ),
@@ -22565,7 +22634,8 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '1 \u4E07'
+                                this.state.item.per_price,
+                                '\u5143'
                             )
                         )
                     ),
@@ -22587,7 +22657,7 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '\u522B\u5885'
+                                this.state.item.product_type
                             )
                         )
                     ),
@@ -22609,7 +22679,7 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '5 \u5BA45\u5385'
+                                this.state.item.type_name
                             )
                         )
                     ),
@@ -22631,7 +22701,8 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '100 ',
+                                this.state.item.garden_area,
+                                'm ',
                                 React.createElement(
                                     'sup',
                                     null,
@@ -22680,7 +22751,7 @@ var Wrap = function (_React$Component) {
                 ),
                 React.createElement(
                     'div',
-                    { className: 'weui-skin_android', id: 'androidActionsheet', style: style },
+                    { className: 'weui-skin_android', id: 'buy_infor', style: style },
                     React.createElement('div', { className: 'weui-mask' }),
                     React.createElement(
                         'div',
@@ -22827,6 +22898,25 @@ var Wrap = function (_React$Component) {
                                     { type: 'submit', className: 'weui-form-preview__btn weui-form-preview__btn_primary', href: '#' },
                                     '\u662F'
                                 )
+                            )
+                        )
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'weui-skin_android', id: 'house_img_wrap' },
+                    React.createElement('div', { className: 'weui-mask' }),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-actionsheet' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-actionsheet__menu' },
+                            React.createElement('img', { src: img, className: 'house_img' }),
+                            React.createElement(
+                                'p',
+                                { className: 'weui-tabbar__label house_img_sure' },
+                                '\u5173 \u95ED'
                             )
                         )
                     )

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 185);
+/******/ 	return __webpack_require__(__webpack_require__.s = 186);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22384,7 +22384,8 @@ module.exports = traverseAllChildren;
 /***/ }),
 /* 183 */,
 /* 184 */,
-/* 185 */
+/* 185 */,
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22404,19 +22405,68 @@ var ReactDOM = __webpack_require__(81);
 var Wrap = function (_React$Component) {
     _inherits(Wrap, _React$Component);
 
-    function Wrap() {
+    function Wrap(props) {
         _classCallCheck(this, Wrap);
 
-        return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+
+        _this.chang = _this.chang.bind(_this);
+        _this.state = { statu: '1' };
+        return _this;
     }
 
     _createClass(Wrap, [{
+        key: 'chang',
+        value: function chang() {
+            this.setState({ statu: '0' });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
         key: 'render',
         value: function render() {
+            var style = { display: 'none' };
+            var p = React.createElement(Login, { chang: this.chang });
+            if (this.state.statu == '1') {
+                p = React.createElement(Login, { chang: this.chang });
+            } else if (this.state.statu == '0') {
+                p = React.createElement(Login1, { chang: this.chang });
+            }
             return React.createElement(
                 'div',
                 { className: 'container' },
-                React.createElement(Login, null)
+                p,
+                React.createElement(
+                    'div',
+                    { id: 'warn', style: style },
+                    React.createElement('div', { className: 'weui-mask_transparent' }),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-toast' },
+                        React.createElement('i', { className: 'weui-icon-warn weui-icon_msg' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-toast__content' },
+                            '\u8BA4\u7B79\u53F7\u9519\u8BEF'
+                        )
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { id: 'loadingToast', style: style },
+                    React.createElement('div', { className: 'weui-mask_transparent' }),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-toast' },
+                        React.createElement('i', { className: 'weui-loading weui-icon_toast' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-toast__content' },
+                            '\u767B\u5F55\u52A0\u8F7D\u4E2D'
+                        )
+                    )
+                )
             );
         }
     }]);
@@ -22436,12 +22486,34 @@ var Login = function (_React$Component2) {
 
         _this2.handleClick = _this2.handleClick.bind(_this2);
         _this2.onKeyPress = _this2.onKeyPress.bind(_this2);
+        _this2.state = { item: {} };
         return _this2;
     }
 
     _createClass(Login, [{
         key: 'handleClick',
-        value: function handleClick(e) {}
+        value: function handleClick(e) {
+            number = $('#password').val();
+            $.ajax({
+                url: "/search_user_byNum",
+                dataType: 'json',
+                type: 'GET',
+                data: { 'number': number },
+                success: function (data) {
+                    if (data.success) {
+                        phone = data.rows[0];
+                        this.props.chang();
+                    } else {
+                        if ($('#warn').css('display') != 'none') return;
+                        $('#warn').fadeIn(100);
+                        setTimeout(function () {
+                            $('#warn').fadeOut(100);
+                        }, 2000);
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+        }
 
         // enter键
 
@@ -22457,7 +22529,7 @@ var Login = function (_React$Component2) {
             return React.createElement(
                 'div',
                 { className: 'form-signin' },
-                React.createElement('input', { type: 'text', id: 'password', className: 'form-control', placeholder: '\u8BF7\u8F93\u5165\u8BA4\u8BC1\u53F7', required: true, onKeyPress: this.onKeyPress }),
+                React.createElement('input', { type: 'number', id: 'password', className: 'form-control', placeholder: '\u8BF7\u8F93\u5165\u8BA4\u7B79\u53F7', required: true, onKeyPress: this.onKeyPress }),
                 React.createElement('div', { className: 'checkbox' }),
                 React.createElement(
                     'button',
@@ -22469,6 +22541,65 @@ var Login = function (_React$Component2) {
     }]);
 
     return Login;
+}(React.Component);
+
+;
+
+var Login1 = function (_React$Component3) {
+    _inherits(Login1, _React$Component3);
+
+    function Login1(props) {
+        _classCallCheck(this, Login1);
+
+        var _this3 = _possibleConstructorReturn(this, (Login1.__proto__ || Object.getPrototypeOf(Login1)).call(this, props));
+
+        _this3.handleClick = _this3.handleClick.bind(_this3);
+        return _this3;
+    }
+
+    _createClass(Login1, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {}
+    }, {
+        key: 'handleClick',
+        value: function handleClick(e) {}
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement(
+                'div',
+                { className: 'form-signin' },
+                React.createElement('input', { type: 'text', className: 'form-control', required: true, value: phone, readOnly: 'readOnly' }),
+                React.createElement('div', { className: 'checkbox' }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-cell weui-cell_vcode login_next_background' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell__bd ' },
+                        React.createElement('input', { className: 'weui-input', type: 'tel', placeholder: '\u8BF7\u8F93\u5165\u9A8C\u8BC1\u7801' })
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell__ft' },
+                        React.createElement(
+                            'button',
+                            { className: 'weui-vcode-btn' },
+                            '\u83B7\u53D6\u9A8C\u8BC1\u7801'
+                        )
+                    )
+                ),
+                React.createElement('div', { className: 'checkbox' }),
+                React.createElement(
+                    'button',
+                    { className: 'btn btn-lg btn-primary btn-block', type: 'submit', onClick: this.handleClick },
+                    '\u767B \u5F55'
+                )
+            );
+        }
+    }]);
+
+    return Login1;
 }(React.Component);
 
 ;
