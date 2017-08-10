@@ -225,3 +225,32 @@ label{
 .my_collection_wrap_line{
   border-right: 1px solid #CCCCCC;
 }
+/*我的收藏*/
+.my_collection_weui-flex{
+  margin-bottom: 7px;
+  position: relative;
+}
+.my_collection_weui-flex-shadow{
+
+  border-bottom: 1px solid #ccc;
+  -webkit-box-shadow: 0px 3px 5px 3px #ccc;
+  -moz-box-shadow: 0px 3px 5px 3px #ccc;
+  box-shadow: 0px 3px 5px 3px #ccc
+
+}
+.my_collection_address{
+  width: 20px;
+  height: 120px;
+  padding: 20px 0;
+  position: absolute;
+  top: 0;
+  right: 15px;
+}
+.my_collection_address_fontsize{
+  font-size: 26px;
+  opacity: 0.8;
+  color: red;
+}
+.my_collection_address p:last-child{
+  margin-top: 28px;
+}

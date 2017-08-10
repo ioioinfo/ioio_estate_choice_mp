@@ -20,7 +20,7 @@ class Wrap extends React.Component {
                 <i className="fa fa-heart-o estate_index_head_icon1"></i>
               </div>
 
-              <div className="estate_index_time">距离选房开始: 01 天02小时30分9秒</div>
+              <div className="estate_index_time">本次购房已结束</div>
 
               <div className="weui-cells house_background_color">
                   <div className="weui-cell weui-cell_access">
@@ -84,7 +84,18 @@ class Wrap extends React.Component {
                   </div>
                   <div className="weui-cell house_background_color1">
                     <div className="weui-cell__bd">
-                        <textarea className="weui-textarea" placeholder="暂无售房记录" rows="3" readOnly="readOnly"></textarea>
+                      <div className="weui-cell">
+                          <div className="weui-cell__hd"><label className="weui-label estate_house_name">姓名</label></div>
+                          <div className="weui-cell__bd">
+                              <span className="estate_house_infor">周润华</span>
+                          </div>
+                      </div>
+                      <div className="weui-cell">
+                          <div className="weui-cell__hd"><label className="weui-label estate_house_name">筹号</label></div>
+                          <div className="weui-cell__bd">
+                              <span className="estate_house_infor">123456789</span>
+                          </div>
+                      </div>
                     </div>
                   </div>
               </div>
@@ -92,65 +103,9 @@ class Wrap extends React.Component {
 
               <div className="weui-tabbar" id="buy">
                   <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
-                      <i className="fa fa-shopping-bag weui-tabbar__icon"></i>
-                      <p className="weui-tabbar__label">我要认购</p>
+                      <i className="fa fa-gavel weui-tabbar__icon"></i>
+                      <p className="weui-tabbar__label">认购成功</p>
                   </a>
-              </div>
-
-              <div className="weui-skin_android" id="androidActionsheet" style={style}>
-                <div className="weui-mask"></div>
-                <div className="weui-actionsheet">
-                    <div className="weui-actionsheet__menu">
-                        <div className="house_alert_title">是否确认认购此单位?</div>
-                        <div className="weui-cell house_alert_infor_padding">
-                            <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">客户名称</label></div>
-                            <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">周润华</span>
-                            </div>
-                        </div>
-                        <div className="weui-cell house_alert_infor_padding">
-                            <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">认筹编号</label></div>
-                            <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">123456789</span>
-                            </div>
-                        </div>
-                        <div className="weui-cell house_alert_infor_padding">
-                            <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">联系电话</label></div>
-                            <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">987654321</span>
-                            </div>
-                        </div>
-                        <div className="weui-cell house_alert_infor_padding">
-                            <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">合同地址</label></div>
-                            <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">宝山区呼兰路911弄11号博济智慧园3号楼101A</span>
-                            </div>
-                        </div>
-
-                        <div className="weui-cell weui-cell_vcode house_alert_infor_padding">
-                            <div className="weui-cell__bd house_alert_weui-input">
-                                <input className="weui-input" type="number" placeholder="请输入验证码" />
-                            </div>
-
-                            <div className="weui-cell__ft">
-                                <button className="weui-vcode-btn">1234</button>
-                            </div>
-                        </div>
-
-                        <label className="weui-agree">
-                          <input id="weuiAgree" name="checkbox" type="checkbox" className="weui-agree__checkbox" />
-                          <span className="weui-agree__text">
-                              阅读并同意<a href="#">《本人已阅读并同意相关条款》</a>
-                          </span>
-                      </label>
-
-                      <div className="weui-form-preview__ft">
-                          <span className="weui-form-preview__btn weui-form-preview__btn_default">否</span>
-                          <button type="submit" className="weui-form-preview__btn weui-form-preview__btn_primary" href="#">是</button>
-                      </div>
-
-                    </div>
-                </div>
               </div>
 
           </div>

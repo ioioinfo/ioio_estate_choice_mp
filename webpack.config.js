@@ -20,6 +20,7 @@ module.exports = {
         index: './app/index.jsx',
         house: './app/house.jsx',
         my_collection: './app/my_collection.jsx',
+        my_home: './app/my_home.jsx',
     },
     output: {
         path: __dirname,

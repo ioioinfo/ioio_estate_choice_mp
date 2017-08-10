@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 187);
+/******/ 	return __webpack_require__(__webpack_require__.s = 188);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22386,7 +22386,8 @@ module.exports = traverseAllChildren;
 /* 184 */,
 /* 185 */,
 /* 186 */,
-/* 187 */
+/* 187 */,
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22404,302 +22405,332 @@ var React = __webpack_require__(82);
 var ReactDOM = __webpack_require__(81);
 
 var Wrap = function (_React$Component) {
-  _inherits(Wrap, _React$Component);
+    _inherits(Wrap, _React$Component);
 
-  function Wrap(props) {
-    _classCallCheck(this, Wrap);
+    function Wrap(props) {
+        _classCallCheck(this, Wrap);
 
-    return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
-    // 初始化一个空对象
-  }
-
-  _createClass(Wrap, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      $("[name='checkbox']").attr("checked", 'true');
+        return _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
+        // 初始化一个空对象
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'wrap' },
-        React.createElement(
-          'div',
-          { className: 'estate_index_head' },
-          React.createElement(
-            'div',
-            { className: 'estate_index_title' },
-            '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
-          ),
-          React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'estate_index_time' },
-          '\u8DDD\u79BB\u9009\u623F\u5F00\u59CB: 01 \u592902\u5C0F\u65F630\u52069\u79D2'
-        ),
-        React.createElement(
-          'div',
-          { className: 'weui-flex my_collection_weui-flex my_collection_weui-flex-shadow' },
-          React.createElement(
-            'div',
-            { className: 'weui-flex__item my_collection_wrap_line' },
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u623F\u53F7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '1-0101'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u72B6\u6001:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                React.createElement('span', { className: 'estate_house_state' }),
-                '\u672A\u552E'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u9762\u79EF:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '999',
-                React.createElement(
-                  'sup',
-                  null,
-                  '2'
-                )
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-flex__item' },
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u6237\u578B:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '\u4E24\u5BA4\u4E00\u5385'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u603B\u4EF7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '1234567'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u5355\u4EF7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '123456.7'
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'my_collection_address' },
-            React.createElement(
-              'p',
-              null,
-              React.createElement('i', { className: 'fa fa-arrow-circle-up my_collection_address_fontsize' })
-            ),
-            React.createElement(
-              'p',
-              null,
-              React.createElement('i', { className: 'fa fa-arrow-circle-down my_collection_address_fontsize' })
-            )
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'weui-flex my_collection_weui-flex my_collection_weui-flex-shadow' },
-          React.createElement(
-            'div',
-            { className: 'weui-flex__item my_collection_wrap_line' },
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u623F\u53F7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '1-0101'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u72B6\u6001:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                React.createElement('span', { className: 'estate_house_state' }),
-                '\u672A\u552E'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u9762\u79EF:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '999',
-                React.createElement(
-                  'sup',
-                  null,
-                  '2'
-                )
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'weui-flex__item' },
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u6237\u578B:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '\u4E24\u5BA4\u4E00\u5385'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u603B\u4EF7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '1234567'
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'my_collection_wrap' },
-              React.createElement(
-                'p',
-                { className: 'my_collection_title my_collection_title1' },
-                '\u5355\u4EF7:'
-              ),
-              React.createElement(
-                'p',
-                { className: 'my_collection_title' },
-                '123456.7'
-              )
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'my_collection_address' },
-            React.createElement(
-              'p',
-              null,
-              React.createElement('i', { className: 'fa fa-arrow-circle-up my_collection_address_fontsize' })
-            ),
-            React.createElement(
-              'p',
-              null,
-              React.createElement('i', { className: 'fa fa-arrow-circle-down my_collection_address_fontsize' })
-            )
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'weui-tabbar' },
-          React.createElement(
-            'a',
-            { href: 'javascript:;', className: 'weui-tabbar__item ' },
-            React.createElement('i', { className: 'fa fa-home weui-tabbar__icon' }),
-            React.createElement(
-              'p',
-              { className: 'weui-tabbar__label' },
-              '\u5168\u90E8\u623F\u6E90'
-            )
-          ),
-          React.createElement(
-            'a',
-            { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
-            React.createElement('i', { className: 'fa fa-heart weui-tabbar__icon' }),
-            React.createElement(
-              'p',
-              { className: 'weui-tabbar__label' },
-              '\u6211\u7684\u6536\u85CF'
-            )
-          )
-        )
-      );
-    }
-  }]);
 
-  return Wrap;
+    _createClass(Wrap, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            $("[name='checkbox']").attr("checked", 'true');
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var style = { display: "none" };
+            return React.createElement(
+                'div',
+                { className: 'wrap' },
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_head' },
+                    React.createElement(
+                        'div',
+                        { className: 'estate_index_title' },
+                        '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
+                    ),
+                    React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' }),
+                    React.createElement('i', { className: 'fa fa-heart-o estate_index_head_icon1' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'estate_index_time' },
+                    '\u672C\u6B21\u8D2D\u623F\u5DF2\u7ED3\u675F'
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'weui-cells house_background_color' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell weui-cell_access' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            '\u57FA\u672C\u4FE1\u606F'
+                        )
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'weui-cells' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u5408\u540C\u8DEF\u5740'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '\u5357\u7FD4\u5609\u7965\u8DEF198\u53F7'
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u72B6\u6001'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement('span', { className: 'estate_house_state' }),
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '\u672A\u552E'
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u5EFA\u7B51\u9762\u79EF'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '999 ',
+                                React.createElement(
+                                    'sup',
+                                    null,
+                                    '2'
+                                )
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u603B\u4EF7'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '999 \u4E07'
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u5355\u4EF7'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '1 \u4E07'
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u4EA7\u54C1\u7C7B\u578B'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '\u522B\u5885'
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u6237\u578B'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '5 \u5BA45\u5385'
+                            )
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__hd' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-label estate_house_name' },
+                                '\u82B1\u56ED\u9762\u79EF'
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'span',
+                                { className: 'estate_house_infor' },
+                                '100 ',
+                                React.createElement(
+                                    'sup',
+                                    null,
+                                    '2'
+                                )
+                            )
+                        )
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'weui-cells house_background_color' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell weui-cell_access' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            '\u6210\u4EA4\u4FE1\u606F'
+                        )
+                    ),
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell house_background_color1' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            React.createElement(
+                                'div',
+                                { className: 'weui-cell' },
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__hd' },
+                                    React.createElement(
+                                        'label',
+                                        { className: 'weui-label estate_house_name' },
+                                        '\u59D3\u540D'
+                                    )
+                                ),
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__bd' },
+                                    React.createElement(
+                                        'span',
+                                        { className: 'estate_house_infor' },
+                                        '\u5468\u6DA6\u534E'
+                                    )
+                                )
+                            ),
+                            React.createElement(
+                                'div',
+                                { className: 'weui-cell' },
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__hd' },
+                                    React.createElement(
+                                        'label',
+                                        { className: 'weui-label estate_house_name' },
+                                        '\u7B79\u53F7'
+                                    )
+                                ),
+                                React.createElement(
+                                    'div',
+                                    { className: 'weui-cell__bd' },
+                                    React.createElement(
+                                        'span',
+                                        { className: 'estate_house_infor' },
+                                        '123456789'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                React.createElement('div', { className: 'estate_index_background1' }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-tabbar', id: 'buy' },
+                    React.createElement(
+                        'a',
+                        { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                        React.createElement('i', { className: 'fa fa-gavel weui-tabbar__icon' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label' },
+                            '\u8BA4\u8D2D\u6210\u529F'
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Wrap;
 }(React.Component);
 
 ;

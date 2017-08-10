@@ -72,6 +72,15 @@ exports.register = function(server, options, next) {
             },
         },
 
+        //我的房子
+        {
+            method: 'GET',
+            path: '/my_home',
+            handler: function(request, reply) {
+                return reply.view("my_home");
+            },
+        },
+
 
     ]);
 
