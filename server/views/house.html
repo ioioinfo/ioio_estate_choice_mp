@@ -23,17 +23,6 @@
     <script type="text/javascript">
     $(function(){
 
-        $("#buy").on('click', function(){
-          $("#buy_infor").fadeIn(10);
-          $(".weui-mask").on('click', function(){
-            $("#buy_infor").fadeOut(10);
-          })
-
-          $(".weui-form-preview__btn_default").on('click', function(){
-            $("#buy_infor").fadeOut(10);
-          })
-        });
-
         $(".house_img_sure").on('click', function(){
             $("#house_img_wrap").fadeOut(10);
             $(".weui-mask").on('click', function(){

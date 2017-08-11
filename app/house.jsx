@@ -8,7 +8,7 @@ class Wrap extends React.Component {
         this.handleClick=this.handleClick.bind(this);
         this.handlePurchase=this.handlePurchase.bind(this);
         this.handleback=this.handleback.bind(this);
-        this.state={item:{},buildings:[],"types":{},"purchases":[],num:0};
+        this.state={item:{},titleItem:{},userItem:{},buildings:[],"types":{},"purchases":[],num:0};
     }
 
     componentDidMount() {
@@ -31,6 +31,21 @@ class Wrap extends React.Component {
                   var time_distance = data.time;
                   this.setState({titleItem:data.rows[0]});
                   count_down(time_distance);
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
+        
+        //用户信息
+        $.ajax({
+            url: "/get_user",
+            dataType: 'json',
+            type: 'GET',
+            data:{},
+            success: function(data) {
+                if(data.success){
+                    this.setState({userItem:data.rows[0]});
                 }
             }.bind(this),
             error: function(xhr, status, err) {
@@ -75,8 +90,6 @@ class Wrap extends React.Component {
                 error: function(xhr, status, err) {
                 }.bind(this)
             });
-
-
         }
 
        //查询成交信息
@@ -208,6 +221,18 @@ class Wrap extends React.Component {
             }.bind(this)
         });
     }
+    
+    //确认购买
+    handleBuy(e) {
+        $("#buy_infor").fadeIn(10);
+          $(".weui-mask").on('click', function(){
+            $("#buy_infor").fadeOut(10);
+          })
+
+          $(".weui-form-preview__btn_default").on('click', function(){
+            $("#buy_infor").fadeOut(10);
+        });
+    }
 
     handleback(e){
       if(from){
@@ -255,6 +280,13 @@ class Wrap extends React.Component {
                         <p className="weui-textarea">暂无售房记录</p>
                     </div>
                     </div>);
+        
+        var button = (<div className="weui-tabbar" onClick={this.handleBuy}>
+                  <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
+                      <i className="fa fa-shopping-bag weui-tabbar__icon"></i>
+                      <p className="weui-tabbar__label">我要认购</p>
+                  </a>
+                  </div>);
 
         var purchases = this.state.purchases;
         for (var i = 0; i < purchases.length; i++) {
@@ -262,6 +294,13 @@ class Wrap extends React.Component {
                 house_state = (<div className="weui-cell__bd">
                     <span className="weui-navbar__item_span weui-navbar__item_span-back2"></span>
                     <span className="estate_house_infor">已售</span>
+                </div>);
+                
+                button = (<div className="weui-tabbar">
+                  <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
+                      <i className="fa fa-gavel weui-tabbar__icon"></i>
+                      <p className="weui-tabbar__label">已认购</p>
+                  </a>
                 </div>);
 
                 purchase = (<div className="weui-cell house_background_color1">
@@ -281,11 +320,6 @@ class Wrap extends React.Component {
                     </div>
                     </div>);
             }
-        }
-
-        var button = (<p className="weui-tabbar__label">我要认购</p>);
-        if(this.state.item.address=='已售'){
-          button = (<p className="weui-tabbar__label">我要认购</p>);
         }
 
         return (
@@ -359,12 +393,7 @@ class Wrap extends React.Component {
               </div>
               <div className="estate_index_background1"></div>
 
-              <div className="weui-tabbar" id="buy">
-                  <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
-                      <i className="fa fa-shopping-bag weui-tabbar__icon"></i>
-                      {button}
-                  </a>
-              </div>
+              {button}
 
               <div className="weui-skin_android" id="buy_infor" style={style}>
                 <div className="weui-mask"></div>
@@ -374,19 +403,19 @@ class Wrap extends React.Component {
                         <div className="weui-cell house_alert_infor_padding">
                             <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">客户名称</label></div>
                             <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">周润华</span>
+                                <span className="estate_house_infor">{this.state.userItem.name}</span>
                             </div>
                         </div>
                         <div className="weui-cell house_alert_infor_padding">
                             <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">认筹编号</label></div>
                             <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">123456789</span>
+                                <span className="estate_house_infor">{this.state.userItem.number}</span>
                             </div>
                         </div>
                         <div className="weui-cell house_alert_infor_padding">
                             <div className="weui-cell__hd"><label className="weui-label estate_house_alert_name">联系电话</label></div>
                             <div className="weui-cell__bd ">
-                                <span className="estate_house_infor">987654321</span>
+                                <span className="estate_house_infor">{this.state.userItem.phone}</span>
                             </div>
                         </div>
                         <div className="weui-cell house_alert_infor_padding">
