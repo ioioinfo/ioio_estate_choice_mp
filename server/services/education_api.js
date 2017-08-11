@@ -22,6 +22,16 @@ var host = "http://211.149.248.241:18031/";
 
 var nav = function(server) {
     return {
+        get_infos: function(cb) {
+            var url = host + "get_infos";
+            uu_request.get(url, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    cb(err,JSON.parse(body));
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
         get_purchases: function(cb) {
             var url = host + "get_purchases";
             uu_request.get(url, function(err, response, body) {

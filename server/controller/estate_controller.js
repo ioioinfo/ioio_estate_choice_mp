@@ -66,7 +66,7 @@ exports.register = function(server, options, next) {
 
     var cookie_options = {ttl:10*365*24*60*60*1000};
     var cookie_key = "ioio_borrow_cookie";
-    
+
 	//登入，合并设置cookie
 	var login_set_cookie = function(request,token_id){
 		var state;
@@ -122,6 +122,20 @@ exports.register = function(server, options, next) {
 		do_get_method(url,cb);
 	};
     server.route([
+		//筹号房源所有信息
+        {
+            method: "GET",
+            path: '/get_infos',
+            handler: function(request, reply) {
+                education_api.get_infos(function(err,rows){
+                    if (!err) {
+                        return reply(rows);
+                    }else {
+                        return reply({"success":false,"message":rows.message});
+                    }
+                });
+            }
+        },
         //筹号获取用户信息
         {
             method: "GET",
