@@ -22465,7 +22465,9 @@ var Wrap = function (_React$Component) {
                     React.createElement(
                         'div',
                         { className: 'estate_index_title' },
-                        '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
+                        this.state.item.building_id,
+                        '-',
+                        this.state.item.door_num
                     ),
                     React.createElement(
                         'a',

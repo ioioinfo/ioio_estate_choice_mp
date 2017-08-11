@@ -22411,7 +22411,7 @@ var Wrap = function (_React$Component) {
         _this.handleClick = _this.handleClick.bind(_this);
         _this.handlePurchase = _this.handlePurchase.bind(_this);
         _this.handleback = _this.handleback.bind(_this);
-        _this.state = { item: {}, "types": {}, "purchases": [], num: 0 };
+        _this.state = { item: {}, buildings: [], "types": {}, "purchases": [], num: 0 };
         return _this;
     }
 
@@ -22446,10 +22446,11 @@ var Wrap = function (_React$Component) {
                 var data = JSON.parse(localStorage.getItem("data"));
                 var rows = data.rows;
                 var types = data.types;
+                var buildings = data.buildings;
 
                 for (var i = 0; i < rows.length; i++) {
                     if (rows[i].id == id) {
-                        this.setState({ "item": rows[i], "types": types });
+                        this.setState({ "item": rows[i], "buildings": buildings, "types": types });
                     }
                 }
             } else {
@@ -22466,10 +22467,11 @@ var Wrap = function (_React$Component) {
                             }
                             var rows = data.rows;
                             var types = data.types;
+                            var buildings = data.buildings;
 
                             for (var i = 0; i < rows.length; i++) {
                                 if (rows[i].id == id) {
-                                    this.setState({ "item": rows[i], "types": types });
+                                    this.setState({ "item": rows[i], "buildings": buildings, "types": types });
                                 }
                             }
                         }
@@ -22626,6 +22628,14 @@ var Wrap = function (_React$Component) {
                 house_type_name = this.state.types[house_type_id].name;
             }
 
+            var building_name;
+            var buildings = this.state.buildings;
+            for (var i = 0; i < buildings.length; i++) {
+                if (buildings[i].id == this.state.item.building_id) {
+                    building_name = buildings[i].name;
+                }
+            }
+
             var house_id = this.state.item.id;
 
             //房子成交信息
@@ -22736,6 +22746,19 @@ var Wrap = function (_React$Component) {
                 }
             }
 
+            var button = React.createElement(
+                'p',
+                { className: 'weui-tabbar__label' },
+                '\u6211\u8981\u8BA4\u8D2D'
+            );
+            if (this.state.item.address == '已售') {
+                button = React.createElement(
+                    'p',
+                    { className: 'weui-tabbar__label' },
+                    '\u6211\u8981\u8BA4\u8D2D'
+                );
+            }
+
             return React.createElement(
                 'div',
                 { className: 'wrap' },
@@ -22745,7 +22768,7 @@ var Wrap = function (_React$Component) {
                     React.createElement(
                         'div',
                         { className: 'estate_index_title' },
-                        this.state.item.building_id,
+                        building_name,
                         '-',
                         this.state.item.door_num
                     ),
@@ -22974,11 +22997,7 @@ var Wrap = function (_React$Component) {
                         'a',
                         { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
                         React.createElement('i', { className: 'fa fa-shopping-bag weui-tabbar__icon' }),
-                        React.createElement(
-                            'p',
-                            { className: 'weui-tabbar__label' },
-                            '\u6211\u8981\u8BA4\u8D2D'
-                        )
+                        button
                     )
                 ),
                 React.createElement(

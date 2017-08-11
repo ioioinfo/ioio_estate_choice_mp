@@ -47,7 +47,7 @@ class Wrap extends React.Component {
         return (
             <div className="wrap">
               <div className="estate_index_head">
-                <div className="estate_index_title">中建溪岸澜庭</div>
+                <div className="estate_index_title">{this.state.item.building_id}-{this.state.item.door_num}</div>
                 <a href="index"><i className="fa fa-chevron-circle-left estate_index_head_icon"></i></a>
                 <i className="fa fa-heart-o estate_index_head_icon1"></i>
               </div>

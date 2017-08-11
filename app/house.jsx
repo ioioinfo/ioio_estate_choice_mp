@@ -8,7 +8,7 @@ class Wrap extends React.Component {
         this.handleClick=this.handleClick.bind(this);
         this.handlePurchase=this.handlePurchase.bind(this);
         this.handleback=this.handleback.bind(this);
-        this.state={item:{},"types":{},"purchases":[],num:0};
+        this.state={item:{},buildings:[],"types":{},"purchases":[],num:0};
     }
 
     componentDidMount() {
@@ -42,10 +42,11 @@ class Wrap extends React.Component {
             var data = JSON.parse(localStorage.getItem("data"));
             var rows = data.rows;
             var types = data.types;
+            var buildings = data.buildings;
 
             for (var i = 0; i < rows.length; i++) {
                 if (rows[i].id == id) {
-                    this.setState({"item":rows[i],"types":types});
+                    this.setState({"item":rows[i],"buildings":buildings,"types":types});
                 }
             }
         } else {
@@ -62,10 +63,11 @@ class Wrap extends React.Component {
                         }
                         var rows = data.rows;
                         var types = data.types;
+                        var buildings = data.buildings;
 
                         for (var i = 0; i < rows.length; i++) {
                             if (rows[i].id == id) {
-                                this.setState({"item":rows[i],"types":types});
+                                this.setState({"item":rows[i],"buildings":buildings,"types":types});
                             }
                         }
                     }
@@ -225,6 +227,14 @@ class Wrap extends React.Component {
             house_type_name = this.state.types[house_type_id].name;
         }
 
+        var building_name;
+        var buildings = this.state.buildings;
+        for (var i = 0; i < buildings.length; i++) {
+          if (buildings[i].id == this.state.item.building_id) {
+            building_name = buildings[i].name;
+          }
+        }
+
         var house_id = this.state.item.id;
 
         //房子成交信息
@@ -273,10 +283,15 @@ class Wrap extends React.Component {
             }
         }
 
+        var button = (<p className="weui-tabbar__label">我要认购</p>);
+        if(this.state.item.address=='已售'){
+          button = (<p className="weui-tabbar__label">我要认购</p>);
+        }
+
         return (
             <div className="wrap">
               <div className="estate_index_head">
-                <div className="estate_index_title">{this.state.item.building_id}-{this.state.item.door_num}</div>
+                <div className="estate_index_title">{building_name}-{this.state.item.door_num}</div>
                 <i className="fa fa-chevron-circle-left estate_index_head_icon" onClick={this.handleback}></i>
                 <i className="fa fa-heart-o estate_index_head_icon1" onClick={this.handleClick}></i>
               </div>
@@ -347,7 +362,7 @@ class Wrap extends React.Component {
               <div className="weui-tabbar" id="buy">
                   <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
                       <i className="fa fa-shopping-bag weui-tabbar__icon"></i>
-                      <p className="weui-tabbar__label">我要认购</p>
+                      {button}
                   </a>
               </div>
 
