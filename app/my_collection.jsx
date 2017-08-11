@@ -9,7 +9,7 @@ class Wrap extends React.Component {
         // 初始化一个空对象
         this.state={houseItems:[],m_purchase:{}};
     }
-    
+
     componentDidMount() {
         $.ajax({
          url: "/get_collections_byUser",
@@ -24,7 +24,7 @@ class Wrap extends React.Component {
          error: function(xhr, status, err) {
          }.bind(this)
         });
-        
+
         //查询成交信息
         $.ajax({
             url: "/get_purchases",
@@ -35,11 +35,28 @@ class Wrap extends React.Component {
                 if(data.success){
                     var rows = data.rows;
                     var m_purchase = {};
-                    
+
                     for (var i = 0; i < rows.length; i++) {
                         m_purchase[rows[i].house_id] = "1";
                     }
                     this.setState({m_purchase:m_purchase});
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
+
+        //title名称
+        $.ajax({
+            url: "/get_estate_by_id",
+            dataType: 'json',
+            type: 'GET',
+            data:{'id':'1'},
+            success: function(data) {
+                if(data.success){
+                  var time_distance = data.time;
+                  this.setState({titleItem:data.rows[0]});
+                  count_down(time_distance);
                 }
             }.bind(this),
             error: function(xhr, status, err) {
@@ -55,10 +72,9 @@ class Wrap extends React.Component {
             <div className="wrap">
                 <div className="estate_index_head">
                   <div className="estate_index_title">中建溪岸澜庭</div>
-                  <i className="fa fa-chevron-circle-left estate_index_head_icon"></i>
                 </div>
 
-                <div className="estate_index_time">距离选房开始: 01 天02小时30分9秒</div>
+                <div className="estate_index_time"></div>
 
                 {this.state.houseItems.map((item,index)  => (
                   <House key={index} item={item} m_purchase={this.state.m_purchase} index={index} onClick={this.handleClick.bind(this,item.id)}/>
@@ -84,9 +100,9 @@ class House extends React.Component {
     render() {
         //房子成交信息
         var house_state = (<p className="my_collection_title">
-            <span className="weui-navbar__item_span weui-navbar__item_span-back1"></span>未售
+            <span className="weui-navbar__item_span weui-navbar__item_span-back"></span>未售
             </p>);
-        
+
         if ("未推" == this.props.item.is_push) {
             house_state = (<p className="my_collection_title">
             <span className="weui-navbar__item_span weui-navbar__item_span-back3"></span>未推
@@ -96,7 +112,7 @@ class House extends React.Component {
             <span className="weui-navbar__item_span weui-navbar__item_span-back2"></span>已售
             </p>);
         }
-        
+
         return (
           <a href={"house?id="+this.props.item.house_id} className="my_collection_a" >
               <div className="weui-flex my_collection_weui-flex my_collection_weui-flex-shadow">

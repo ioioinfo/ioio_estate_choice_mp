@@ -6,9 +6,41 @@ class Wrap extends React.Component {
     constructor(props) {
         super(props);
         // 初始化一个空对象
+        this.state={item:{},user:{}};
     }
     componentDidMount() {
       $("[name='checkbox']").attr("checked",'true');
+
+      $.ajax({
+        url: "/get_purchase_byUser",
+        dataType: 'json',
+        type: 'GET',
+        data:{},
+        success: function(data) {
+         if(data.success){
+           this.setState({item:data.rows[0].house,user:data.user});
+         }
+        }.bind(this),
+        error: function(xhr, status, err) {
+        }.bind(this)
+       });
+
+       //title名称
+       $.ajax({
+           url: "/get_estate_by_id",
+           dataType: 'json',
+           type: 'GET',
+           data:{'id':'1'},
+           success: function(data) {
+               if(data.success){
+                 var time_distance = data.time;
+                 this.setState({titleItem:data.rows[0]});
+                 count_down(time_distance);
+               }
+           }.bind(this),
+           error: function(xhr, status, err) {
+           }.bind(this)
+       });
     }
     render() {
         var style = {display:"none"};
@@ -16,7 +48,7 @@ class Wrap extends React.Component {
             <div className="wrap">
               <div className="estate_index_head">
                 <div className="estate_index_title">中建溪岸澜庭</div>
-                <i className="fa fa-chevron-circle-left estate_index_head_icon"></i>
+                <a href="index"><i className="fa fa-chevron-circle-left estate_index_head_icon"></i></a>
                 <i className="fa fa-heart-o estate_index_head_icon1"></i>
               </div>
 
@@ -31,50 +63,50 @@ class Wrap extends React.Component {
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">合同路址</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">南翔嘉祥路198号</span>
+                        <span className="estate_house_infor">{this.state.item.address}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">状态</label></div>
                     <div className="weui-cell__bd">
                         <span className="estate_house_state"></span>
-                        <span className="estate_house_infor">未售</span>
+                        <span className="estate_house_infor">{this.state.item.is_push}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">建筑面积</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">999 <sup>2</sup></span>
+                        <span className="estate_house_infor">{this.state.item.structure_area} m<sup>2</sup></span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">总价</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">999 万</span>
+                        <span className="estate_house_infor">{this.state.item.total_price}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">单价</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">1 万</span>
+                        <span className="estate_house_infor">{this.state.item.per_price}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">产品类型</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">别墅</span>
+                        <span className="estate_house_infor">{this.state.item.product_type}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">户型</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">5 室5厅</span>
+                        <span className="estate_house_infor">5{this.state.item.product_type}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">花园面积</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">100 <sup>2</sup></span>
+                        <span className="estate_house_infor">{this.state.item.garden_area} m<sup>2</sup></span>
                     </div>
                 </div>
               </div>
@@ -87,13 +119,13 @@ class Wrap extends React.Component {
                       <div className="weui-cell">
                           <div className="weui-cell__hd"><label className="weui-label estate_house_name">姓名</label></div>
                           <div className="weui-cell__bd">
-                              <span className="estate_house_infor">周润华</span>
+                              <span className="estate_house_infor">{this.state.user.name}</span>
                           </div>
                       </div>
                       <div className="weui-cell">
                           <div className="weui-cell__hd"><label className="weui-label estate_house_name">筹号</label></div>
                           <div className="weui-cell__bd">
-                              <span className="estate_house_infor">123456789</span>
+                              <span className="estate_house_infor">{this.state.user.number}</span>
                           </div>
                       </div>
                     </div>

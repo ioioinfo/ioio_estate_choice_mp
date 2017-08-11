@@ -104,14 +104,14 @@ class Login1 extends React.Component {
     }
     componentDidMount() {
     }
-    
+
     handleClick(e) {
         var code = $("#code").val();
         if (!code) {
             alert("请输入验证码");
             return;
         }
-        
+
         $.ajax({
             url: "/do_login",
             dataType: 'json',

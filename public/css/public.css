@@ -14,6 +14,9 @@ a{
   text-decoration: none;
   color: #606060;
 }
+a:focus, a:hover{
+  text-decoration: none;
+}
 label{
   margin: 0;
 }
@@ -24,6 +27,9 @@ label{
   background: #00A854;
   color: #fff;
   position: relative;
+}
+.estate_index_head a{
+  color: #fff;
 }
 .estate_index_head_icon{
   position: absolute;
@@ -42,7 +48,6 @@ label{
   display: -webkit-flex;
   display: flex;
   width: 100%;
-  background-color: #FAFAFA;
 }
 .weui-navbar__item_span{
   display: inline-block;
@@ -52,12 +57,18 @@ label{
   vertical-align: middle;
   margin-right: 3px;
 }
+.weui-navbar__item_span-back{
+  border: 1px solid #ccc;
+}
 .weui-navbar__item_span-back1{
   background: #fff;
-  border: 1px solid #999;
 }
 .weui-navbar__item_span-back2{
   background: #00A854;
+
+}
+.weui-navbar__item_span-back2 a{
+  color: #fff;
 }
 .weui-navbar__item_span-back3{
   background: #e4e2fa;
@@ -99,8 +110,6 @@ label{
 }
 .estate_index_table-wrap{
   overflow: auto;
-  border-top: 1px solid #CCCCCC;
-  border-bottom: 1px solid #CCCCCC;
   margin-top: 7px;
 }
 .estate_index_table_ul{
@@ -108,19 +117,22 @@ label{
   display: -webkit-flex;
   display: flex;
   width: 100%;
-  border-bottom: 1px solid #CCCCCC;
+}
+.estate_index_table_ul:first-child li{
+  border-top:  1px solid #CCCCCC;
 }
 .estate_index_table_ul:last-child{
   border-bottom:none;
 }
 .estate_index_table_ul li{
   border-right: 1px solid #CCCCCC;
+  border-bottom:  1px solid #CCCCCC;
   width: 107px;
   height: 50px;
 }
 .estate_index_table_ul li:first-child{
   border-left: none;
-  width: 30px;
+  width: 40px;
   text-align: center;
 }
 .estate_index_table_ul li:last-child{

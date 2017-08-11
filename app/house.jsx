@@ -7,10 +7,10 @@ class Wrap extends React.Component {
         super(props);
         this.handleClick=this.handleClick.bind(this);
         this.handlePurchase=this.handlePurchase.bind(this);
-        
-        this.state={item:{},"types":{},"purchases":[]};
+        this.handleback=this.handleback.bind(this);
+        this.state={item:{},"types":{},"purchases":[],num:0};
     }
-    
+
     componentDidMount() {
         if(from=='1'){
             $('#house_img_wrap').show();
@@ -19,12 +19,30 @@ class Wrap extends React.Component {
         }
         $("[name='checkbox']").attr("checked",'true');
 
+
+        //title名称
+        $.ajax({
+            url: "/get_estate_by_id",
+            dataType: 'json',
+            type: 'GET',
+            data:{'id':'1'},
+            success: function(data) {
+                if(data.success){
+                  var time_distance = data.time;
+                  this.setState({titleItem:data.rows[0]});
+                  count_down(time_distance);
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
+
         //本地缓存
         if (window.localStorage && localStorage.getItem("data")) {
             var data = JSON.parse(localStorage.getItem("data"));
             var rows = data.rows;
             var types = data.types;
-            
+
             for (var i = 0; i < rows.length; i++) {
                 if (rows[i].id == id) {
                     this.setState({"item":rows[i],"types":types});
@@ -44,7 +62,7 @@ class Wrap extends React.Component {
                         }
                         var rows = data.rows;
                         var types = data.types;
-                        
+
                         for (var i = 0; i < rows.length; i++) {
                             if (rows[i].id == id) {
                                 this.setState({"item":rows[i],"types":types});
@@ -55,8 +73,10 @@ class Wrap extends React.Component {
                 error: function(xhr, status, err) {
                 }.bind(this)
             });
+
+
         }
-       
+
        //查询成交信息
        $.ajax({
          url: "/get_purchases",
@@ -71,34 +91,97 @@ class Wrap extends React.Component {
          error: function(xhr, status, err) {
          }.bind(this)
         });
-    }
-    
-    handleClick(e){
-      var house_id = this.state.item.id;
-    
-      $.ajax({
-          url: "/save_collection",
+
+        // 查询当前房子收藏
+        $.ajax({
+          url: "/search_collection",
           dataType: 'json',
-          type: 'POST',
-          data: {'house_id':house_id},
+          type: 'GET',
+          data:{'house_id':id},
           success: function(data) {
-              if (data.success) {
-                  $('.estate_index_head_icon1').removeClass('fa-heart-o');
-                  $('.estate_index_head_icon1').addClass('fa-heart');
-                  $('.estate_index_head_icon1').css('color','red');
-              }else {
-                  alert("收藏失败！");
-              }
+           if(data.success){
+             var num = data.num;
+             if(num!=0){
+               $('.estate_index_head_icon1').removeClass('fa-heart-o');
+               $('.estate_index_head_icon1').addClass('fa-heart');
+               $('.estate_index_head_icon1').css('color','red');
+             }
+             this.setState({num:num})
+
+           }
           }.bind(this),
           error: function(xhr, status, err) {
           }.bind(this)
-      });
+         });
     }
-    
+
+    handleClick(e){
+      var house_id = this.state.item.id;
+      var num = this.state.num;
+      if (num==0) {
+        $.ajax({
+            url: "/save_collection",
+            dataType: 'json',
+            type: 'POST',
+            data: {'house_id':house_id},
+            success: function(data) {
+                if (data.success) {
+                  $('.estate_index_head_icon1').removeClass('fa-heart-o');
+                  $('.estate_index_head_icon1').addClass('fa-heart');
+                  $('.estate_index_head_icon1').css('color','red');
+                  this.setState({num:1});
+                  if ($('#isok').css('display') != 'none') return;
+                      $('#isok').fadeIn(100);
+                      setTimeout(function () {
+                          $('#isok').fadeOut(100);
+                      }, 2000);
+                }else {
+                  if ($('#warn').css('display') != 'none') return;
+                      $('#warn').fadeIn(100);
+                      setTimeout(function () {
+                          $('#warn').fadeOut(100);
+                      }, 2000);
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
+      }else{
+          $.ajax({
+              url: "/cancel_collection",
+              dataType: 'json',
+              type: 'POST',
+              data: {'house_id':house_id},
+              success: function(data) {
+                  if (data.success) {
+                      $('.estate_index_head_icon1').removeClass('fa-heart');
+                      $('.estate_index_head_icon1').addClass('fa-heart-o');
+                      $('.estate_index_head_icon1').css('color','#fff');
+                      this.setState({num:0});
+                      if ($('#isno').css('display') != 'none') return;
+                          $('#isno').fadeIn(100);
+                          setTimeout(function () {
+                              $('#isno').fadeOut(100);
+                          }, 2000);
+                  }else {
+                    if ($('#warn').css('display') != 'none') return;
+                        $('#warn').fadeIn(100);
+                        setTimeout(function () {
+                            $('#warn').fadeOut(100);
+                        }, 2000);
+                  }
+              }.bind(this),
+              error: function(xhr, status, err) {
+              }.bind(this)
+          });
+      }
+
+    }
+
     //订购
     handlePurchase(e) {
         var house_id = this.state.item.id;
-    
+
         $.ajax({
             url: "/save_purchase",
             dataType: 'json',
@@ -106,48 +189,63 @@ class Wrap extends React.Component {
             data: {'house_id':house_id},
             success: function(data) {
                 if (data.success) {
-                    alert("订购成功！");
+                  if ($('#buyok').css('display') != 'none') return;
+                      $('#buyok').fadeIn(100);
+                      setTimeout(function () {
+                          $('#buyok').fadeOut(100);
+                      }, 2000);
                 }else {
-                    alert("订购失败！");
+                  if ($('#buyno').css('display') != 'none') return;
+                      $('#buyno').fadeIn(100);
+                      setTimeout(function () {
+                          $('#buyno').fadeOut(100);
+                      }, 2000);
                 }
             }.bind(this),
             error: function(xhr, status, err) {
             }.bind(this)
         });
     }
-    
+
+    handleback(e){
+      if(from){
+        location.href='/index';
+      }else {
+        location.href='/my_collection';
+      }
+    }
     render() {
         var style = {display:"none"};
         var img = "";
         var house_type_id = this.state.item.house_type_id;
         var house_type_name = "";
-        
+
         if (house_type_id && this.state.types[house_type_id]) {
             img = 'images/'+this.state.types[house_type_id].picture;
             house_type_name = this.state.types[house_type_id].name;
         }
-        
+
         var house_id = this.state.item.id;
-        
+
         //房子成交信息
         var house_state = (<div className="weui-cell__bd">
-            <span className="weui-navbar__item_span weui-navbar__item_span-back1"></span>
+            <span className="weui-navbar__item_span weui-navbar__item_span-back"></span>
             <span className="estate_house_infor">未售</span>
         </div>);
-        
+
         if ("未推" == this.state.item.is_push) {
             house_state = (<div className="weui-cell__bd">
             <span className="weui-navbar__item_span weui-navbar__item_span-back3"></span>
             <span className="estate_house_infor">未推</span>
             </div>);
         }
-        
+
         var purchase = (<div className="weui-cell house_background_color1">
                     <div className="weui-cell__bd">
-                        <textarea className="weui-textarea" placeholder="暂无售房记录" rows="3" readOnly="readOnly"></textarea>
+                        <p className="weui-textarea">暂无售房记录</p>
                     </div>
                     </div>);
-        
+
         var purchases = this.state.purchases;
         for (var i = 0; i < purchases.length; i++) {
             if (purchases[i].house_id == house_id) {
@@ -155,7 +253,7 @@ class Wrap extends React.Component {
                     <span className="weui-navbar__item_span weui-navbar__item_span-back2"></span>
                     <span className="estate_house_infor">已售</span>
                 </div>);
-                    
+
                 purchase = (<div className="weui-cell house_background_color1">
                     <div className="weui-cell__bd">
                       <div className="weui-cell">
@@ -178,12 +276,12 @@ class Wrap extends React.Component {
         return (
             <div className="wrap">
               <div className="estate_index_head">
-                <div className="estate_index_title">中建溪岸澜庭</div>
-                <i className="fa fa-chevron-circle-left estate_index_head_icon"></i>
+                <div className="estate_index_title">{this.state.item.building_id}-{this.state.item.door_num}</div>
+                <i className="fa fa-chevron-circle-left estate_index_head_icon" onClick={this.handleback}></i>
                 <i className="fa fa-heart-o estate_index_head_icon1" onClick={this.handleClick}></i>
               </div>
 
-              <div className="estate_index_time">距离选房开始: 01 天02小时30分9秒</div>
+              <div className="estate_index_time"></div>
 
               <div className="weui-cells house_background_color">
                   <div className="weui-cell weui-cell_access">
@@ -318,6 +416,47 @@ class Wrap extends React.Component {
                     </div>
                 </div>
               </div>
+
+              <div id="isok" style={style}>
+                  <div className="weui-mask_transparent"></div>
+                  <div className="weui-toast">
+                      <i className="weui-icon-success weui-icon_msg"></i>
+                      <p className="weui-toast__content">收藏成功</p>
+                  </div>
+              </div>
+
+              <div id="isno" style={style}>
+                  <div className="weui-mask_transparent"></div>
+                  <div className="weui-toast">
+                      <i className="weui-icon-info weui-icon_msg"></i>
+                      <p className="weui-toast__content">取消收藏成功</p>
+                  </div>
+              </div>
+
+              <div id="warn" style={style}>
+                  <div className="weui-mask_transparent"></div>
+                  <div className="weui-toast">
+                      <i className="weui-icon-warn weui-icon_msg"></i>
+                      <p className="weui-toast__content">操作失败</p>
+                  </div>
+              </div>
+
+              <div id="buyok" style={style}>
+                  <div className="weui-mask_transparent"></div>
+                  <div className="weui-toast">
+                      <i className="weui-icon-success weui-icon_msg"></i>
+                      <p className="weui-toast__content">购买成功</p>
+                  </div>
+              </div>
+
+              <div id="buyno" style={style}>
+                  <div className="weui-mask_transparent"></div>
+                  <div className="weui-toast">
+                      <i className="weui-icon-warn weui-icon_msg"></i>
+                      <p className="weui-toast__content">购买失败</p>
+                  </div>
+              </div>
+
           </div>
         );
     }

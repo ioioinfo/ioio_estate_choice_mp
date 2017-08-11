@@ -19,5 +19,43 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app/index.js"></script>
 
+    <script type="text/javascript"  language="javascript">
+        //定义倒计时函数
+        var count_down = function(time_distance){
+          if (time_distance<=0) {
+            $('.estate_index_time').html("选购已开始");
+          }
+          var orign_time_distance = time_distance;
+
+          var int_day, int_hour, int_minute, int_second;
+          // 相减的差数换算成天数
+          int_day = Math.floor(time_distance/86400000)
+          time_distance -= int_day * 86400000;
+          // 相减的差数换算成小时
+          int_hour = Math.floor(time_distance/3600000)
+          time_distance -= int_hour * 3600000;
+          // 相减的差数换算成分钟
+          int_minute = Math.floor(time_distance/60000)
+          time_distance -= int_minute * 60000;
+          // 相减的差数换算成秒数
+          int_second = Math.floor(time_distance/1000)
+          // 判断小时小于10时，前面加0进行占位
+          if(int_hour < 10)
+          int_hour = "0" + int_hour;
+          // 判断分钟小于10时，前面加0进行占位
+          if(int_minute < 10)
+          int_minute = "0" + int_minute;
+          // 判断秒数小于10时，前面加0进行占位
+          if(int_second < 10)
+          int_second = "0" + int_second;
+          // 显示倒计时效果
+          var time = '据选购开始还有'+int_day+'天'+int_hour+'小时'+int_minute+'分钟'+int_second+'秒';
+          $('.estate_index_time').html(time);
+
+          orign_time_distance = orign_time_distance - 1000;
+          setTimeout("count_down("+orign_time_distance+")",1000);
+        }
+
+    </script>
 </body>
 </html>
