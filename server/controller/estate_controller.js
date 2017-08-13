@@ -155,6 +155,24 @@ exports.register = function(server, options, next) {
                 });
             }
         },
+		//同个房源收藏次数
+        {
+            method: "GET",
+            path: '/get_num_by_house',
+            handler: function(request, reply) {
+				var house_id = request.query.house_id;
+				if (!house_id) {
+					return reply({"success":false,"message":"house_id null","service_info":service_info});
+				}
+                education_api.get_num_by_house(house_id,function(err,rows){
+                    if (!err) {
+                        return reply(rows);
+                    }else {
+                        return reply({"success":false,"message":rows.message});
+                    }
+                });
+            }
+        },
         //筹号获取用户信息
         {
             method: "GET",
