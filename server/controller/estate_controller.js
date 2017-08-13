@@ -125,6 +125,25 @@ exports.register = function(server, options, next) {
 		//筹号房源所有信息
         {
             method: "GET",
+            path: '/get_user',
+            handler: function(request, reply) {
+				get_cookie_user_id(request,function(user_id){
+					if (!user_id) {
+	                    return reply({"success":false,"message":"user_id null","service_info":service_info});
+	                }
+					education_api.get_user(user_id, function(err,rows){
+	                    if (!err) {
+	                        return reply(rows);
+	                    }else {
+	                        return reply({"success":false,"message":rows.message});
+	                    }
+	                });
+				});
+            }
+        },
+		//筹号房源所有信息
+        {
+            method: "GET",
             path: '/get_infos',
             handler: function(request, reply) {
                 education_api.get_infos(function(err,rows){
