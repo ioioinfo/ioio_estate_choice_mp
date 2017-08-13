@@ -22559,16 +22559,19 @@ var Login1 = function (_React$Component3) {
 
     _createClass(Login1, [{
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            $("#weuiAgree").attr("checked", 'true');
+        }
     }, {
         key: 'handleClick',
         value: function handleClick(e) {
             var code = $("#code").val();
+
             if (!code) {
                 alert("请输入验证码");
                 return;
             }
-
+            var check = $("#weuiAgree").prop('checked');
             $.ajax({
                 url: "/do_login",
                 dataType: 'json',
@@ -22576,7 +22579,14 @@ var Login1 = function (_React$Component3) {
                 data: { 'number': number, "code": code },
                 success: function (data) {
                     if (data.success) {
-                        location.href = "/index";
+                        if (check == true) {
+                            location.href = "/index";
+                        } else {
+                            {
+                                alert('请勾选认购协议');
+                                return;
+                            }
+                        }
                     } else {
                         if ($('#warn').css('display') != 'none') return;
                         $('#warn').fadeIn(100);
@@ -22611,6 +22621,21 @@ var Login1 = function (_React$Component3) {
                             'button',
                             { className: 'weui-vcode-btn' },
                             '\u83B7\u53D6\u9A8C\u8BC1\u7801'
+                        )
+                    )
+                ),
+                React.createElement(
+                    'label',
+                    { className: 'weui-agree' },
+                    React.createElement('input', { id: 'weuiAgree', name: 'checkbox', type: 'checkbox', className: 'weui-agree__checkbox' }),
+                    React.createElement(
+                        'span',
+                        { className: 'weui-agree__text' },
+                        '\u9605\u8BFB\u5E76\u540C\u610F',
+                        React.createElement(
+                            'a',
+                            { href: '#' },
+                            '\u300A\u672C\u4EBA\u5DF2\u9605\u8BFB\u5E76\u540C\u610F\u5FAE\u4FE1\u9009\u623F\u8BA4\u7B79\u534F\u8BAE\u300B'
                         )
                     )
                 ),

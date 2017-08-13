@@ -103,15 +103,17 @@ class Login1 extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
     componentDidMount() {
+      $("#weuiAgree").attr("checked",'true');
     }
 
     handleClick(e) {
         var code = $("#code").val();
+
         if (!code) {
             alert("请输入验证码");
             return;
         }
-
+        var check = $("#weuiAgree").prop('checked');
         $.ajax({
             url: "/do_login",
             dataType: 'json',
@@ -119,7 +121,15 @@ class Login1 extends React.Component {
             data: {'number':number,"code":code},
             success: function(data) {
               if (data.success) {
-                  location.href = "/index";
+                  if(check==true){
+                    location.href = "/index";
+                  }else {
+                    {
+                      alert('请勾选认购协议');
+                      return;
+                    }
+                  }
+
               }else {
                 if ($('#warn').css('display') != 'none') return;
                     $('#warn').fadeIn(100);
@@ -147,6 +157,14 @@ class Login1 extends React.Component {
                         <button className="weui-vcode-btn">获取验证码</button>
                     </div>
                 </div>
+
+                <label className="weui-agree">
+                    <input id="weuiAgree" name="checkbox" type="checkbox" className="weui-agree__checkbox" />
+                    <span className="weui-agree__text">
+                        阅读并同意<a href="#">《本人已阅读并同意微信选房认筹协议》</a>
+                    </span>
+                </label>
+
                 <div className="checkbox"></div>
                 <button className="btn btn-lg btn-primary btn-block" type="submit" onClick={this.handleClick}>登 录</button>
             </div>
