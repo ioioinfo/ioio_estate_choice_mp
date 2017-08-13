@@ -22414,7 +22414,7 @@ var Wrap = function (_React$Component) {
 
         _this.handleClick = _this.handleClick.bind(_this);
         // 初始化一个空对象
-        _this.state = { houseItems: [], m_purchase: {} };
+        _this.state = { houseItems: [], titleItem: {}, m_purchase: {} };
         return _this;
     }
 
@@ -22487,7 +22487,7 @@ var Wrap = function (_React$Component) {
                     React.createElement(
                         'div',
                         { className: 'estate_index_title' },
-                        '\u4E2D\u5EFA\u6EAA\u5CB8\u6F9C\u5EAD'
+                        this.state.titleItem.name
                     )
                 ),
                 React.createElement('div', { className: 'estate_index_time' }),

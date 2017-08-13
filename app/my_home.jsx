@@ -5,11 +5,39 @@ var ReactDOM = require('react-dom');
 class Wrap extends React.Component {
     constructor(props) {
         super(props);
-        // 初始化一个空对象
-        this.state={item:{},user:{}};
+
+        this.state={item:{},user:{},"buildings":[]};
     }
+
     componentDidMount() {
       $("[name='checkbox']").attr("checked",'true');
+
+        //本地缓存
+        if (window.localStorage && localStorage.getItem("data")) {
+            var data = JSON.parse(localStorage.getItem("data"));
+
+            var buildings = data.buildings;
+            this.setState({"buildings":buildings});
+        } else {
+            //查询所有房屋信息
+            $.ajax({
+                url: "/get_all_infos",
+                dataType: 'json',
+                type: 'GET',
+                data:{'area_id':'1'},
+                success: function(data) {
+                    if(data.success){
+                        if (window.localStorage) {
+                            localStorage.setItem("data",JSON.stringify(data));
+                        }
+                        var buildings = data.buildings;
+                        this.setState({"buildings":buildings});
+                    }
+                }.bind(this),
+                error: function(xhr, status, err) {
+                }.bind(this)
+            });
+        }
 
       $.ajax({
         url: "/get_purchase_byUser",
@@ -18,7 +46,7 @@ class Wrap extends React.Component {
         data:{},
         success: function(data) {
          if(data.success){
-           this.setState({item:data.rows[0].house,user:data.user});
+           this.setState({item:data.rows[0].house,titleItem:{},user:data.user});
          }
         }.bind(this),
         error: function(xhr, status, err) {
@@ -44,12 +72,20 @@ class Wrap extends React.Component {
     }
     render() {
         var style = {display:"none"};
+
+        var building_name;
+        var buildings = this.state.buildings;
+        for (var i = 0; i < buildings.length; i++) {
+          if (buildings[i].id == this.state.item.building_id) {
+            building_name = buildings[i].name;
+          }
+        }
+
         return (
             <div className="wrap">
               <div className="estate_index_head">
-                <div className="estate_index_title">{this.state.item.building_id}-{this.state.item.door_num}</div>
+                <div className="estate_index_title">{building_name}-{this.state.item.door_num}</div>
                 <a href="index"><i className="fa fa-chevron-circle-left estate_index_head_icon"></i></a>
-                <i className="fa fa-heart-o estate_index_head_icon1"></i>
               </div>
 
               <div className="estate_index_time">本次购房已结束</div>
@@ -82,13 +118,13 @@ class Wrap extends React.Component {
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">总价</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.total_price}</span>
+                        <span className="estate_house_infor">{this.state.item.total_price}元</span>
                     </div>
                 </div>
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">单价</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">{this.state.item.per_price}</span>
+                        <span className="estate_house_infor">{this.state.item.per_price}元</span>
                     </div>
                 </div>
                 <div className="weui-cell">
@@ -135,8 +171,8 @@ class Wrap extends React.Component {
 
               <div className="weui-tabbar" id="buy">
                   <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
-                      <i className="fa fa-gavel weui-tabbar__icon"></i>
-                      <p className="weui-tabbar__label">认购成功</p>
+                      <i className="fa fa-gavel weui-tabbar__icon yirengou"></i>
+                      <p className="weui-tabbar__label yirengou">认购成功</p>
                   </a>
               </div>
 

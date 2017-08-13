@@ -20,6 +20,9 @@ a:focus, a:hover{
 label{
   margin: 0;
 }
+.weui-tabbar .weui-bar__item_on .yirengou{
+  color: #FFA500;
+}
 .estate_index_head{
   height: 44px;
   line-height: 44px;

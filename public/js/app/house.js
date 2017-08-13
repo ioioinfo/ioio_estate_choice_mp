@@ -22411,7 +22411,7 @@ var Wrap = function (_React$Component) {
         _this.handleClick = _this.handleClick.bind(_this);
         _this.handlePurchase = _this.handlePurchase.bind(_this);
         _this.handleback = _this.handleback.bind(_this);
-        _this.state = { item: {}, buildings: [], "types": {}, "purchases": [], num: 0 };
+        _this.state = { item: {}, titleItem: {}, userItem: {}, buildings: [], "types": {}, "purchases": [], num: 0 };
         return _this;
     }
 
@@ -22436,6 +22436,20 @@ var Wrap = function (_React$Component) {
                         var time_distance = data.time;
                         this.setState({ titleItem: data.rows[0] });
                         count_down(time_distance);
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+
+            //用户信息
+            $.ajax({
+                url: "/get_user",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        this.setState({ userItem: data.rows[0] });
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
@@ -22606,6 +22620,21 @@ var Wrap = function (_React$Component) {
                 error: function (xhr, status, err) {}.bind(this)
             });
         }
+
+        //确认购买
+
+    }, {
+        key: 'handleBuy',
+        value: function handleBuy(e) {
+            $("#buy_infor").fadeIn(10);
+            $(".weui-mask").on('click', function () {
+                $("#buy_infor").fadeOut(10);
+            });
+
+            $(".weui-form-preview__btn_default").on('click', function () {
+                $("#buy_infor").fadeOut(10);
+            });
+        }
     }, {
         key: 'handleback',
         value: function handleback(e) {
@@ -22677,6 +22706,21 @@ var Wrap = function (_React$Component) {
                 )
             );
 
+            var button = React.createElement(
+                'div',
+                { className: 'weui-tabbar', onClick: this.handleBuy },
+                React.createElement(
+                    'a',
+                    { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                    React.createElement('i', { className: 'fa fa-shopping-bag weui-tabbar__icon' }),
+                    React.createElement(
+                        'p',
+                        { className: 'weui-tabbar__label' },
+                        '\u6211\u8981\u8BA4\u8D2D'
+                    )
+                )
+            );
+
             var purchases = this.state.purchases;
             for (var i = 0; i < purchases.length; i++) {
                 if (purchases[i].house_id == house_id) {
@@ -22688,6 +22732,21 @@ var Wrap = function (_React$Component) {
                             'span',
                             { className: 'estate_house_infor' },
                             '\u5DF2\u552E'
+                        )
+                    );
+
+                    button = React.createElement(
+                        'div',
+                        { className: 'weui-tabbar' },
+                        React.createElement(
+                            'a',
+                            { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                            React.createElement('i', { className: 'fa fa-gavel weui-tabbar__icon yirengou' }),
+                            React.createElement(
+                                'p',
+                                { className: 'weui-tabbar__label yirengou' },
+                                '\u5DF2\u8BA4\u8D2D'
+                            )
                         )
                     );
 
@@ -22744,19 +22803,6 @@ var Wrap = function (_React$Component) {
                         )
                     );
                 }
-            }
-
-            var button = React.createElement(
-                'p',
-                { className: 'weui-tabbar__label' },
-                '\u6211\u8981\u8BA4\u8D2D'
-            );
-            if (this.state.item.address == '已售') {
-                button = React.createElement(
-                    'p',
-                    { className: 'weui-tabbar__label' },
-                    '\u6211\u8981\u8BA4\u8D2D'
-                );
             }
 
             return React.createElement(
@@ -22990,16 +23036,7 @@ var Wrap = function (_React$Component) {
                     purchase
                 ),
                 React.createElement('div', { className: 'estate_index_background1' }),
-                React.createElement(
-                    'div',
-                    { className: 'weui-tabbar', id: 'buy' },
-                    React.createElement(
-                        'a',
-                        { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
-                        React.createElement('i', { className: 'fa fa-shopping-bag weui-tabbar__icon' }),
-                        button
-                    )
-                ),
+                button,
                 React.createElement(
                     'div',
                     { className: 'weui-skin_android', id: 'buy_infor', style: style },
@@ -23033,7 +23070,7 @@ var Wrap = function (_React$Component) {
                                     React.createElement(
                                         'span',
                                         { className: 'estate_house_infor' },
-                                        '\u5468\u6DA6\u534E'
+                                        this.state.userItem.name
                                     )
                                 )
                             ),
@@ -23055,7 +23092,7 @@ var Wrap = function (_React$Component) {
                                     React.createElement(
                                         'span',
                                         { className: 'estate_house_infor' },
-                                        '123456789'
+                                        this.state.userItem.number
                                     )
                                 )
                             ),
@@ -23077,7 +23114,7 @@ var Wrap = function (_React$Component) {
                                     React.createElement(
                                         'span',
                                         { className: 'estate_house_infor' },
-                                        '987654321'
+                                        this.state.userItem.phone
                                     )
                                 )
                             ),

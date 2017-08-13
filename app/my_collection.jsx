@@ -7,7 +7,7 @@ class Wrap extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         // 初始化一个空对象
-        this.state={houseItems:[],m_purchase:{}};
+        this.state={houseItems:[],titleItem:{},m_purchase:{}};
     }
 
     componentDidMount() {
@@ -71,7 +71,7 @@ class Wrap extends React.Component {
         return (
             <div className="wrap">
                 <div className="estate_index_head">
-                  <div className="estate_index_title">中建溪岸澜庭</div>
+                  <div className="estate_index_title">{this.state.titleItem.name}</div>
                 </div>
 
                 <div className="estate_index_time"></div>

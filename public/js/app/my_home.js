@@ -22411,10 +22411,9 @@ var Wrap = function (_React$Component) {
     function Wrap(props) {
         _classCallCheck(this, Wrap);
 
-        // 初始化一个空对象
         var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
 
-        _this.state = { item: {}, user: {} };
+        _this.state = { item: {}, user: {}, "buildings": [] };
         return _this;
     }
 
@@ -22423,6 +22422,32 @@ var Wrap = function (_React$Component) {
         value: function componentDidMount() {
             $("[name='checkbox']").attr("checked", 'true');
 
+            //本地缓存
+            if (window.localStorage && localStorage.getItem("data")) {
+                var data = JSON.parse(localStorage.getItem("data"));
+
+                var buildings = data.buildings;
+                this.setState({ "buildings": buildings });
+            } else {
+                //查询所有房屋信息
+                $.ajax({
+                    url: "/get_all_infos",
+                    dataType: 'json',
+                    type: 'GET',
+                    data: { 'area_id': '1' },
+                    success: function (data) {
+                        if (data.success) {
+                            if (window.localStorage) {
+                                localStorage.setItem("data", JSON.stringify(data));
+                            }
+                            var buildings = data.buildings;
+                            this.setState({ "buildings": buildings });
+                        }
+                    }.bind(this),
+                    error: function (xhr, status, err) {}.bind(this)
+                });
+            }
+
             $.ajax({
                 url: "/get_purchase_byUser",
                 dataType: 'json',
@@ -22430,7 +22455,7 @@ var Wrap = function (_React$Component) {
                 data: {},
                 success: function (data) {
                     if (data.success) {
-                        this.setState({ item: data.rows[0].house, user: data.user });
+                        this.setState({ item: data.rows[0].house, titleItem: {}, user: data.user });
                     }
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
@@ -22456,6 +22481,15 @@ var Wrap = function (_React$Component) {
         key: 'render',
         value: function render() {
             var style = { display: "none" };
+
+            var building_name;
+            var buildings = this.state.buildings;
+            for (var i = 0; i < buildings.length; i++) {
+                if (buildings[i].id == this.state.item.building_id) {
+                    building_name = buildings[i].name;
+                }
+            }
+
             return React.createElement(
                 'div',
                 { className: 'wrap' },
@@ -22465,7 +22499,7 @@ var Wrap = function (_React$Component) {
                     React.createElement(
                         'div',
                         { className: 'estate_index_title' },
-                        this.state.item.building_id,
+                        building_name,
                         '-',
                         this.state.item.door_num
                     ),
@@ -22473,8 +22507,7 @@ var Wrap = function (_React$Component) {
                         'a',
                         { href: 'index' },
                         React.createElement('i', { className: 'fa fa-chevron-circle-left estate_index_head_icon' })
-                    ),
-                    React.createElement('i', { className: 'fa fa-heart-o estate_index_head_icon1' })
+                    )
                 ),
                 React.createElement(
                     'div',
@@ -22588,7 +22621,8 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                this.state.item.total_price
+                                this.state.item.total_price,
+                                '\u5143'
                             )
                         )
                     ),
@@ -22610,7 +22644,8 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                this.state.item.per_price
+                                this.state.item.per_price,
+                                '\u5143'
                             )
                         )
                     ),
@@ -22760,10 +22795,10 @@ var Wrap = function (_React$Component) {
                     React.createElement(
                         'a',
                         { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
-                        React.createElement('i', { className: 'fa fa-gavel weui-tabbar__icon' }),
+                        React.createElement('i', { className: 'fa fa-gavel weui-tabbar__icon yirengou' }),
                         React.createElement(
                             'p',
-                            { className: 'weui-tabbar__label' },
+                            { className: 'weui-tabbar__label yirengou' },
                             '\u8BA4\u8D2D\u6210\u529F'
                         )
                     )
