@@ -169,6 +169,7 @@ class Wrap extends React.Component {
                     <p>房号： {item.door_num}</p>
                     <p>价格： {item.total_price}</p>
                   </a>
+                  <i className="collection_number">11</i>
                   </li>);
 
                 houses.push(house);

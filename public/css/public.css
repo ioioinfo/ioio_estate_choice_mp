@@ -132,6 +132,7 @@ label{
   border-bottom:  1px solid #CCCCCC;
   width: 107px;
   height: 50px;
+  position: relative;
 }
 .estate_index_table_ul li:first-child{
   border-left: none;
@@ -290,4 +291,19 @@ label{
 .index_buile_style{
   background:#55ABDE;
   color:#fff;
+}
+
+/*首页收藏数量*/
+.collection_number{
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 50%;
+  background: red;
+  color: #fff;
 }
