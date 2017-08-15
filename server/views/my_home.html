@@ -24,6 +24,7 @@
         var count_down = function(time_distance){
           if (time_distance<=0) {
             $('.estate_index_time').html("选购已开始");
+            return;
           }
           var orign_time_distance = time_distance;
 
@@ -56,6 +57,16 @@
           setTimeout("count_down("+orign_time_distance+")",1000);
         }
 
+    </script>
+    <script type="text/javascript">
+      $(function(){
+        $(".house_img_sure").on('click', function(){
+            $("#house_img_wrap").fadeOut(10);
+            $(".weui-mask").on('click', function(){
+              $("#house_img_wrap").fadeOut(10);
+            })
+        })
+      })
     </script>
 </body>
 </html>

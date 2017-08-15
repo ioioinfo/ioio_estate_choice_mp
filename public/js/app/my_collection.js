@@ -22494,6 +22494,7 @@ var Wrap = function (_React$Component) {
                 this.state.houseItems.map(function (item, index) {
                     return React.createElement(House, { key: index, item: item, m_purchase: _this2.state.m_purchase, index: index, onClick: _this2.handleClick.bind(_this2, item.id) });
                 }),
+                React.createElement('div', { className: 'bottom_background' }),
                 React.createElement(
                     'div',
                     { className: 'weui-tabbar' },
@@ -22547,7 +22548,7 @@ var House = function (_React$Component2) {
                 '\u672A\u552E'
             );
 
-            if ("未推" == this.props.item.is_push) {
+            if ("未推" == this.props.item.house.is_push) {
                 house_state = React.createElement(
                     'p',
                     { className: 'my_collection_title' },

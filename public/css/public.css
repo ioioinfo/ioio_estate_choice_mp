@@ -23,6 +23,10 @@ label{
 .weui-tabbar .weui-bar__item_on .yirengou{
   color: #FFA500;
 }
+
+.weui-tabbar .weui-bar__item_on .norengou{
+  color: #C75EB0;
+}
 .estate_index_head{
   height: 44px;
   line-height: 44px;
@@ -132,6 +136,7 @@ label{
   border-bottom:  1px solid #CCCCCC;
   width: 107px;
   height: 50px;
+  position: relative;
 }
 .estate_index_table_ul li:first-child{
   border-left: none;
@@ -290,4 +295,60 @@ label{
 .index_buile_style{
   background:#55ABDE;
   color:#fff;
+}
+
+/*首页收藏数量*/
+.collection_number{
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 50%;
+  background: red;
+  color: #fff;
+}
+#look_map{
+  font-size: 14px;
+  color: #CC3300;
+}
+.look_map_icon{
+  margin-right: 7px;
+}
+.weui-form-preview__label{
+  color: #333;
+}
+.house_position{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: none;
+}
+.xaioqu_map_wrap{
+
+  background: #000;
+
+}
+.xaioqu_map_wrap img{
+  width: 100%;
+}
+.xaioqu_map_wrap_img{
+  padding-top: 50%;
+}
+.my_home_word{
+  padding: 7px;
+  line-height: 40px;
+  color: #333;
+}
+.red{
+  color: red;
+}
+.bottom_background{
+  height: 53px;
 }

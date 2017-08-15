@@ -22413,7 +22413,7 @@ var Wrap = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
 
-        _this.state = { item: {}, user: {}, "buildings": [] };
+        _this.state = { item: {}, user: {}, "buildings": [], "types": {} };
         return _this;
     }
 
@@ -22426,8 +22426,9 @@ var Wrap = function (_React$Component) {
             if (window.localStorage && localStorage.getItem("data")) {
                 var data = JSON.parse(localStorage.getItem("data"));
 
+                var types = data.types;
                 var buildings = data.buildings;
-                this.setState({ "buildings": buildings });
+                this.setState({ "buildings": buildings, "types": types });
             } else {
                 //查询所有房屋信息
                 $.ajax({
@@ -22440,8 +22441,9 @@ var Wrap = function (_React$Component) {
                             if (window.localStorage) {
                                 localStorage.setItem("data", JSON.stringify(data));
                             }
+                            var types = data.types;
                             var buildings = data.buildings;
-                            this.setState({ "buildings": buildings });
+                            this.setState({ "buildings": buildings, "types": types });
                         }
                     }.bind(this),
                     error: function (xhr, status, err) {}.bind(this)
@@ -22482,6 +22484,13 @@ var Wrap = function (_React$Component) {
         value: function render() {
             var style = { display: "none" };
 
+            var house_type_id = this.state.item.house_type_id;
+            var house_type_name = "";
+
+            if (house_type_id && this.state.types[house_type_id]) {
+                house_type_name = this.state.types[house_type_id].name;
+            }
+
             var building_name;
             var buildings = this.state.buildings;
             for (var i = 0; i < buildings.length; i++) {
@@ -22490,6 +22499,38 @@ var Wrap = function (_React$Component) {
                 }
             }
 
+            var wordalert = React.createElement(
+                'div',
+                { className: 'weui-skin_android', id: 'house_img_wrap' },
+                React.createElement('div', { className: 'weui-mask' }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-actionsheet' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-actionsheet__menu' },
+                        React.createElement(
+                            'p',
+                            { className: 'my_home_word' },
+                            '\u606D\u559C\u8BA4\u8D2D\u6210\u529F\uFF0C\u8BF7\u5728',
+                            React.createElement(
+                                'span',
+                                { className: 'red' },
+                                'X\u5E74X\u6708X\u65E5'
+                            ),
+                            '\u5230\u552E\u697C\u4E2D\u5FC3\u7B7E\u7F72\u8BA4\u8D2D\u534F\u8BAE\uFF0C\u82E5\u8D85\u51FA\u65F6\u95F4\u672A\u7B7E\u5B57\u89C6\u4E3A\u653E\u5F03\u3002'
+                        ),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label house_img_sure' },
+                            '\u77E5\u9053\u4E86'
+                        )
+                    )
+                )
+            );
+            if (this.state.item == "") {
+                wordalert = "";
+            }
             return React.createElement(
                 'div',
                 { className: 'wrap' },
@@ -22549,29 +22590,6 @@ var Wrap = function (_React$Component) {
                                 'span',
                                 { className: 'estate_house_infor' },
                                 this.state.item.address
-                            )
-                        )
-                    ),
-                    React.createElement(
-                        'div',
-                        { className: 'weui-cell' },
-                        React.createElement(
-                            'div',
-                            { className: 'weui-cell__hd' },
-                            React.createElement(
-                                'label',
-                                { className: 'weui-label estate_house_name' },
-                                '\u72B6\u6001'
-                            )
-                        ),
-                        React.createElement(
-                            'div',
-                            { className: 'weui-cell__bd' },
-                            React.createElement('span', { className: 'estate_house_state' }),
-                            React.createElement(
-                                'span',
-                                { className: 'estate_house_infor' },
-                                this.state.item.is_push
                             )
                         )
                     ),
@@ -22689,8 +22707,7 @@ var Wrap = function (_React$Component) {
                             React.createElement(
                                 'span',
                                 { className: 'estate_house_infor' },
-                                '5',
-                                this.state.item.product_type
+                                house_type_name
                             )
                         )
                     ),
@@ -22802,7 +22819,8 @@ var Wrap = function (_React$Component) {
                             '\u8BA4\u8D2D\u6210\u529F'
                         )
                     )
-                )
+                ),
+                wordalert
             );
         }
     }]);

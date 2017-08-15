@@ -6,7 +6,7 @@ class Wrap extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.get_house = this.get_house.bind(this);
-        this.state={building_id:0,rows:[],areaItems:[],floors:[],m_house:{},"m_purchase":{},titleItem:{}};
+        this.state={building_id:0,rows:[],areaItems:[],floors:[],m_house:{},"m_purchase":{},titleItem:{},housenum:{}};
     }
 
     //根据幢查询房子信息
@@ -97,6 +97,22 @@ class Wrap extends React.Component {
         });
 
 
+        //title名称
+        $.ajax({
+            url: "/search_collection_nums",
+            dataType: 'json',
+            type: 'GET',
+            data:{},
+            success: function(data) {
+                if(data.success){
+                  this.setState({housenum:data.collect_map});
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
+
+
 
         //本地缓存
         if (window.localStorage && localStorage.getItem("data")) {
@@ -164,11 +180,17 @@ class Wrap extends React.Component {
                     cls = "weui-navbar__item_span-back2";
                 }
 
+                var collection_number = "";
+                if (state.housenum[item.id]) {
+                  collection_number = (<i className="collection_number">{state.housenum[item.id]}</i>);
+                }
+
                 var house = (<li key={item.id} className={cls}>
                   <a href={"house?from=1&id="+item.id}>
                     <p>房号： {item.door_num}</p>
                     <p>价格： {item.total_price}</p>
                   </a>
+                  {collection_number}
                   </li>);
 
                 houses.push(house);

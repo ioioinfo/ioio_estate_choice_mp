@@ -241,6 +241,8 @@ class Wrap extends React.Component {
         location.href='/my_collection';
       }
     }
+
+    // 小区分布图
     render() {
         var style = {display:"none"};
         var img = "";
@@ -268,10 +270,24 @@ class Wrap extends React.Component {
             <span className="estate_house_infor">未售</span>
         </div>);
 
+        var button = (<div className="weui-tabbar" onClick={this.handleBuy}>
+                  <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
+                      <i className="fa fa-shopping-bag weui-tabbar__icon"></i>
+                      <p className="weui-tabbar__label">我要认购</p>
+                  </a>
+                  </div>);
+
         if ("未推" == this.state.item.is_push) {
             house_state = (<div className="weui-cell__bd">
             <span className="weui-navbar__item_span weui-navbar__item_span-back3"></span>
             <span className="estate_house_infor">未推</span>
+            </div>);
+
+            button = (<div className="weui-tabbar">
+              <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
+                  <i className="fa fa-times-circle weui-tabbar__icon norengou"></i>
+                  <p className="weui-tabbar__label norengou">未推不能认购</p>
+              </a>
             </div>);
         }
 
@@ -280,13 +296,6 @@ class Wrap extends React.Component {
                         <p className="weui-textarea">暂无售房记录</p>
                     </div>
                     </div>);
-
-        var button = (<div className="weui-tabbar" onClick={this.handleBuy}>
-                  <a href="javascript:;" className="weui-tabbar__item weui-bar__item_on">
-                      <i className="fa fa-shopping-bag weui-tabbar__icon"></i>
-                      <p className="weui-tabbar__label">我要认购</p>
-                  </a>
-                  </div>);
 
         var purchases = this.state.purchases;
         for (var i = 0; i < purchases.length; i++) {
@@ -332,10 +341,10 @@ class Wrap extends React.Component {
 
               <div className="estate_index_time"></div>
 
-              <div className="weui-cells house_background_color">
-                  <div className="weui-cell weui-cell_access">
-                      <div className="weui-cell__bd">基本信息</div>
-                  </div>
+              <div className="weui-cells weui-form-preview house_background_color">
+                <div className="weui-cell weui-cell_access">
+                    <div className="weui-cell__bd">房屋信息</div>
+                </div>
               </div>
               <div className="weui-cells">
                 <div className="weui-cell">
@@ -391,7 +400,6 @@ class Wrap extends React.Component {
                   </div>
                   {purchase}
               </div>
-              <div className="estate_index_background1"></div>
 
               {button}
 
@@ -500,6 +508,19 @@ class Wrap extends React.Component {
                       <p className="weui-toast__content">购买失败</p>
                   </div>
               </div>
+
+              <div className="weui-cells weui-form-preview house_background_color">
+                <div className="weui-cell weui-cell_access">
+                    <div className="weui-cell__bd">小区规划图(可缩放)</div>
+                </div>
+              </div>
+              <div id='slider'>
+                  <div className="pinch-zoom">
+                      <img src="images/cad.jpg"/>
+                  </div>
+              </div>
+
+              <div className="bottom_background"></div>
 
           </div>
         );
