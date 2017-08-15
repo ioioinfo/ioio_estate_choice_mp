@@ -22,6 +22,16 @@ var host = "http://211.149.248.241:18031/";
 
 var nav = function(server) {
     return {
+        search_collection_nums: function(cb) {
+            var url = host + "search_collection_nums";
+            uu_request.get(url, function(err, response, body) {
+                if (!err && response.statusCode === 200) {
+                    cb(err,JSON.parse(body));
+                } else {
+                    cb(true,{message:"网络错误"});
+                }
+            });
+        },
         get_num_by_house: function(house_id,cb) {
             var url = host + "get_num_by_house?house_id="+house_id;
             uu_request.get(url, function(err, response, body) {

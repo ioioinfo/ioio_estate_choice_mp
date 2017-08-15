@@ -122,6 +122,28 @@ exports.register = function(server, options, next) {
 		do_get_method(url,cb);
 	};
     server.route([
+		//退出loginout
+		{
+			method: 'GET',
+			path: '/logout',
+			handler: function(request, reply){
+				return reply({"success":true}).state('cookie', {});
+			}
+		},
+		//查询所有的数量
+        {
+            method: "GET",
+            path: '/search_collection_nums',
+            handler: function(request, reply) {
+				education_api.search_collection_nums(function(err,rows){
+					if (!err) {
+						return reply(rows);
+					}else {
+						return reply({"success":false,"message":rows.message});
+					}
+				});
+            }
+        },
 		//筹号房源所有信息
         {
             method: "GET",
