@@ -57,5 +57,15 @@
         }
 
     </script>
+    <script type="text/javascript">
+      $(function(){
+        $(".house_img_sure").on('click', function(){
+            $("#house_img_wrap").fadeOut(10);
+            $(".weui-mask").on('click', function(){
+              $("#house_img_wrap").fadeOut(10);
+            })
+        })
+      })
+    </script>
 </body>
 </html>

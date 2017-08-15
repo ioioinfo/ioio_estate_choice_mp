@@ -241,6 +241,8 @@ class Wrap extends React.Component {
         location.href='/my_collection';
       }
     }
+
+    // 小区分布图
     render() {
         var style = {display:"none"};
         var img = "";
@@ -332,10 +334,12 @@ class Wrap extends React.Component {
 
               <div className="estate_index_time"></div>
 
-              <div className="weui-cells house_background_color">
-                  <div className="weui-cell weui-cell_access">
-                      <div className="weui-cell__bd">基本信息</div>
+              <div className="weui-form-preview house_background_color">
+                <div className="weui-form-preview__hd">
+                  <div className="weui-form-preview__item">
+                      <label className="weui-form-preview__label">房屋详情</label>
                   </div>
+                </div>
               </div>
               <div className="weui-cells">
                 <div className="weui-cell">
@@ -498,6 +502,13 @@ class Wrap extends React.Component {
                   <div className="weui-toast">
                       <i className="weui-icon-warn weui-icon_msg"></i>
                       <p className="weui-toast__content">购买失败</p>
+                  </div>
+              </div>
+
+
+              <div id='slider'>
+                  <div className="pinch-zoom">
+                      <img src="images/cad.jpg"/>
                   </div>
               </div>
 

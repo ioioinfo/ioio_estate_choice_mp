@@ -22490,6 +22490,32 @@ var Wrap = function (_React$Component) {
                 }
             }
 
+            var wordalert = React.createElement(
+                'div',
+                { className: 'weui-skin_android', id: 'house_img_wrap' },
+                React.createElement('div', { className: 'weui-mask' }),
+                React.createElement(
+                    'div',
+                    { className: 'weui-actionsheet' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-actionsheet__menu' },
+                        React.createElement(
+                            'p',
+                            { className: 'my_home_word' },
+                            '\u606D\u559C\u8BA4\u8D2D\u6210\u529F\uFF0C\u8BF7\u5728X\u5E74X\u6708X\u65E5\u5230\u552E\u697C\u4E2D\u5FC3\u7B7E\u7F72\u8BA4\u8D2D\u534F\u8BAE\uFF0C\u82E5\u8D85\u51FA\u65F6\u95F4\u672A\u7B7E\u5B57\u89C6\u4E3A\u653E\u5F03\u3002'
+                        ),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label house_img_sure' },
+                            '\u5173 \u95ED'
+                        )
+                    )
+                )
+            );
+            if (this.state.item == "") {
+                wordalert = "";
+            }
             return React.createElement(
                 'div',
                 { className: 'wrap' },
@@ -22802,7 +22828,8 @@ var Wrap = function (_React$Component) {
                             '\u8BA4\u8D2D\u6210\u529F'
                         )
                     )
-                )
+                ),
+                wordalert
             );
         }
     }]);

@@ -22644,6 +22644,9 @@ var Wrap = function (_React$Component) {
                 location.href = '/my_collection';
             }
         }
+
+        // 小区分布图
+
     }, {
         key: 'render',
         value: function render() {
@@ -22824,14 +22827,18 @@ var Wrap = function (_React$Component) {
                 React.createElement('div', { className: 'estate_index_time' }),
                 React.createElement(
                     'div',
-                    { className: 'weui-cells house_background_color' },
+                    { className: 'weui-form-preview house_background_color' },
                     React.createElement(
                         'div',
-                        { className: 'weui-cell weui-cell_access' },
+                        { className: 'weui-form-preview__hd' },
                         React.createElement(
                             'div',
-                            { className: 'weui-cell__bd' },
-                            '\u57FA\u672C\u4FE1\u606F'
+                            { className: 'weui-form-preview__item' },
+                            React.createElement(
+                                'label',
+                                { className: 'weui-form-preview__label' },
+                                '\u623F\u5C4B\u8BE6\u60C5'
+                            )
                         )
                     )
                 ),
@@ -23282,6 +23289,15 @@ var Wrap = function (_React$Component) {
                             { className: 'weui-toast__content' },
                             '\u8D2D\u4E70\u5931\u8D25'
                         )
+                    )
+                ),
+                React.createElement(
+                    'div',
+                    { id: 'slider' },
+                    React.createElement(
+                        'div',
+                        { className: 'pinch-zoom' },
+                        React.createElement('img', { src: 'images/cad.jpg' })
                     )
                 )
             );

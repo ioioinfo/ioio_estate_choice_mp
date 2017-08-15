@@ -81,6 +81,19 @@ class Wrap extends React.Component {
           }
         }
 
+
+        var wordalert = (<div className="weui-skin_android" id="house_img_wrap">
+          <div className="weui-mask"></div>
+          <div className="weui-actionsheet">
+              <div className="weui-actionsheet__menu">
+                <p className="my_home_word">恭喜认购成功，请在X年X月X日到售楼中心签署认购协议，若超出时间未签字视为放弃。</p>
+                <p className="weui-tabbar__label house_img_sure">关 闭</p>
+              </div>
+          </div>
+        </div>);
+        if(this.state.item==""){
+          wordalert = "";
+        }
         return (
             <div className="wrap">
               <div className="estate_index_head">
@@ -175,6 +188,8 @@ class Wrap extends React.Component {
                       <p className="weui-tabbar__label yirengou">认购成功</p>
                   </a>
               </div>
+
+              {wordalert}
 
           </div>
         );
