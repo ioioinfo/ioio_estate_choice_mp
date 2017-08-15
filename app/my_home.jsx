@@ -6,7 +6,7 @@ class Wrap extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state={item:{},user:{},"buildings":[]};
+        this.state={item:{},user:{},"buildings":[],"types":{}};
     }
 
     componentDidMount() {
@@ -16,8 +16,9 @@ class Wrap extends React.Component {
         if (window.localStorage && localStorage.getItem("data")) {
             var data = JSON.parse(localStorage.getItem("data"));
 
+            var types = data.types;
             var buildings = data.buildings;
-            this.setState({"buildings":buildings});
+            this.setState({"buildings":buildings,"types":types});
         } else {
             //查询所有房屋信息
             $.ajax({
@@ -30,8 +31,9 @@ class Wrap extends React.Component {
                         if (window.localStorage) {
                             localStorage.setItem("data",JSON.stringify(data));
                         }
+                        var types = data.types;
                         var buildings = data.buildings;
-                        this.setState({"buildings":buildings});
+                        this.setState({"buildings":buildings,"types":types});
                     }
                 }.bind(this),
                 error: function(xhr, status, err) {
@@ -73,6 +75,13 @@ class Wrap extends React.Component {
     render() {
         var style = {display:"none"};
 
+        var house_type_id = this.state.item.house_type_id;
+        var house_type_name = "";
+
+        if (house_type_id && this.state.types[house_type_id]) {
+            house_type_name = this.state.types[house_type_id].name;
+        }
+
         var building_name;
         var buildings = this.state.buildings;
         for (var i = 0; i < buildings.length; i++) {
@@ -81,13 +90,12 @@ class Wrap extends React.Component {
           }
         }
 
-
         var wordalert = (<div className="weui-skin_android" id="house_img_wrap">
           <div className="weui-mask"></div>
           <div className="weui-actionsheet">
               <div className="weui-actionsheet__menu">
-                <p className="my_home_word">恭喜认购成功，请在X年X月X日到售楼中心签署认购协议，若超出时间未签字视为放弃。</p>
-                <p className="weui-tabbar__label house_img_sure">关 闭</p>
+                <p className="my_home_word">恭喜认购成功，请在<span className="red">X年X月X日</span>到售楼中心签署认购协议，若超出时间未签字视为放弃。</p>
+                <p className="weui-tabbar__label house_img_sure">知道了</p>
               </div>
           </div>
         </div>);
@@ -113,13 +121,6 @@ class Wrap extends React.Component {
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">合同路址</label></div>
                     <div className="weui-cell__bd">
                         <span className="estate_house_infor">{this.state.item.address}</span>
-                    </div>
-                </div>
-                <div className="weui-cell">
-                    <div className="weui-cell__hd"><label className="weui-label estate_house_name">状态</label></div>
-                    <div className="weui-cell__bd">
-                        <span className="estate_house_state"></span>
-                        <span className="estate_house_infor">{this.state.item.is_push}</span>
                     </div>
                 </div>
                 <div className="weui-cell">
@@ -149,7 +150,7 @@ class Wrap extends React.Component {
                 <div className="weui-cell">
                     <div className="weui-cell__hd"><label className="weui-label estate_house_name">户型</label></div>
                     <div className="weui-cell__bd">
-                        <span className="estate_house_infor">5{this.state.item.product_type}</span>
+                        <span className="estate_house_infor">{house_type_name}</span>
                     </div>
                 </div>
                 <div className="weui-cell">

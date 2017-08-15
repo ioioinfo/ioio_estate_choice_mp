@@ -22411,7 +22411,7 @@ var Wrap = function (_React$Component) {
 
         _this.handleClick = _this.handleClick.bind(_this);
         _this.get_house = _this.get_house.bind(_this);
-        _this.state = { building_id: 0, rows: [], areaItems: [], floors: [], m_house: {}, "m_purchase": {}, titleItem: {} };
+        _this.state = { building_id: 0, rows: [], areaItems: [], floors: [], m_house: {}, "m_purchase": {}, titleItem: {}, housenum: {} };
         return _this;
     }
 
@@ -22502,6 +22502,20 @@ var Wrap = function (_React$Component) {
                 error: function (xhr, status, err) {}.bind(this)
             });
 
+            //title名称
+            $.ajax({
+                url: "/search_collection_nums",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        this.setState({ housenum: data.collect_map });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
+
             //本地缓存
             if (window.localStorage && localStorage.getItem("data")) {
                 var data = JSON.parse(localStorage.getItem("data"));
@@ -22569,6 +22583,15 @@ var Wrap = function (_React$Component) {
                         cls = "weui-navbar__item_span-back2";
                     }
 
+                    var collection_number = "";
+                    if (state.housenum[item.id]) {
+                        collection_number = React.createElement(
+                            'i',
+                            { className: 'collection_number' },
+                            state.housenum[item.id]
+                        );
+                    }
+
                     var house = React.createElement(
                         'li',
                         { key: item.id, className: cls },
@@ -22588,11 +22611,7 @@ var Wrap = function (_React$Component) {
                                 item.total_price
                             )
                         ),
-                        React.createElement(
-                            'i',
-                            { className: 'collection_number' },
-                            '11'
-                        )
+                        collection_number
                     );
 
                     houses.push(house);

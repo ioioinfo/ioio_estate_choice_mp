@@ -22682,6 +22682,21 @@ var Wrap = function (_React$Component) {
                 )
             );
 
+            var button = React.createElement(
+                'div',
+                { className: 'weui-tabbar', onClick: this.handleBuy },
+                React.createElement(
+                    'a',
+                    { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                    React.createElement('i', { className: 'fa fa-shopping-bag weui-tabbar__icon' }),
+                    React.createElement(
+                        'p',
+                        { className: 'weui-tabbar__label' },
+                        '\u6211\u8981\u8BA4\u8D2D'
+                    )
+                )
+            );
+
             if ("未推" == this.state.item.is_push) {
                 house_state = React.createElement(
                     'div',
@@ -22691,6 +22706,21 @@ var Wrap = function (_React$Component) {
                         'span',
                         { className: 'estate_house_infor' },
                         '\u672A\u63A8'
+                    )
+                );
+
+                button = React.createElement(
+                    'div',
+                    { className: 'weui-tabbar' },
+                    React.createElement(
+                        'a',
+                        { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
+                        React.createElement('i', { className: 'fa fa-times-circle weui-tabbar__icon norengou' }),
+                        React.createElement(
+                            'p',
+                            { className: 'weui-tabbar__label norengou' },
+                            '\u672A\u63A8\u4E0D\u80FD\u8BA4\u8D2D'
+                        )
                     )
                 );
             }
@@ -22705,21 +22735,6 @@ var Wrap = function (_React$Component) {
                         'p',
                         { className: 'weui-textarea' },
                         '\u6682\u65E0\u552E\u623F\u8BB0\u5F55'
-                    )
-                )
-            );
-
-            var button = React.createElement(
-                'div',
-                { className: 'weui-tabbar', onClick: this.handleBuy },
-                React.createElement(
-                    'a',
-                    { href: 'javascript:;', className: 'weui-tabbar__item weui-bar__item_on' },
-                    React.createElement('i', { className: 'fa fa-shopping-bag weui-tabbar__icon' }),
-                    React.createElement(
-                        'p',
-                        { className: 'weui-tabbar__label' },
-                        '\u6211\u8981\u8BA4\u8D2D'
                     )
                 )
             );
@@ -22827,18 +22842,14 @@ var Wrap = function (_React$Component) {
                 React.createElement('div', { className: 'estate_index_time' }),
                 React.createElement(
                     'div',
-                    { className: 'weui-form-preview house_background_color' },
+                    { className: 'weui-cells weui-form-preview house_background_color' },
                     React.createElement(
                         'div',
-                        { className: 'weui-form-preview__hd' },
+                        { className: 'weui-cell weui-cell_access' },
                         React.createElement(
                             'div',
-                            { className: 'weui-form-preview__item' },
-                            React.createElement(
-                                'label',
-                                { className: 'weui-form-preview__label' },
-                                '\u623F\u5C4B\u8BE6\u60C5'
-                            )
+                            { className: 'weui-cell__bd' },
+                            '\u623F\u5C4B\u4FE1\u606F'
                         )
                     )
                 ),
@@ -23042,7 +23053,6 @@ var Wrap = function (_React$Component) {
                     ),
                     purchase
                 ),
-                React.createElement('div', { className: 'estate_index_background1' }),
                 button,
                 React.createElement(
                     'div',
@@ -23293,13 +23303,27 @@ var Wrap = function (_React$Component) {
                 ),
                 React.createElement(
                     'div',
+                    { className: 'weui-cells weui-form-preview house_background_color' },
+                    React.createElement(
+                        'div',
+                        { className: 'weui-cell weui-cell_access' },
+                        React.createElement(
+                            'div',
+                            { className: 'weui-cell__bd' },
+                            '\u5C0F\u533A\u89C4\u5212\u56FE(\u53EF\u7F29\u653E)'
+                        )
+                    )
+                ),
+                React.createElement(
+                    'div',
                     { id: 'slider' },
                     React.createElement(
                         'div',
                         { className: 'pinch-zoom' },
                         React.createElement('img', { src: 'images/cad.jpg' })
                     )
-                )
+                ),
+                React.createElement('div', { className: 'bottom_background' })
             );
         }
     }]);

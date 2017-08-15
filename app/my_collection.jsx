@@ -80,6 +80,7 @@ class Wrap extends React.Component {
                   <House key={index} item={item} m_purchase={this.state.m_purchase} index={index} onClick={this.handleClick.bind(this,item.id)}/>
                   ))
                 }
+                <div className="bottom_background"></div>
                 <div className="weui-tabbar">
                   <a href="index" className="weui-tabbar__item ">
                       <i className="fa fa-home weui-tabbar__icon"></i>
@@ -103,7 +104,7 @@ class House extends React.Component {
             <span className="weui-navbar__item_span weui-navbar__item_span-back"></span>未售
             </p>);
 
-        if ("未推" == this.props.item.is_push) {
+        if ("未推" == this.props.item.house.is_push) {
             house_state = (<p className="my_collection_title">
             <span className="weui-navbar__item_span weui-navbar__item_span-back3"></span>未推
             </p>);
@@ -144,6 +145,7 @@ class House extends React.Component {
                         <p className="my_collection_title">{this.props.item.house.per_price}</p>
                       </div>
                     </div>
+
 
                   <div className="my_collection_address">
                     <p><i className="fa fa-arrow-circle-up my_collection_address_fontsize"></i></p>

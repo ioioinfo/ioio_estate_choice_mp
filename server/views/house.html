@@ -48,6 +48,7 @@
         var count_down = function(time_distance){
           if (time_distance<=0) {
             $('.estate_index_time').html("选购已开始");
+            return;
           }
           var orign_time_distance = time_distance;
 

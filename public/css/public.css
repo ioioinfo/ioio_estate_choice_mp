@@ -23,6 +23,10 @@ label{
 .weui-tabbar .weui-bar__item_on .yirengou{
   color: #FFA500;
 }
+
+.weui-tabbar .weui-bar__item_on .norengou{
+  color: #C75EB0;
+}
 .estate_index_head{
   height: 44px;
   line-height: 44px;
@@ -341,4 +345,10 @@ label{
   padding: 7px;
   line-height: 40px;
   color: #333;
+}
+.red{
+  color: red;
+}
+.bottom_background{
+  height: 53px;
 }
