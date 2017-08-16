@@ -22502,7 +22502,7 @@ var Wrap = function (_React$Component) {
                 error: function (xhr, status, err) {}.bind(this)
             });
 
-            //title名称
+            //收藏数量
             $.ajax({
                 url: "/search_collection_nums",
                 dataType: 'json',

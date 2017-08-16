@@ -97,7 +97,7 @@ class Wrap extends React.Component {
         });
 
 
-        //title名称
+        //收藏数量
         $.ajax({
             url: "/search_collection_nums",
             dataType: 'json',

@@ -5,9 +5,8 @@ var ReactDOM = require('react-dom');
 class Wrap extends React.Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
         // 初始化一个空对象
-        this.state={houseItems:[],titleItem:{},m_purchase:{}};
+        this.state={houseItems:[],titleItem:{},m_purchase:{},housenum:{}};
     }
 
     componentDidMount() {
@@ -62,11 +61,25 @@ class Wrap extends React.Component {
             error: function(xhr, status, err) {
             }.bind(this)
         });
+
+        //收藏数量
+        $.ajax({
+            url: "/search_collection_nums",
+            dataType: 'json',
+            type: 'GET',
+            data:{},
+            success: function(data) {
+                if(data.success){
+                  this.setState({housenum:data.collect_map});
+                }
+            }.bind(this),
+            error: function(xhr, status, err) {
+            }.bind(this)
+        });
     }
 
-    handleClick(e){
 
-    }
+
     render() {
         return (
             <div className="wrap">
@@ -77,7 +90,7 @@ class Wrap extends React.Component {
                 <div className="estate_index_time"></div>
 
                 {this.state.houseItems.map((item,index)  => (
-                  <House key={index} item={item} m_purchase={this.state.m_purchase} index={index} onClick={this.handleClick.bind(this,item.id)}/>
+                  <House key={index} item={item} m_purchase={this.state.m_purchase} index={index} housenum={this.state.housenum}/>
                   ))
                 }
                 <div className="bottom_background"></div>
@@ -145,13 +158,8 @@ class House extends React.Component {
                         <p className="my_collection_title">{this.props.item.house.per_price}</p>
                       </div>
                     </div>
-
-
-                  <div className="my_collection_address">
-                    <p><i className="fa fa-arrow-circle-up my_collection_address_fontsize"></i></p>
-                    <p><i className="fa fa-arrow-circle-down my_collection_address_fontsize"></i></p>
-                  </div>
               </div>
+              <i className="collection_number1">{this.props.housenum[this.props.item.house_id]}</i>
             </a>
         );
     }

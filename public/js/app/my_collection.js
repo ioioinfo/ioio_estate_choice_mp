@@ -22410,11 +22410,10 @@ var Wrap = function (_React$Component) {
     function Wrap(props) {
         _classCallCheck(this, Wrap);
 
+        // 初始化一个空对象
         var _this = _possibleConstructorReturn(this, (Wrap.__proto__ || Object.getPrototypeOf(Wrap)).call(this, props));
 
-        _this.handleClick = _this.handleClick.bind(_this);
-        // 初始化一个空对象
-        _this.state = { houseItems: [], titleItem: {}, m_purchase: {} };
+        _this.state = { houseItems: [], titleItem: {}, m_purchase: {}, housenum: {} };
         return _this;
     }
 
@@ -22469,10 +22468,21 @@ var Wrap = function (_React$Component) {
                 }.bind(this),
                 error: function (xhr, status, err) {}.bind(this)
             });
+
+            //收藏数量
+            $.ajax({
+                url: "/search_collection_nums",
+                dataType: 'json',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    if (data.success) {
+                        this.setState({ housenum: data.collect_map });
+                    }
+                }.bind(this),
+                error: function (xhr, status, err) {}.bind(this)
+            });
         }
-    }, {
-        key: 'handleClick',
-        value: function handleClick(e) {}
     }, {
         key: 'render',
         value: function render() {
@@ -22492,7 +22502,7 @@ var Wrap = function (_React$Component) {
                 ),
                 React.createElement('div', { className: 'estate_index_time' }),
                 this.state.houseItems.map(function (item, index) {
-                    return React.createElement(House, { key: index, item: item, m_purchase: _this2.state.m_purchase, index: index, onClick: _this2.handleClick.bind(_this2, item.id) });
+                    return React.createElement(House, { key: index, item: item, m_purchase: _this2.state.m_purchase, index: index, housenum: _this2.state.housenum });
                 }),
                 React.createElement('div', { className: 'bottom_background' }),
                 React.createElement(
@@ -22663,21 +22673,12 @@ var House = function (_React$Component2) {
                                 this.props.item.house.per_price
                             )
                         )
-                    ),
-                    React.createElement(
-                        'div',
-                        { className: 'my_collection_address' },
-                        React.createElement(
-                            'p',
-                            null,
-                            React.createElement('i', { className: 'fa fa-arrow-circle-up my_collection_address_fontsize' })
-                        ),
-                        React.createElement(
-                            'p',
-                            null,
-                            React.createElement('i', { className: 'fa fa-arrow-circle-down my_collection_address_fontsize' })
-                        )
                     )
+                ),
+                React.createElement(
+                    'i',
+                    { className: 'collection_number1' },
+                    this.props.housenum[this.props.item.house_id]
                 )
             );
         }
